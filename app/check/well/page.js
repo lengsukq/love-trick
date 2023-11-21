@@ -4,31 +4,49 @@ import './page.css'
 export default function Board() {
     const [squares, setSquares] = useState(Array(9).fill(null));
     const [result, setResult] = useState(false);
-
-    const squaresRef = useRef(squares)
+    const [count,setCount] = useState(0);
+    const [winner,setWinner] = useState(null);
+    const squaresRef = useRef(squares);
     const [xIsNext, setXIsNext] = useState(true);
     function handleClick(i) {
         if (result){
             console.log('游戏结束');
             return false;
         }
+        if (count === 9){
+            console.log('平局')
+            return  false;
+        }
+        if (squares[i]){
+            console.log('该位置已被占用')
+            return false;
+        }
+
+        setCount(count+1);
         console.log('i---',i)
         const newSquares = squares.slice();
         newSquares[i] = xIsNext?'X':'O';
-        setXIsNext(!xIsNext)
+        setXIsNext(!xIsNext);
         squaresRef.current = newSquares;
         setSquares(newSquares);
-        console.log(squares)
+        console.log(squares);
         over();
     }
     function over(){
-        setResult(calculateWinner(squaresRef.current) === 'over'?true:false);
+        let result = calculateWinner(squaresRef.current);
+        console.log(result === 'over')
+        if (result === 'over'){
+            setResult(true);
+        }
 
     }
 
     return (
         <>
-            <h5>{!result?"下一步":"胜者"}：{xIsNext?'X':'O'}</h5>
+            {/*<h5>{!result?"下一步":"胜者"}：{xIsNext?'X':'O'}</h5>*/}
+            <h5>{
+                result?(<span>胜者：{!xIsNext?'X':'O'}</span>):(<span>下一步：{xIsNext?'X':'O'}</span>)
+            }</h5>
             <div className="board-row">
                 <Square value={squares[0]} onSquareClick={()=>handleClick(0)}/>
                 <Square value={squares[1]} onSquareClick={()=>handleClick(1)}/>
