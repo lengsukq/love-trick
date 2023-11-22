@@ -1,13 +1,55 @@
 'use client'
-import { useState,useRef } from 'react';
+import {useRef, useState} from 'react';
 import './page.css'
+
 export default function Board() {
     const [squares, setSquares] = useState(Array(9).fill(null));
     const [result, setResult] = useState(false);
     const [count,setCount] = useState(0);
-    const [winner,setWinner] = useState(null);
     const squaresRef = useRef(squares);
     const [xIsNext, setXIsNext] = useState(true);
+    const [history,setHistory] = useState([]);
+    const [historyList,setHistoryList] = useState([])
+
+    function init(){
+        setSquares(()=>Array(9).fill(null));
+        setResult(false);
+        setCount(0);
+        setXIsNext(true);
+        setHistory([]);
+        setHistoryList([]);
+        squaresRef.current=Array(9).fill(null)
+    }
+    function goBack(k){
+        try{
+            console.log('回溯',k,squares,'history',history)
+
+            if (k===-1){
+                init()
+                return false;
+            }
+
+            let newHistory = history.slice(0,k+1);
+            console.log('newHistory---',newHistory)
+            setSquares(()=>{
+                return newHistory[k];
+            })
+            squaresRef.current=newHistory[k];
+
+            setHistory(newHistory)
+            setHistoryList(()=>{
+                return newHistory.map((item, index) =>
+                    <li key={item} onClick={()=>goBack(index)}>第{index+1}步</li>
+                )
+            })
+            setCount(k+1);
+            setResult(false);
+            setXIsNext(count%2===0);
+        }catch (e){
+            console.log('e--',e)
+        }
+
+    }
     function handleClick(i) {
         if (result){
             console.log('游戏结束');
@@ -22,15 +64,28 @@ export default function Board() {
             return false;
         }
 
-        setCount(count+1);
-        console.log('i---',i)
+        console.log('i---',i,'count',count)
         const newSquares = squares.slice();
+        let newHistory = history;
+        setHistory(()=>{
+            newHistory[count] = newSquares;
+            console.log('newHistory',newHistory)
+            return newHistory;
+        });
+        setHistoryList(()=>{
+            return newHistory.map((item, index) =>
+                <li key={item} onClick={()=>goBack(index)}>第{index+1}步</li>
+            )
+        })
+        console.log('historyList---',historyList)
         newSquares[i] = xIsNext?'X':'O';
         setXIsNext(!xIsNext);
         squaresRef.current = newSquares;
         setSquares(newSquares);
         console.log(squares);
         over();
+        setCount(count+1);
+
     }
     function over(){
         let result = calculateWinner(squaresRef.current);
@@ -62,6 +117,10 @@ export default function Board() {
                 <Square value={squares[7]} onSquareClick={()=>handleClick(7)}/>
                 <Square value={squares[8]} onSquareClick={()=>handleClick(8)}/>
             </div>
+            <ul>
+                <li onClick={()=>goBack(-1)}>重新开始</li>
+                {historyList}
+            </ul>
         </>
     );
 }
