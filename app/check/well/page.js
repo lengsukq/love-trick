@@ -24,6 +24,10 @@ export default function Board() {
         try{
             console.log('回溯',k,squares,'history',history)
 
+            if(k===count){
+                return false;
+            }
+
             if (k===-1){
                 init()
                 return false;
