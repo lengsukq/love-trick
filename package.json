@@ -14,7 +14,8 @@
     "framer-motion": "^10.16.16",
     "next": "^14.0.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "serverless-mysql": "^1.5.5"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
