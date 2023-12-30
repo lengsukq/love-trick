@@ -19,5 +19,8 @@ export async function GET(req) {
         console.log(error);
         info = error;
     }
-    return Response.json(BizResult.success(info))
+    return Response.json(BizResult.success(info),{
+        status: 200,
+            headers: {'Set-Cookie': `token=1111111111111111`},
+    })
 }

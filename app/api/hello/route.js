@@ -16,7 +16,7 @@ export async function GET(req) {
     console.log('searchParams', searchParams)
     const id = searchParams.get('id')
     console.log('id', id)
-    return Response.json(BizResult.success(id))
+    return Response.json(BizResult.success(id,'获取id成功'))
 }
 
 export async function POST(req) {

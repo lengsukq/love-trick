@@ -39,32 +39,25 @@ class BizResult {
     /**
      * 成功
      * @param data {any} 返回对象
+     * @param msg 自定义message
      * @return {BizResult}
      */
-    static success(data) {
-        return new BizResult(BizResultCode.SUCCESS.code, BizResultCode.SUCCESS.desc, data);
+    static success(data,msg=BizResultCode.SUCCESS.desc) {
+        return new BizResult(BizResultCode.SUCCESS.code, msg, data);
     }
 
     /**
      * 失败
      */
-    static fail(errData) {
-        return new BizResult(BizResultCode.FAILED.code, BizResultCode.FAILED.desc, errData);
+    static fail(errData,msg=BizResultCode.FAILED.desc) {
+        return new BizResult(BizResultCode.FAILED.code, msg, errData);
     }
 
     /**
      * 参数校验失败
      */
-    static validateFailed(param) {
-        return new BizResult(BizResultCode.VALIDATE_FAILED.code, BizResultCode.VALIDATE_FAILED.desc, param);
-    }
-
-    /**
-     * 拦截到的业务异常
-     * @param bizException {BizException} 业务异常
-     */
-    static bizFail(bizException) {
-        return new BizResult(bizException.code, bizException.msg, null);
+    static validateFailed(param,msg=BizResultCode.VALIDATE_FAILED.desc) {
+        return new BizResult(BizResultCode.VALIDATE_FAILED.code, msg, param);
     }
 
 }
