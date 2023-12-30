@@ -1,6 +1,8 @@
 'use client'
 import React, {useEffect, useState} from "react";
 import {Input, Button, Avatar} from "@nextui-org/react";
+import {loginApi} from "@/app/utils/apihttp";
+import {Notify} from "react-vant";
 
 export default function Home() {
     const [username, setUsername] = useState('');
@@ -8,19 +10,11 @@ export default function Home() {
     const login = async () => {
         console.log('用户名:', username);
         console.log('密码:', password);
-        try {
-            const response = await fetch(`/api/user?username=${username}&password=${password}`, {
-                method: 'get',
-                });
-            if (response.ok) {
-                const data = await response.json();
-                console.log('data', data)
-            } else {
-                throw new Error('请求失败');
-            }
-        } catch (error) {
-            console.error('请求错误:', error);
-        }
+        loginApi({username:username,password:password}).then(res=>{
+            console.log('res',res)
+            Notify.show({ type: res.code ===200?'success':'warning', message: `${res.msg}` })
+
+        })
 
     };
 

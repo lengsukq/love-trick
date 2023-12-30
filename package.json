@@ -13,8 +13,10 @@
     "@nextui-org/react": "^2.2.9",
     "framer-motion": "^10.16.16",
     "next": "^14.0.3",
+    "qs": "^6.11.2",
     "react": "^18",
     "react-dom": "^18",
+    "react-vant": "^3.3.3",
     "serverless-mysql": "^1.5.5"
   },
   "devDependencies": {
