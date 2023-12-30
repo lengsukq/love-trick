@@ -1,9 +1,9 @@
+'use client'
 import qs from 'qs';
 import { Notify } from 'react-vant';
+// import { useRouter } from 'next/navigation'
 const { stringify, parse } = qs;
-
-
-
+// const router = useRouter();
 const checkStatus = res => {
     if (200 >= res.status < 300) {
         return res;
@@ -21,7 +21,10 @@ const checkStatus = res => {
  */
 const judgeOkState = async res => {
     const cloneRes = await res.clone().json();
-
+    console.log('judgeOkState', cloneRes)
+    // if (cloneRes.msg=== '登录过期'){
+    //     router.push('/')
+    // }
     //TODO:可以在这里管控全局请求
     if (!!cloneRes.code && cloneRes.code !== 200) {
         Notify.show({ type: 'warning', message: `${cloneRes.msg}${cloneRes.code}` })
