@@ -10,7 +10,8 @@ export async function GET(req) {
     try {
         const result = await executeQuery({
             // 查询有无此用户
-            query: `SELECT * FROM userinfo WHERE username = ${username} AND password = ${password};`
+            query: 'SELECT * FROM userinfo WHERE username = ? AND password = ?',
+            values: [username, password]
         });
         console.log("result", result);
         if (result.length>0){
