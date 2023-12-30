@@ -7,20 +7,20 @@ export async function GET(req) {
     const password = searchParams.get('password')
     console.log('searchParams', searchParams,'username---',username,'password---',password)
 
-    let info = null;
     try {
-        console.log("req nom", req.body)
         const result = await executeQuery({
-            query: 'select * from user'
+            // 查询有无此用户
+            query: `SELECT * FROM userinfo WHERE username = ${username} AND password = ${password};`
         });
-        info = result;
-        console.log("ttt", result);
+        console.log("result", result);
+        if (result.length>0){
+            return Response.json(BizResult.success(result,'登录成功'))
+        }else{
+            return Response.json(BizResult.fail(result,'请检查用户名密码'))
+        }
+
     } catch (error) {
         console.log(error);
-        info = error;
+        return Response.json(BizResult.fail('','系统异常'))
     }
-    return Response.json(BizResult.success(info),{
-        status: 200,
-            headers: {'Set-Cookie': `token=1111111111111111`},
-    })
 }
