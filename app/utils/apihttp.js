@@ -9,6 +9,10 @@ export async function loginApi(params) {
     return await get(`/api/user?username=${params.username}&password=${params.password}`);
 }
 
+// 获取用户信息
+export async function getUserInfo() {
+    return await get(`/api/userInfo`);
+}
 // 默认application/json
 export async function postTask(params) {
     return post(`/api/trick/postTask`, JSON.stringify(params));

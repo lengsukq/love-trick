@@ -24,3 +24,7 @@ body {
   /*  )*/
   /*  rgb(var(--background-start-rgb));*/
 }
+
+.z-10000 {
+    z-index: 10000;
+}

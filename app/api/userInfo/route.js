@@ -6,17 +6,13 @@ export async function GET(req) {
     const cookieInfo = parseCookie(req);
     try {
         const result = await executeQuery({
-            // 查询有无此用户
-            query: 'SELECT * FROM tasklist WHERE publisherEmail = ? ORDER BY taskId DESC',
+            // 查询用户信息
+            query: 'SELECT * FROM userinfo WHERE userEmail = ?',
             values: [cookieInfo.name]
         });
         // console.log('result',result)
-        result.forEach(item => {
-            item.taskImage = item.taskImage.split(',');
-            item["taskStatus"] = item.completionTime ? '已完成' : (item.acceptanceTime ? '已接受' : '未开始')
-        })
 
-        return Response.json(BizResult.success(result, '获取列表成功'))
+        return Response.json(BizResult.success(result[0], '获取用户信息成功'))
     } catch (error) {
         console.log(error);
         return Response.json(BizResult.fail(''))
