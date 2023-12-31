@@ -21,22 +21,18 @@ export default function App() {
         await getTaskInfo({taskId: taskId}).then(res => {
             console.log('getTaskInfo', res.data);
             setTaskInfo(res.data);
+            setTCompleteRemarks(res.data.completeRemarks)
         })
     }
-    const acceptTask = (actType) => {
-        let params;
-        if (actType === 'accept') {
-            params = {
-                actType: actType,
-                taskId: taskInfo.taskId,
-            }
-        } else {
-            params = {
-                actType: actType,
-                taskId: taskInfo.taskId,
-                completeRemarks: completeRemarks
-            }
+    const acceptTask = () => {
+        let params = {
+            actType: taskInfo.acceptanceTime ? "complete" : 'accept',
+            taskId: taskInfo.taskId,
+        };
+        if (completeRemarks) {
+            params['completeRemarks'] = completeRemarks
         }
+
         upDateTaskState(params).then(res => {
             Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
             if (res.code === 200) {
@@ -52,7 +48,7 @@ export default function App() {
                     <p>{taskInfo.taskStatus}</p>
                 </CardBody>
             </Card>
-            <Card className="mb-10">
+            <Card className="mb-5">
                 <CardBody className="flex justify-center">
                     <Input type="text" isDisabled
                            labelPlacement="outside"
@@ -79,23 +75,21 @@ export default function App() {
                 </CardBody>
             </Card>
 
-            <Card className="mb-10">
+            <Card className="mb-5">
                 <CardBody className="flex justify-center items-center">
-                    {taskInfo.acceptanceTime ?
                         <Textarea
+                            isDisabled={taskInfo.completionTime}
                             onChange={(e) => setTCompleteRemarks(e.target.value)}
                             label="完成备注"
                             labelPlacement="outside"
                             placeholder="请输入完成备注"
-                            className="mb-5"
+                            className={taskInfo.acceptanceTime ? "mb-5" : "hidden"}
                             value={completeRemarks}
-                        /> : ''}
-                    {taskInfo.acceptanceTime ?
-                        (<Button color="primary" className="w-1/4" onClick={() => acceptTask('accept')}>
-                            完成</Button>)
-                        : <Button color="primary" className="w-1/4" onClick={() => acceptTask('complete')}>
-                            接受
-                        </Button>}
+                        />
+
+                    <Button color="primary" className={taskInfo.completionTime ? "hidden" : "w-1/4"}
+                            onClick={() => acceptTask()}>
+                        {taskInfo.acceptanceTime ? '完成' : '接受'}</Button>
 
 
                 </CardBody>
