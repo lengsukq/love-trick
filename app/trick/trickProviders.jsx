@@ -1,11 +1,16 @@
 'use client'
 import React from "react";
+import {useEffect, useState} from 'react'
+
 import {Tabs, Tab, Button} from "@nextui-org/react";
-import {useRouter} from 'next/navigation'
+import {useRouter, usePathname} from 'next/navigation'
 
 export function TrickProviders({children}) {
     const router = useRouter()
-
+    const pathname = usePathname();
+    useEffect(() => {
+        console.log('trickPro---', pathname)
+    }, [])
     const toPage = (key) => {
         console.log('toPage', key)
         const pathObj = {
