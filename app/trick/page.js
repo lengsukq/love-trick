@@ -1,15 +1,8 @@
 'use client'
 import React from "react";
 import {useEffect, useState} from 'react'
-import {Card, CardBody, CardFooter, Image} from "@nextui-org/react";
+import {Card, CardBody, CardFooter, Image, CardHeader} from "@nextui-org/react";
 import {getTask} from "@/app/utils/apihttp";
-
-// async function getTaskList() {
-//     await getTask().then(res => {
-//         console.log('getTaskList', res.data);
-//         return res.data;
-//     })
-// }
 
 export default function App() {
     const [taskList, setTaskList] = useState([])
@@ -34,7 +27,13 @@ export default function App() {
     return (
         <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
             {taskList.map((item, index) => (
+
                 <Card shadow="sm" key={index} isPressable>
+                    <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+                        <p className=" text-large uppercase font-bold">{item.taskName}</p>
+                        <small className="text-default-500">{item.creationTime}</small>
+                        {/*<h4 className="font-bold text-tiny ">Frontend Radio</h4>*/}
+                    </CardHeader>
                     <CardBody className="overflow-visible p-0">
                         <Image
                             shadow="sm"
@@ -46,8 +45,8 @@ export default function App() {
                         />
                     </CardBody>
                     <CardFooter className="text-small justify-between">
-                        <b>{item.taskName}</b>
-                        <p className="text-default-500">{item.publisherName}</p>
+                        <b>{item.publisherName}</b>
+                        <p className="text-default-500">{item.taskStatus}</p>
                     </CardFooter>
                 </Card>
             ))}
