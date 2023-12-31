@@ -21,7 +21,7 @@ const checkStatus = res => {
  */
 const judgeOkState = async res => {
     const cloneRes = await res.clone().json();
-    console.log('judgeOkState', cloneRes)
+    // console.log('judgeOkState', cloneRes)
     // if (cloneRes.msg=== '登录过期'){
     //     router.push('/')
     // }
@@ -71,7 +71,7 @@ class http {
             defaultOptions.headers['Content-Type'] = 'application/json; charset=utf-8';
         }
         const newOptions = { ...defaultOptions, ...options };
-        console.log('newOptions', newOptions);
+        // console.log('newOptions', newOptions);
         return fetch(url, newOptions)
             .then(checkStatus)
             .then(judgeOkState)
@@ -116,9 +116,9 @@ class http {
      * @param url
      * @param option
      */
-    get(url, option = {}) {
+    async get(url, option = {}) {
         const options = Object.assign({ method: 'GET' }, option);
-        return http.staticFetch(url, options);
+        return await http.staticFetch(url, options);
     }
 }
 

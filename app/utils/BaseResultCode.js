@@ -6,7 +6,7 @@
 class BaseResultCode {
 
     static SUCCESS = new BaseResultCode(200, '成功');
-    static FAILED = new BaseResultCode(500, '失败');
+    static FAILED = new BaseResultCode(500, '系统异常');
     static VALIDATE_FAILED = new BaseResultCode(400, '参数校验失败');
 
     /************************************/
