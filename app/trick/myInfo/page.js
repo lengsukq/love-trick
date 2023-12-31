@@ -4,6 +4,7 @@ import {getUserInfo} from "@/app/utils/apihttp";
 import {Card, CardBody, CardFooter, Button, CardHeader, Avatar} from "@nextui-org/react";
 
 import {User} from "@nextui-org/react";
+import {Divider} from "react-vant";
 
 export default function App() {
     const [userInfo, setUserInfo] = useState([])
@@ -20,7 +21,7 @@ export default function App() {
     }
     return (
         <div className="p-5">
-            <Card className="">
+            <Card className="mb-5">
                 <CardHeader className="justify-between">
                     <div className="flex gap-5">
                         <Avatar isBordered radius="full" size="md" src={userInfo.avatar}/>
@@ -61,6 +62,24 @@ export default function App() {
                         <p className="text-default-400 text-small">{userInfo.registrationTime}</p>
                     </div>
                 </CardFooter>
+            </Card>
+            <Card className="">
+                <CardBody className="overflow-visible py-2">
+                    <div className="max-w-md mt-3 mb-3">
+
+                        <div className="flex items-center space-x-4 text-large justify-evenly">
+                            <div>未尽</div>
+                            <Divider className="mx-4" orientation="vertical"/>
+                            <div>已成</div>
+                            <Divider className="mx-4" orientation="vertical"/>
+                            <div>错频</div>
+                        </div>
+                        <Divider className="my-4"/>
+                        <div className="space-y-1 flex justify-center items-center">
+                            <h4 className="text-small font-thin">时光的最初，故事开始的地方。</h4>
+                        </div>
+                    </div>
+                </CardBody>
             </Card>
         </div>
 
