@@ -1,6 +1,7 @@
 import BizResult from "@/app/utils/BizResult";
 import executeQuery from "@/app/utils/db";
 import {parseCookie} from "@/app/utils/parseCookie";
+import dayjs from "dayjs";
 
 export async function GET(req) {
     const cookieInfo = parseCookie(req);
@@ -24,5 +25,35 @@ export async function GET(req) {
     } catch (error) {
         console.log(error);
         return Response.json(BizResult.fail(''))
+    }
+}
+
+export async function POST(req) {
+    const cookieInfo = parseCookie(req);
+    const {name} = cookieInfo;
+    const nowTime = dayjs().format('YYYY-MM-DD HH:mm:ss')
+    const jsonData = await req.json();
+    console.log('jsonData', jsonData)
+    const {actType, taskId, completeRemarks} = JSON.parse(jsonData);
+    try {
+        if (actType === 'accept') {
+            const result = await executeQuery({
+                query: 'UPDATE tasklist SET receiverEmail = ?, acceptanceTime = ? WHERE tasklist.taskId = ?',
+                values: [name, nowTime, taskId]
+            });
+            console.log("result", result[0]);
+            return Response.json(BizResult.success('', '接受任务成功'))
+        } else if (actType === 'complete') {
+            const result = await executeQuery({
+                query: 'UPDATE tasklist SET completeRemarks = ?, completionTime = ? WHERE tasklist.taskId = ?',
+                values: [completeRemarks, nowTime, taskId]
+            });
+            console.log("result", result[0]);
+            return Response.json(BizResult.success('', '已完成任务'))
+        }
+
+    } catch (error) {
+        console.log(error);
+        return Response.json(BizResult.fail('', '系统异常'))
     }
 }

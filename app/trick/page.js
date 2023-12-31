@@ -30,7 +30,6 @@ export default function App() {
     return (
         <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
             {taskList.map((item, index) => (
-
                 <Card shadow="sm" key={index} isPressable onPress={() => onPressHandler(item)}>
                     <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                         <p className=" text-large uppercase font-bold">{item.taskName}</p>
