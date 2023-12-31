@@ -37,6 +37,6 @@ export async function POST(req) {
     console.log('Content-Type:', contentType);
     return Response.json(BizResult.success(id), {
         status: 200,
-        headers: {'Set-Cookie': `token=1111111111111111`},
+        headers: {'Set-Cookie': ``},
     })
 }
