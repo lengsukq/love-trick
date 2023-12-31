@@ -22,3 +22,7 @@ export async function postTask(params) {
 export async function getTask() {
     return await get(`/api/trick/getTask`);
 }
+
+export async function getTaskInfo(params) {
+    return await get(`/api/trick/taskInfo?taskId=${params.taskId}`);
+}

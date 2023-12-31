@@ -1,7 +1,7 @@
 'use client'
 import React, {useEffect, useState} from "react";
 import {getUserInfo} from "@/app/utils/apihttp";
-import {Card, CardBody, CardFooter, Button, CardHeader, Avatar} from "@nextui-org/react";
+import {Card, CardBody, CardFooter, Button, CardHeader, Avatar, Chip} from "@nextui-org/react";
 
 import {User} from "@nextui-org/react";
 import {Divider} from "react-vant";
@@ -45,20 +45,12 @@ export default function App() {
                     <p>
                         {userInfo.describeByself}
                     </p>
-                    <span className="pt-2">
-          {/*#FrontendWithZoey*/}
-                        {/*<span className="py-2" aria-label="computer" role="img">*/}
-                        {/*  💻*/}
-                        {/*</span>*/}
-        </span>
                 </CardBody>
                 <CardFooter className="gap-3">
                     <div className="flex gap-1">
-                        <p className="font-semibold text-default-400 text-small"></p>
                         <p className=" text-default-400 text-small">注册时间：</p>
                     </div>
                     <div className="flex gap-1">
-                        <p className="font-semibold text-default-400 text-small"></p>
                         <p className="text-default-400 text-small">{userInfo.registrationTime}</p>
                     </div>
                 </CardFooter>
@@ -66,13 +58,12 @@ export default function App() {
             <Card className="">
                 <CardBody className="overflow-visible py-2">
                     <div className="max-w-md mt-3 mb-3">
-
                         <div className="flex items-center space-x-4 text-large justify-evenly">
-                            <div>未尽</div>
+                            <div><Chip radius="lg" color="default" variant="dot">近频</Chip></div>
                             <Divider className="mx-4" orientation="vertical"/>
-                            <div>已成</div>
+                            <div><Chip radius="lg" color="success" variant="dot">同频</Chip></div>
                             <Divider className="mx-4" orientation="vertical"/>
-                            <div>错频</div>
+                            <div><Chip radius="lg" color="warning" variant="dot">错频</Chip></div>
                         </div>
                         <Divider className="my-4"/>
                         <div className="space-y-1 flex justify-center items-center">
