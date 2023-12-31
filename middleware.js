@@ -2,13 +2,14 @@ import {NextResponse} from 'next/server'
 import {cookies} from 'next/headers'
 import dayjs from "dayjs";
 import BizResult from "@/app/utils/BizResult";
-
+// import {parseCookie} from "@/app/utils/parseCookie"
 // This function can be marked `async` if using `await` inside
 export function middleware(request) {
     // console.log('request-----',request.cookies)
     if (!request.cookies.get('cookie')) {
         return Response.json(BizResult.fail('', '登录过期'))
     }
+    // parseCookie(request)
     const reqCookie = JSON.parse(request.cookies.get('cookie').value);
     const cookieDate = dayjs(reqCookie.expires);
     // console.log('cookieDate----',reqCookie.expires,dayjs())

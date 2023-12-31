@@ -7,3 +7,8 @@ const { post, get } = requestFun;
 export async function loginApi(params) {
     return get(`/api/user?username=${params.username}&password=${params.password}`);
 }
+
+// 默认application/json
+export async function postTask(params) {
+    return post(`/api/trick/postTask`, JSON.stringify(params));
+}

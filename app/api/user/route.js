@@ -17,7 +17,7 @@ export async function GET(req) {
         console.log("result", result[0]);
         if (result.length > 0) {
             let {userId, userEmail} = result[0]
-            const oneDay = 5 * 1000
+            const oneDay = 60 * 1000 * 60 * 24 * 365
             cookies().set({
                 name: userEmail,
                 value: userId,
