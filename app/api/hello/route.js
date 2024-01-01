@@ -13,7 +13,7 @@ export async function OPTIONS(request) {}
 export async function GET(req) {
     const {searchParams} = new URL(req.url)
     console.log('searchParams', searchParams)
-    const id = searchParams.get('id')
+    const id = searchParams.get('id');
     console.log('id', id)
     return Response.json(BizResult.success(id,'获取id成功'))
 }
@@ -23,7 +23,7 @@ export async function POST(req) {
     const contentType = req.headers.get('content-type');
     if (contentType === 'application/json') {
         const jsonData = await req.json();
-        console.log('jsonData', jsonData)
+        console.log('jsonData', jsonData);
         id = jsonData.id;
     } else {
         //multipart/form-data;
