@@ -3,6 +3,24 @@ import executeQuery from "@/app/utils/db";
 import {parseCookie} from "@/app/utils/parseCookie";
 import dayjs from "dayjs";
 
+export async function DELETE(req) {
+    const {searchParams} = new URL(req.url)
+    const taskId = searchParams.get('taskId')
+    console.log('DELETE--taskId', taskId)
+    try {
+        const result = await executeQuery({
+            // 查询任务列表
+            query: 'DELETE FROM tasklist WHERE taskId = ?;',
+            values: [taskId]
+        });
+        return Response.json(BizResult.success(result, '删除任务成功'))
+    } catch (error) {
+        console.log(error);
+        return Response.json(BizResult.fail(''))
+    }
+
+
+}
 export async function GET(req) {
     const cookieInfo = parseCookie(req);
     const {searchParams} = new URL(req.url)

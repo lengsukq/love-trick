@@ -1,6 +1,6 @@
 import qs from "qs";
 const { stringify } = qs;
-import {get, post} from "./fetchUtil";
+import {get, post, deleteAct} from "./fetchUtil";
 
 
 
@@ -23,10 +23,16 @@ export async function getTask() {
     return await get(`/api/trick/getTask`);
 }
 
+// 获取任务详情
 export async function getTaskInfo(params) {
     return await get(`/api/trick/taskInfo?taskId=${params.taskId}`);
 }
 
+// 接受或取消
 export async function upDateTaskState(params) {
     return await post(`/api/trick/taskInfo`, JSON.stringify(params));
+}
+
+export async function deleteTask(params) {
+    return await deleteAct(`/api/trick/taskInfo?taskId=${params.taskId}`);
 }

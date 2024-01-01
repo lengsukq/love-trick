@@ -1,6 +1,7 @@
 'use client'
 import qs from 'qs';
 import { Notify } from 'react-vant';
+import {DELETE} from "@/app/api/hello/route";
 // import { useRouter } from 'next/navigation'
 const { stringify, parse } = qs;
 // const router = useRouter();
@@ -120,8 +121,18 @@ class http {
         const options = Object.assign({ method: 'GET' }, option);
         return await http.staticFetch(url, options);
     }
+
+    /**
+     * delete请求方式
+     * @param url
+     * @param option
+     */
+    deleteAct(url, option = {}) {
+        const options = Object.assign({method: 'DELETE'}, option);
+        return http.staticFetch(url, options);
+    }
 }
 
 const requestFun = new http(); //new生成实例
-export const { post, get, put } = requestFun;
+export const {post, get, deleteAct} = requestFun;
 export default requestFun;
