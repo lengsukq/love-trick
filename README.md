@@ -1,7 +1,7 @@
 ## 项目简介
 情侣之间发布任务，接受任务
 
-
+![index.jpg](readmeImg%2Findex.jpg)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
