@@ -19,12 +19,12 @@ export default function postTaskPage() {
 
     return (
         <div className="container flex flex-col justify-center items-center px-4 h-lvh">
-            <Input type="text" label="任务名称" placeholder="请输入任务名称" value={taskDetail} className="mb-5"
-                   onChange={(e) => setTaskDetail(e.target.value)}/>
+            <Input type="text" label="任务名称" placeholder="请输入任务名称" value={taskName} className="mb-5"
+                   onChange={(e) => setTaskName(e.target.value)}/>
 
             <Textarea
-                value={taskName}
-                onChange={(e) => setTaskName(e.target.value)}
+                value={taskDetail}
+                onChange={(e) => setTaskDetail(e.target.value)}
                 label="发布任务"
                 placeholder="请输入任务描述"
                 className="mb-5"
