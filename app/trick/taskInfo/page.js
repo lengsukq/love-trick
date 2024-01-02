@@ -5,23 +5,38 @@ import {
     Card,
     CardBody,
     Input,
-    Modal, ModalBody,
+    Modal,
+    ModalBody,
     ModalContent,
-    ModalFooter, ModalHeader,
+    ModalFooter,
+    ModalHeader,
     Textarea,
     useDisclosure
 } from "@nextui-org/react";
 import {deleteTask, getTaskInfo, upDateTaskState} from "@/app/utils/apihttp";
-import {usePathname, useSearchParams} from 'next/navigation'
+import {usePathname, useRouter, useSearchParams} from 'next/navigation'
 import {Notify} from "react-vant";
-import {useRouter} from 'next/navigation'
 
 
 export default function App() {
     const router = useRouter()
     const searchParams = useSearchParams();
     const pathname = usePathname();
-    const [taskInfo, setTaskInfo] = useState({})
+    const [taskInfo, setTaskInfo] = useState({
+        acceptanceTime: null,
+        completeRemarks: null,
+        completionTime: null,
+        creationTime: "",
+        publisherEmail: "",
+        publisherName: "",
+        receiverEmail: null,
+        taskDetail: "",
+        taskId: '',
+        taskImage: [],
+        taskName: "",
+        taskReward: "",
+        taskStatus: "未开始"
+    })
     const [completeRemarks, setTCompleteRemarks] = useState('')
     const {isOpen, onOpen, onClose} = useDisclosure();
     useEffect(() => {
@@ -123,15 +138,15 @@ export default function App() {
 
             <Card className="mb-5">
                 <CardBody className="flex justify-center items-center">
-                        <Textarea
-                            isDisabled={taskInfo.completionTime}
-                            onChange={(e) => setTCompleteRemarks(e.target.value)}
-                            label="完成备注"
-                            labelPlacement="outside"
-                            placeholder="请输入完成备注"
-                            className={taskInfo.acceptanceTime ? "mb-5" : "hidden"}
-                            value={completeRemarks}
-                        />
+                    <Textarea
+                        isDisabled={taskInfo.completionTime}
+                        onChange={(e) => setTCompleteRemarks(e.target.value)}
+                        label="完成备注"
+                        labelPlacement="outside"
+                        placeholder="请输入完成备注"
+                        className={taskInfo.acceptanceTime ? "mb-5" : "hidden"}
+                        value={completeRemarks}
+                    />
                     <div className="flex justify-evenly w-full">
                         <Button color="danger" className={"w-1/4"}
                                 onClick={() => onOpen()}>删除</Button>
@@ -139,7 +154,6 @@ export default function App() {
                                 onClick={() => acceptTask()}>
                             {taskInfo.acceptanceTime ? '完成' : '接受'}</Button>
                     </div>
-
 
 
                 </CardBody>
