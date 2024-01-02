@@ -23,13 +23,13 @@ export default function App() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const [taskInfo, setTaskInfo] = useState({
-        acceptanceTime: null,
-        completeRemarks: null,
-        completionTime: null,
+        acceptanceTime: '',
+        completeRemarks: '',
+        completionTime: '',
         creationTime: "",
         publisherEmail: "",
         publisherName: "",
-        receiverEmail: null,
+        receiverEmail: '',
         taskDetail: "",
         taskId: '',
         taskImage: [],
@@ -42,16 +42,17 @@ export default function App() {
     useEffect(() => {
         getTaskInfoAct(searchParams.get('taskId')).then(r => {
         });
-        console.log('searchParams', searchParams.get('taskId'), pathname)
     }, [])
     const getTaskInfoAct = async (taskId) => {
         await getTaskInfo({taskId: taskId}).then(res => {
-            console.log('getTaskInfo', res.data);
             setTaskInfo(res.data);
             setTCompleteRemarks(res.data.completeRemarks)
         })
     }
     const acceptTask = () => {
+        if (taskInfo.acceptanceTime && isInvalid){
+            return;
+        }
         let params = {
             actType: taskInfo.acceptanceTime ? "complete" : 'accept',
             taskId: taskInfo.taskId,
@@ -77,6 +78,9 @@ export default function App() {
             }
         })
     }
+    const isInvalid = React.useMemo(() => {
+        return completeRemarks === ""
+    }, [completeRemarks]);
     return (
         <div className="p-5">
             <Modal
@@ -139,6 +143,9 @@ export default function App() {
             <Card className="mb-5">
                 <CardBody className="flex justify-center items-center">
                     <Textarea
+                        isInvalid={isInvalid}
+                        color={isInvalid ? "danger" : "success"}
+                        errorMessage={isInvalid && "请输入完成备注"}
                         isDisabled={taskInfo.completionTime}
                         onChange={(e) => setTCompleteRemarks(e.target.value)}
                         label="完成备注"
