@@ -1,14 +1,14 @@
 import BizResult from "@/app/utils/BizResult";
 import executeQuery from "@/app/utils/db";
-import {parseCookie} from "@/app/utils/parseCookie";
+import {cookieTools} from "@/app/utils/cookieTools";
 
 export async function GET(req) {
-    const cookieInfo = parseCookie(req);
+    const {userEmail} = cookieTools(req);
     try {
         const result = await executeQuery({
             // 查询用户信息
             query: 'SELECT * FROM userinfo WHERE userEmail = ?',
-            values: [cookieInfo.name]
+            values: [userEmail]
         });
         // console.log('result',result)
 

@@ -1,13 +1,12 @@
 import BizResult from "@/app/utils/BizResult";
-import {parseCookie} from "@/app/utils/parseCookie";
+import {cookieTools} from "@/app/utils/cookieTools";
 import executeQuery from "@/app/utils/db";
 import dayjs from "dayjs";
 import {sendMsg} from "@/app/utils/sendMSgByWXRobot";
 
 export async function POST(req) {
     const contentType = req.headers.get('content-type');
-    const cookieInfo = parseCookie(req);
-    const {name} = cookieInfo;
+    const {userEmail} =  cookieTools(req);
     const creationTime = dayjs().format('YYYY-MM-DD HH:mm:ss')
     const jsonData = await req.json();
     console.log('jsonData', jsonData)
@@ -18,7 +17,7 @@ export async function POST(req) {
         const userInfo = await executeQuery({
             // 查询有无此用户
             query: 'SELECT username FROM userinfo WHERE userEmail = ?',
-            values: [name]
+            values: [userEmail]
         });
         console.log('userInfo', userInfo)
         const result = await executeQuery({

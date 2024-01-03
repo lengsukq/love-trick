@@ -1,19 +1,14 @@
 import BizResult from "@/app/utils/BizResult";
 import executeQuery from "@/app/utils/db";
-import {parseCookie} from "@/app/utils/parseCookie";
+import {cookieTools} from "@/app/utils/cookieTools";
 
 export async function GET(req) {
-    const cookieInfo = parseCookie(req);
+    const {userEmail,lover} = cookieTools(req);
     try {
-        const userInfo = await executeQuery({
-            // 查询有无此用户
-            query: 'SELECT lover FROM userinfo WHERE userEmail = ?',
-            values: [cookieInfo.name]
-        });
         const result = await executeQuery({
             // 查询任务列表
             query: 'SELECT * FROM tasklist WHERE publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ? ORDER BY taskId DESC',
-            values: [cookieInfo.name, userInfo[0].lover, cookieInfo.name]
+            values: [userEmail, lover, userEmail]
         });
         // console.log('result',result)
         result.forEach(item => {

@@ -13,6 +13,7 @@
     "@nextui-org/react": "^2.2.9",
     "dayjs": "^1.11.10",
     "framer-motion": "^10.16.16",
+    "jsonwebtoken": "^9.0.2",
     "next": "^14.0.3",
     "qs": "^6.11.2",
     "react": "^18",
