@@ -1,6 +1,7 @@
 import BizResult from "@/app/utils/BizResult";
 import executeQuery from "@/app/utils/db";
 import {cookieTools} from "@/app/utils/cookieTools";
+import {randomImages} from "@/app/utils/sendMSgByWXRobot";
 
 export async function GET(req) {
     const {userEmail,lover} = cookieTools(req);
