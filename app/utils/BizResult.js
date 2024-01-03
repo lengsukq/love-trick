@@ -59,7 +59,6 @@ class BizResult {
     static validateFailed(param,msg=BizResultCode.VALIDATE_FAILED.desc) {
         return new BizResult(BizResultCode.VALIDATE_FAILED.code, msg, param);
     }
-
 }
 
 module.exports = BizResult
