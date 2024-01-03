@@ -4,10 +4,7 @@ import {useEffect, useState} from 'react'
 import {Card, CardBody, CardFooter, Image, CardHeader} from "@nextui-org/react";
 import {getTask} from "@/app/utils/apihttp";
 import {useRouter} from 'next/navigation'
-// import {Metadata} from "next";
-// export const metadata: Metadata = {
-//     title: 'My Page Title',
-// }
+
 export default function App() {
     const [taskList, setTaskList] = useState([])
     const router = useRouter()
