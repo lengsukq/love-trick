@@ -4,10 +4,6 @@ import React, {useState} from "react";
 import {Button, Input, Textarea} from "@nextui-org/react";
 import {postTask} from "@/app/utils/apihttp";
 import {Notify} from "react-vant";
-export const metadata  = {
-    title: '发布任务 | love-trick',
-    description: 'love-trick',
-}
 export default function postTaskPage() {
     const [taskName, setTaskName] = useState('');
     const [taskDetail, setTaskDetail] = useState('');
