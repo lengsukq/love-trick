@@ -56,6 +56,7 @@ export default function App() {
         let params = {
             actType: taskInfo.acceptanceTime ? "complete" : 'accept',
             taskId: taskInfo.taskId,
+            taskName: taskInfo.taskName
         };
         if (completeRemarks) {
             params['completeRemarks'] = completeRemarks

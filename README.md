@@ -10,8 +10,6 @@ MYSQL_DATABASE= 数据库名
 MYSQL_USER= 数据库用户名
 MYSQL_PASSWORD= 数据库密码
 WX_ROBOT_URL= 企业微信机器人的url 如：https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=11111111-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-WX_ROBOT_URL= 
-
 ```
 
 
