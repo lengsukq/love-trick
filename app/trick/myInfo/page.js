@@ -5,7 +5,10 @@ import {Card, CardBody, CardFooter, Button, CardHeader, Avatar, Chip} from "@nex
 
 import {User} from "@nextui-org/react";
 import {Divider} from "react-vant";
-
+export const metadata  = {
+    title: '我的信息 | love-trick',
+    description: 'love-trick',
+}
 export default function App() {
     const [userInfo, setUserInfo] = useState([])
     const [isFollowed, setIsFollowed] = React.useState(false);
