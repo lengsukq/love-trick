@@ -8,6 +8,7 @@ export const metadata = {
 export default function RootLayout({children}) {
     return (
         <html lang="en" className='light'>
+        <link rel="icon" href="/defaultAvatar.jpg" sizes="any" />
         <body>
         <Providers>
             {children}
