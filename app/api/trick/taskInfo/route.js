@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import {sendMsg} from "@/app/utils/sendMSgByWXRobot";
 
 export async function DELETE(req) {
-    const {username} = cookieTools(req);
+    const {userName} = cookieTools(req);
     const {searchParams} = new URL(req.url)
     const taskId = searchParams.get('taskId')
     try {
@@ -47,7 +47,7 @@ export async function GET(req) {
 }
 
 export async function POST(req) {
-    const {userEmail,username} = cookieTools(req);
+    const {userEmail,userName} = cookieTools(req);
     const nowTime = dayjs().format('YYYY-MM-DD HH:mm:ss')
     const jsonData = await req.json();
     console.log('jsonData', jsonData)
@@ -59,7 +59,7 @@ export async function POST(req) {
                 values: [userEmail, nowTime, taskId]
             });
             console.log("result", result[0]);
-            await sendMsg(`${username}已接受任务：${taskName}`);
+            await sendMsg(`${userName}已接受任务：${taskName}`);
 
             return Response.json(BizResult.success('', '接受任务成功'))
         } else if (actType === 'complete') {
@@ -68,7 +68,7 @@ export async function POST(req) {
                 values: [completeRemarks, nowTime, taskId]
             });
             console.log("result", result[0]);
-            await sendMsg(`${username}已完成任务：${taskName}`);
+            await sendMsg(`${userName}已完成任务：${taskName}`);
 
             return Response.json(BizResult.success('', '已完成任务'))
         }
