@@ -4,7 +4,10 @@ import {useEffect, useState} from 'react'
 import {Card, CardBody, CardFooter, Image, CardHeader} from "@nextui-org/react";
 import {getTask} from "@/app/utils/apihttp";
 import {useRouter} from 'next/navigation'
-
+// import {Metadata} from "next";
+// export const metadata: Metadata = {
+//     title: 'My Page Title',
+// }
 export default function App() {
     const [taskList, setTaskList] = useState([])
     const router = useRouter()
@@ -32,7 +35,7 @@ export default function App() {
             {taskList.map((item, index) => (
                 <Card shadow="sm" key={index} isPressable onPress={() => onPressHandler(item)}>
                     <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-                        <p className=" text-large uppercase font-bold">{item.taskName}</p>
+                        <p className=" text-large uppercase font-bold truncate w-full">{item.taskName}</p>
                         <small className="text-default-500">{item.creationTime}</small>
                         {/*<h4 className="font-bold text-tiny ">Frontend Radio</h4>*/}
                     </CardHeader>
