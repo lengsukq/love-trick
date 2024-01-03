@@ -2,6 +2,7 @@ import BizResult from "@/app/utils/BizResult";
 import {parseCookie} from "@/app/utils/parseCookie";
 import executeQuery from "@/app/utils/db";
 import dayjs from "dayjs";
+import {sendMsg} from "@/app/utils/sendMSgByWXRobot";
 
 export async function POST(req) {
     const contentType = req.headers.get('content-type');
@@ -26,6 +27,7 @@ export async function POST(req) {
             values: [taskName, taskDetail, taskImage.toString(), taskReward, creationTime, userInfo[0].username, name]
         });
         console.log("result", result[0]);
+        await sendMsg(`${userInfo[0].username}发布新任务：${taskName}`);
         return Response.json(BizResult.success('', '任务发布成功'))
 
     } catch (error) {

@@ -86,6 +86,7 @@ class http {
      * @returns {Promise<unknown>}
      */
     post(url, params = {}, option = {}) {
+        console.log(`url=${url},params=${params}`)
         const options = Object.assign({ method: 'POST' }, option);
         //一般我们常用场景用的是json，所以需要在headers加Content-Type类型
         options.body = JSON.stringify(params);

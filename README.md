@@ -2,6 +2,18 @@
 情侣之间发布任务，接受任务
 
 ![index.jpg](readmeImg%2Findex.jpg)
+```text
+本地根目录创建.env.local文件，配置必要数据
+MYSQL_HOST= 数据库ip
+MYSQL_PORT= 数据库端口
+MYSQL_DATABASE= 数据库名
+MYSQL_USER= 数据库用户名
+MYSQL_PASSWORD= 数据库密码
+WX_ROBOT_URL= 企业微信机器人的url 如：https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=11111111-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+WX_ROBOT_URL= 
+
+```
+
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
