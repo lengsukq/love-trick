@@ -1,9 +1,9 @@
 export function cookieTools(request) {
     // 获取cookie基本信息
     const cookie = JSON.parse(request.cookies.get('cookie').value);
-    console.log('cookie基本信息',cookie)
+    // console.log('cookie基本信息',cookie)
     // 解密cookie的value
-    console.log('解密cookie的value',decryptData(cookie.value))
+    // console.log('解密cookie的value',decryptData(cookie.value))
     return decryptData(cookie.value)
 }
 const jwt = require('jsonwebtoken');

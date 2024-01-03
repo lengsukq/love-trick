@@ -4,7 +4,6 @@ import {cookies} from 'next/headers'
 import dayjs from "dayjs";
 import BizResult from "@/app/utils/BizResult";
 export function middleware(request) {
-    // console.log('middleware',request.cookies.get('cookie')) // undefined
     // console.log('token',request.cookies.get('token').value)
 
     if (!request.cookies.get('cookie')) {
