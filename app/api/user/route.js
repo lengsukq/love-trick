@@ -2,7 +2,10 @@
 import BizResult from '@/app/utils/BizResult';
 import executeQuery from "@/app/utils/db";
 import {cookies} from 'next/headers'
+import {encryptData} from "@/app/utils/cookieTools";
+
 export async function GET(req) {
+    const crypto = require('crypto');
     const {searchParams} = new URL(req.url)
     const username = searchParams.get('username')
     const password = searchParams.get('password')
@@ -11,21 +14,23 @@ export async function GET(req) {
     try {
         const result = await executeQuery({
             // 查询有无此用户
-            query: 'SELECT userId, userEmail FROM userinfo WHERE username = ? AND password = ?',
+            query: 'SELECT userId, userEmail,lover FROM userinfo WHERE username = ? AND password = ?',
             values: [username, password]
         });
         console.log("result", result[0]);
         if (result.length > 0) {
-            let {userId, userEmail} = result[0]
+            let {userId, userEmail,lover} = result[0]
             const oneDay = 60 * 1000 * 60 * 24 * 365
+            const cookie = encryptData({
+                userEmail: userEmail, userId: userId, userName: username, lover:lover
+            })
             cookies().set({
                 name: userEmail,
-                value: userId,
+                value: cookie,
                 httpOnly: false,
                 path: '/',
                 expires: Date.now() + oneDay
             })
-            console.log('getCookie--', JSON.stringify(cookies().get(userEmail)))
             return Response.json(BizResult.success(result, '登录成功'), {
                 status: 200,
                 headers: {'Set-Cookie': `cookie=${JSON.stringify(cookies().get(userEmail))}`},

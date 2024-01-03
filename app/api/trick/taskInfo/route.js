@@ -1,10 +1,11 @@
 import BizResult from "@/app/utils/BizResult";
 import executeQuery from "@/app/utils/db";
-import {parseCookie} from "@/app/utils/parseCookie";
+import {cookieTools} from "@/app/utils/cookieTools";
 import dayjs from "dayjs";
 import {sendMsg} from "@/app/utils/sendMSgByWXRobot";
 
 export async function DELETE(req) {
+    const cookieInfo = cookieTools(req);
     const {searchParams} = new URL(req.url)
     const taskId = searchParams.get('taskId')
     console.log('DELETE--taskId', taskId)
@@ -14,7 +15,6 @@ export async function DELETE(req) {
             query: 'DELETE FROM tasklist WHERE taskId = ?;',
             values: [taskId]
         });
-
         return Response.json(BizResult.success(result, '删除任务成功'))
     } catch (error) {
         console.log(error);
@@ -24,7 +24,6 @@ export async function DELETE(req) {
 
 }
 export async function GET(req) {
-    const cookieInfo = parseCookie(req);
     const {searchParams} = new URL(req.url)
     const taskId = searchParams.get('taskId')
     if (!taskId) {
@@ -49,8 +48,7 @@ export async function GET(req) {
 }
 
 export async function POST(req) {
-    const cookieInfo = parseCookie(req);
-    const {name} = cookieInfo;
+    const {userEmail} = cookieTools(req);
     const nowTime = dayjs().format('YYYY-MM-DD HH:mm:ss')
     const jsonData = await req.json();
     console.log('jsonData', jsonData)
@@ -59,12 +57,12 @@ export async function POST(req) {
         const userInfo = await executeQuery({
             // 查询有无此用户
             query: 'SELECT username FROM userinfo WHERE userEmail = ?',
-            values: [name]
+            values: [userEmail]
         });
         if (actType === 'accept') {
             const result = await executeQuery({
                 query: 'UPDATE tasklist SET receiverEmail = ?, acceptanceTime = ? WHERE tasklist.taskId = ?',
-                values: [name, nowTime, taskId]
+                values: [userEmail, nowTime, taskId]
             });
             console.log("result", result[0]);
             await sendMsg(`${userInfo[0].username}已接受任务：${taskName}`);
