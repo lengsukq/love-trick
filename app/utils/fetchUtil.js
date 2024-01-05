@@ -24,7 +24,6 @@ const judgeOkState = async res => {
     const cloneRes = await res.clone().json();
     // console.log('judgeOkState', cloneRes)
     // if (cloneRes.msg=== '登录过期'){
-    //     router.push('/')
     // }
     //TODO:可以在这里管控全局请求
     if (!!cloneRes.code && cloneRes.code !== 200) {
