@@ -1,6 +1,7 @@
 // db.js
-import mysql from 'serverless-mysql';
-const db = mysql({
+import mysql2 from 'serverless-mysql';
+
+const db = mysql2({
     config: {
         host: process.env.MYSQL_HOST,
         port: process.env.MYSQL_PORT,
