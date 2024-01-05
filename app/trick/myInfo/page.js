@@ -7,7 +7,16 @@ import {User} from "@nextui-org/react";
 import {Divider} from "react-vant";
 
 export default function App() {
-    const [userInfo, setUserInfo] = useState([])
+    const [userInfo, setUserInfo] = useState({
+        avatar: "",
+        describeByself: "",
+        lover: "",
+        password: "",
+        registrationTime: "",
+        userEmail: "",
+        userId: 0,
+        username: ""
+    })
     const [isFollowed, setIsFollowed] = React.useState(false);
     useEffect(() => {
         getUserInfoAct().then(r => {
@@ -16,7 +25,7 @@ export default function App() {
     const getUserInfoAct = async () => {
         await getUserInfo().then(res => {
             console.log('getTaskList', res.data);
-            setUserInfo(res.data);
+            setUserInfo(res.code === 200 ? res.data : {});
         })
     }
     return (

@@ -10,7 +10,7 @@ export async function GET(req) {
             query: 'SELECT * FROM userinfo WHERE userEmail = ?',
             values: [userEmail]
         });
-        // console.log('result',result)
+        console.log('result', result)
 
         return Response.json(BizResult.success(result[0], '获取用户信息成功'))
     } catch (error) {

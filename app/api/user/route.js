@@ -5,7 +5,6 @@ import {cookies} from 'next/headers'
 import {encryptData} from "@/app/utils/cookieTools";
 
 export async function GET(req) {
-    const crypto = require('crypto');
     const {searchParams} = new URL(req.url)
     const username = searchParams.get('username')
     const password = searchParams.get('password')
