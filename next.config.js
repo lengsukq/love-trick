@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    webpack: (config, {isServer}) => {
+        // 禁用代码压缩
+        config.optimization.minimize = false;
+        return config;
+    },
     reactStrictMode: false,
     async redirects() {
         return [
