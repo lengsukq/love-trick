@@ -3,9 +3,10 @@ import {NextResponse} from 'next/server'
 import {cookies} from 'next/headers'
 import dayjs from "dayjs";
 import BizResult from "@/app/utils/BizResult";
+import {redirect} from "next/navigation";
 export function middleware(request) {
-    // console.log('token',request.cookies.get('token').value)
-
+    console.log('request.url',request.url)
+    // return  NextResponse.redirect(new URL('/', request.url))
     if (!request.cookies.get('cookie')) {
         return Response.json(BizResult.fail('', '登录过期'))
     }
@@ -31,7 +32,8 @@ export const config = {
          * - _next/image (image optimization files)
          * - favicon.ico (favicon file)
          */
-        '/api/((?!user).*)'
+        '/api/((?!user).*)',
+        '/api/userInfo'
         // '/((?!api/user|_next/static|_next/image|favicon.ico).*)',
 
     ],

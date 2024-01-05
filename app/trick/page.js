@@ -18,7 +18,8 @@ export default function App() {
     const getTaskList = async () => {
         await getTask().then(res => {
             console.log('getTaskList', res.data);
-            setTaskList(res.data);
+
+            setTaskList(res.code===200?res.data:[]);
         })
     }
 
