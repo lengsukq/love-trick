@@ -3,17 +3,15 @@ import {NextResponse} from 'next/server'
 import {cookies} from 'next/headers'
 import dayjs from "dayjs";
 import BizResult from "@/app/utils/BizResult";
-import {redirect} from "next/navigation";
 export function middleware(request) {
-    console.log('request.url',request.url)
+    // console.log('request.url',request.url)
     // return  NextResponse.redirect(new URL('/', request.url))
     if (!request.cookies.get('cookie')) {
         return Response.json(BizResult.fail('', '登录过期'))
     }
     const reqCookie = JSON.parse(request.cookies.get('cookie').value);
     const cookieDate = dayjs(reqCookie.expires);
-    // console.log('cookieDate----',reqCookie)
-    // console.log('isAfter', cookieDate.isAfter(dayjs()))
+
     if (cookieDate.isAfter(dayjs())) {
         return NextResponse.next()
     } else {
