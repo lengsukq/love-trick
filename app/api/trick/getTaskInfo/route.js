@@ -1,3 +1,4 @@
+'use server'
 import BizResult from "@/app/utils/BizResult";
 import executeQuery from "@/app/utils/db";
 import {cookieTools} from "@/app/utils/cookieTools";
@@ -5,13 +6,13 @@ import dayjs from "dayjs";
 import {sendMsg} from "@/app/utils/sendMSgByWXRobot";
 
 export async function DELETE(req) {
-    const {userName} = cookieTools(req);
+    // const {userName} = cookieTools(req);
     const {searchParams} = new URL(req.url)
     const taskId = searchParams.get('taskId')
     try {
         const result = await executeQuery({
             // 查询任务列表
-            query: 'DELETE FROM tasklist WHERE taskId = ?;',
+            query: 'DELETE FROM tasklist WHERE taskId = ?',
             values: [taskId]
         });
         return Response.json(BizResult.success(result, '删除任务成功'))

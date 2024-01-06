@@ -5,7 +5,7 @@ const nextConfig = {
         config.optimization.minimize = false;
         return config;
     },
-    reactStrictMode: false,
+    reactStrictMode: true,
     async redirects() {
         return [
             {

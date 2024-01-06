@@ -20,19 +20,19 @@ export async function postTask(params) {
 
 // 获取任务列表
 export async function getTask() {
-    return await get(`/api/trick/getTask`);
+    return await get(`/api/trick/getTaskList`);
 }
 
 // 获取任务详情
 export async function getTaskInfo(params) {
-    return await get(`/api/trick/taskInfo?taskId=${params.taskId}`);
+    return await get(`/api/trick/getTaskInfo?taskId=${params.taskId}`);
 }
 
 // 接受或取消
 export async function upDateTaskState(params) {
-    return await post(`/api/trick/taskInfo`, JSON.stringify(params));
+    return await post(`/api/trick/getTaskInfo`, JSON.stringify(params));
 }
 
 export async function deleteTask(params) {
-    return await deleteAct(`/api/trick/taskInfo?taskId=${params.taskId}`);
+    return await deleteAct(`/api/trick/getTaskInfo?taskId=${params.taskId}`);
 }

@@ -25,7 +25,7 @@ export default function App() {
     const getUserInfoAct = async () => {
         await getUserInfo().then(res => {
             console.log('getTaskList', res.data);
-            setUserInfo(res.code === 200 ? res.data : {});
+            setUserInfo(res.data ? res.data : {});
         })
     }
     return (
