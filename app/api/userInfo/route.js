@@ -3,6 +3,8 @@ import BizResult from "@/app/utils/BizResult";
 import executeQuery from "@/app/utils/db";
 import {cookieTools} from "@/app/utils/cookieTools";
 
+export async function PUT(request) {
+}
 export async function GET(req) {
     const {userEmail} = await cookieTools(req);
     console.log('开始获取用户信息', userEmail)
