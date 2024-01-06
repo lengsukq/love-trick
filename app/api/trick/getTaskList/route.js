@@ -4,6 +4,8 @@ import executeQuery from "@/app/utils/db";
 import {cookieTools} from "@/app/utils/cookieTools";
 import {randomImages} from "@/app/utils/sendMSgByWXRobot";
 
+export async function PUT(request) {
+}
 export async function GET(req) {
     const {userEmail, lover} = await cookieTools(req);
     try {
