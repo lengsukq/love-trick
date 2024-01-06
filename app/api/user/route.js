@@ -13,7 +13,7 @@ export async function GET(req) {
     try {
         const result = await executeQuery({
             // 查询有无此用户
-            query: 'SELECT userId, userEmail,lover FROM userinfo WHERE username = ? AND password = ?',
+            query: 'SELECT userId, userEmail, lover FROM userinfo WHERE username = ? AND password = ?',
             values: [username, password]
         });
         console.log("result", result[0]);

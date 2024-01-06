@@ -1,3 +1,4 @@
+'use server'
 import BizResult from '@/app/utils/BizResult';
 
 

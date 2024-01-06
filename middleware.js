@@ -5,7 +5,6 @@ import dayjs from "dayjs";
 import BizResult from "@/app/utils/BizResult";
 export function middleware(request) {
     // console.log('request.url',request.url)
-    // return  NextResponse.redirect(new URL('/', request.url))
     if (!request.cookies.get('cookie')) {
         return Response.json(BizResult.fail('', '登录过期'))
     }
@@ -31,7 +30,6 @@ export const config = {
          * - favicon.ico (favicon file)
          */
         '/api/((?!user).*)',
-        '/api/userInfo',
         // '/((?!/uuuu|_next/static|_next/image|favicon.ico).*)',
 
     ],
