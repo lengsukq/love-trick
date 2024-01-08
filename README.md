@@ -13,6 +13,7 @@ WX_ROBOT_URL= 企业微信机器人的url 如：https://qyapi.weixin.qq.com/cgi-
 JWT_SECRET_KEY= xxxxxxx 随便写
 SM_TOKEN = SM图床注册后获取的API 地址：https://smms.app/
 BILIBILI_SESSDATA = 登录bilibili后获取的sessdata 参考：https://www.yuque.com/xlzy520/blog/fydq8g?
+BILIBILI_CSRF = 同上
 ```
 SM图床和哔哩哔哩SESSDATA二选一即可
 
