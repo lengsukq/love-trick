@@ -15,7 +15,7 @@ import {
 } from "@nextui-org/react";
 import {deleteTask, getTaskInfo, upDateTaskState} from "@/app/utils/apihttp";
 import {usePathname, useRouter, useSearchParams} from 'next/navigation'
-import {Notify} from "react-vant";
+import {Notify, Uploader} from "react-vant";
 
 
 export default function App() {
@@ -39,6 +39,7 @@ export default function App() {
     })
     const [completeRemarks, setTCompleteRemarks] = useState('')
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const [defaultValue,setDefaultValue] = useState([])
     useEffect(() => {
         getTaskInfoAct(searchParams.get('taskId')).then(r => {
         });
@@ -46,7 +47,10 @@ export default function App() {
     const getTaskInfoAct = async (taskId) => {
         await getTaskInfo({taskId: taskId}).then(res => {
             setTaskInfo(res.data);
-            setTCompleteRemarks(res.data.completeRemarks)
+            setTCompleteRemarks(res.data.completeRemarks);
+            let arr = res.data.taskImage.map(item => ({url:item}))
+            console.log('获取图片数组',arr)
+            setDefaultValue(arr)
         })
     }
     const acceptTask = () => {
@@ -88,8 +92,7 @@ export default function App() {
                 size="xs"
                 placement={"center"}
                 isOpen={isOpen}
-                onClose={onClose}
-            >
+                onClose={onClose}>
                 <ModalContent>
                     {(onClose) => (
                         <>
@@ -112,6 +115,15 @@ export default function App() {
             <Card className="mb-5">
                 <CardBody className="flex justify-center">
                     <p>{taskInfo.taskStatus}</p>
+                </CardBody>
+            </Card>
+            <Card className="mb-5">
+                <CardBody className="flex justify-center">
+                    <Uploader
+                        value={defaultValue}
+                        deletable={false}
+                        showUpload={false}
+                    />
                 </CardBody>
             </Card>
             <Card className="mb-5">
