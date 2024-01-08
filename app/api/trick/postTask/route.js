@@ -11,8 +11,9 @@ export async function POST(req) {
     const jsonData = await req.json();
     console.log('jsonData', jsonData)
     const {taskName, taskDetail, taskReward} = JSON.parse(jsonData);
+    const imgURL = JSON.parse(jsonData).taskImage;
     // 获取随机图片
-    const taskImage = await randomImages()
+    const taskImage = imgURL?await randomImages():imgURL
     try {
         const result = await executeQuery({
             // 查询有无此用户

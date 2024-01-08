@@ -67,11 +67,11 @@ class http {
                 // 'content-type': 'application/x-www-form-urlencoded',
             },
         };
-        if (options.method === 'POST' || 'PUT') {
+        // 无headers配置 使用默认请求头，当上传类型为FormData时，默认不设置请求头，否则报错
+        if ((options.method === 'POST' || 'PUT') && options.Type!=='FormData' ) {
             defaultOptions.headers['Content-Type'] = 'application/json; charset=utf-8';
         }
         const newOptions = { ...defaultOptions, ...options };
-        // console.log('newOptions', newOptions);
         return fetch(url, newOptions)
             .then(checkStatus)
             .then(judgeOkState)
@@ -85,10 +85,7 @@ class http {
      * @returns {Promise<unknown>}
      */
     post(url, params = {}, option = {}) {
-        console.log(`url=${url},params=${params}`)
         const options = Object.assign({ method: 'POST' }, option);
-        //一般我们常用场景用的是json，所以需要在headers加Content-Type类型
-        options.body = JSON.stringify(params);
 
         //可以是上传键值对形式，也可以是文件，使用append创造键值对数据
         if (options.type === 'FormData' && options.body !== 'undefined') {
@@ -97,6 +94,9 @@ class http {
                 params.append(key, options.body[key]);
             }
             options.body = params;
+        }else{
+            //一般我们常用场景用的是json，所以需要在headers加Content-Type类型
+            options.body = JSON.stringify(params);
         }
         return http.staticFetch(url, options); //类的静态方法只能通过类本身调用
     }

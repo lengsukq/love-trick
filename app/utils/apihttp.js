@@ -32,7 +32,16 @@ export async function getTaskInfo(params) {
 export async function upDateTaskState(params) {
     return await post(`/api/trick/getTaskInfo`, JSON.stringify(params));
 }
-
+// 删除任务
 export async function deleteTask(params) {
     return await deleteAct(`/api/trick/getTaskInfo?taskId=${params.taskId}`);
+}
+// 上传图片
+export async function uploadImages(params) {
+    return await post(`/api/image-api`,{},{
+        type: 'FormData',
+        body:params,
+        headers: {
+        }
+    });
 }
