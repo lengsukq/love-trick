@@ -14,15 +14,15 @@ export async function upImgBySM(file) {
         if (!response.ok) {
             console.log('response',response)
 
-            return 'https://s2.loli.net/2024/01/08/ek3fUIuh6gPR47G.jpg' // 返回默认图片链接
+            return {msg:'上传失败，使用默认图片',url:'https://s2.loli.net/2024/01/08/ek3fUIuh6gPR47G.jpg'} // 返回默认图片链接
         }
 
         const data = await response.json();
         console.log('sm', data);
-        return data.data.url; // 返回获取到的图片链接
+        return {msg:'上传成功',url:data.data.url}; // 返回获取到的图片链接
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
-        return 'https://s2.loli.net/2024/01/08/ek3fUIuh6gPR47G.jpg' // 返回默认图片链接
+        return {msg:'上传失败，使用默认图片',url:'https://s2.loli.net/2024/01/08/ek3fUIuh6gPR47G.jpg'} // 返回默认图片链接
     }
 }
 // 上传图片到哔哩哔哩动态
