@@ -31,7 +31,7 @@ export async function upImgByBilibili(file) {
     formData.append('file_up', file);
     formData.append('biz', 'new_dyn');
     formData.append('category', 'daily');
-    formData.append('csrf', '925fd75ae1084358a19a977fbb6686a8');
+    formData.append('csrf', process.env.BILIBILI_CSRF);
     console.log('formData',formData)
 
     try {
