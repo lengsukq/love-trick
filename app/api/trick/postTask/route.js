@@ -13,7 +13,7 @@ export async function POST(req) {
     const {taskName, taskDetail, taskReward} = JSON.parse(jsonData);
     const imgURL = JSON.parse(jsonData).taskImage;
     // 获取随机图片
-    const taskImage = imgURL?await randomImages():imgURL
+    const taskImage = imgURL?imgURL:await randomImages()
     try {
         const result = await executeQuery({
             // 查询有无此用户
