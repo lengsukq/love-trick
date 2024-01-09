@@ -1,12 +1,10 @@
-import * as fs from "fs";
-
 export async function upImgMain(fileData){
     const upImgObj = {
         "SM":(fileData)=> upImgMain(fileData),
-        "BilibiliDaily":(fileData)=> upImgMain(fileData),
+        "BilibiliDaily":(fileData)=> upImgByBilibiliDaily(fileData),
         "BilibiliCover":(fileData)=>upImgByBilibiliCover(fileData)
     }
-    return upImgObj[process.env.DRAWING_BED](fileData);
+    return await upImgObj[process.env.DRAWING_BED](fileData);
 }
 
 // 上传图片到SM图床
@@ -38,11 +36,13 @@ export async function upImgBySM({file}) {
 }
 // 上传图片到哔哩哔哩动态，改版过之后只有45分钟有效期
 export async function upImgByBilibiliDaily({file}) {
-
+    console.log('upImgByBilibiliDaily')
     const formData = new FormData();
     formData.append('file_up', file);
-    formData.append('biz', 'new_dyn');
-    formData.append('category', 'daily');
+    // 使用专栏图片上传
+    formData.append('biz', 'article');
+    // formData.append('biz', 'new_dyn');
+    // formData.append('category', 'daily');
     formData.append('csrf', process.env.BILIBILI_CSRF);
     // console.log('formData',formData)
 
@@ -68,9 +68,10 @@ export async function upImgByBilibiliDaily({file}) {
 
     }
 }
-// 上传图片到哔哩哔哩动态
-export async function upImgByBilibiliCover({base64}) {
 
+// 上传图片到哔哩哔哩视频封面
+export async function upImgByBilibiliCover({base64}) {
+    // console.log('toString(\'base64\')',file.toString('base64'))
     try {
         const formData = new FormData();
         formData.append('cover', base64);
