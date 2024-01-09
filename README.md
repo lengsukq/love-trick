@@ -17,7 +17,7 @@ BILIBILI_SESSDATA = 登录bilibili后获取的sessdata 参考：https://www.yuqu
 BILIBILI_CSRF = 同上
 IMGBB_API = IMGBB图床API 地址：https://imgbb.com/
 ```
-SM图床和哔哩哔哩SESSDATA二选一即可
+图床只要选择一个即可，选择b站相关的图床，BILIBILI_SESSDATA和BILIBILI_CSRF必须都要填
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
