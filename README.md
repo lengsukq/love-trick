@@ -18,6 +18,7 @@ BILIBILI_CSRF = 同上
 IMGBB_API = IMGBB图床API 地址：https://imgbb.com/
 ```
 图床只要选择一个即可，选择b站相关的图床，BILIBILI_SESSDATA和BILIBILI_CSRF必须都要填
+如果要使用b站视频封面上传，需要取消注释posttask/page文件中的某行代码
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

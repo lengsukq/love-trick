@@ -34,8 +34,14 @@ export default function postTaskPage() {
 
     const vantUpload = async (file) => {
         try {
-            console.log('vantUpload', file)
-            const {url} = await readAndUploadFile(file);
+            // 如果使用b站视频封面上传请取消注释下面的代码，并注释下面获取url的代码
+            // const {url} = await readAndUploadFile(file);
+            let url;
+            await uploadImages({file: file, base64: ""}).then(res => {
+                // return包含 url 的一个对象 例如: {url:'https://img.yzcdn.cn/vant/sand.jpg'}
+                console.log('uploadImages', res.data);
+                url = res.data.url;
+            });
             setVantImgData([...vantImgData, url])
             return {url: url}
         } catch (error) {
@@ -43,9 +49,6 @@ export default function postTaskPage() {
             return {url: `demo_path/${file.name}`}
         }
 
-    }
-    const onChange = (v) => {
-        console.log('onChange', v)
     }
     const imgUploadDelete = (v) => {
         // 输出被删除的那一项
