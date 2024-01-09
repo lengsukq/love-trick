@@ -9,21 +9,18 @@ export default function postTaskPage() {
     const [taskDetail, setTaskDetail] = useState('');
     const [taskReward, setTaskReward] = useState('');
     const [vantImgData, setVantImgData] = useState([]);
-    const [vantImgBase64, setVantImgBase64] = useState([]);
     const  readAndUploadFile= (file)=> {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
-            let base64 = "";
-            let url;
-
             // 定义文件读取完成时的回调函数
             reader.onload = async function (event) {
                 const base64String = event.target.result.split(',')[1]; // 获取 base64 字符串部分
-                base64 = `data:${file.type};base64,${base64String}`;
+                const base64 = `data:${file.type};base64,${base64String}`;
+                console.log('base64',base64)
                 try {
                     const res = await uploadImages({ file: file, base64: base64 });
                     console.log('uploadImages', res.data);
-                    url = res.data.url;
+                    const url = res.data.url;
                     resolve({ url: url });
                 } catch (error) {
                     reject(error);
@@ -36,15 +33,11 @@ export default function postTaskPage() {
     }
 
     const vantUpload = async (file) => {
-
         try {
             console.log('vantUpload', file)
             const {url} = await readAndUploadFile(file);
             setVantImgData([...vantImgData, url])
-
             return {url: url}
-
-
         } catch (error) {
             console.log('vantUpload', error)
             return {url: `demo_path/${file.name}`}
