@@ -4,31 +4,59 @@ import React, {useState} from "react";
 import {Button, Input, Textarea} from "@nextui-org/react";
 import {postTask, uploadImages} from "@/app/utils/apihttp";
 import {Notify, Uploader} from "react-vant";
-
 export default function postTaskPage() {
     const [taskName, setTaskName] = useState('');
     const [taskDetail, setTaskDetail] = useState('');
     const [taskReward, setTaskReward] = useState('');
     const [vantImgData, setVantImgData] = useState([]);
-    const vantUpload = async (file) => {
-        try {
+    const [vantImgBase64, setVantImgBase64] = useState([]);
+    const  readAndUploadFile= (file)=> {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            let base64 = "";
             let url;
-            await uploadImages({file: file}).then(res => {
-                // return包含 url 的一个对象 例如: {url:'https://img.yzcdn.cn/vant/sand.jpg'}
-                console.log('uploadImages', res.data);
-                url = res.data.url;
-            });
+
+            // 定义文件读取完成时的回调函数
+            reader.onload = async function (event) {
+                const base64String = event.target.result.split(',')[1]; // 获取 base64 字符串部分
+                base64 = `data:${file.type};base64,${base64String}`;
+                try {
+                    const res = await uploadImages({ file: file, base64: base64 });
+                    console.log('uploadImages', res.data);
+                    url = res.data.url;
+                    resolve({ url: url });
+                } catch (error) {
+                    reject(error);
+                }
+            };
+
+            // 读取文件内容为 base64
+            reader.readAsDataURL(file);
+        });
+    }
+
+    const vantUpload = async (file) => {
+
+        try {
+            console.log('vantUpload', file)
+            const {url} = await readAndUploadFile(file);
             setVantImgData([...vantImgData, url])
+
             return {url: url}
+
+
         } catch (error) {
             console.log('vantUpload', error)
             return {url: `demo_path/${file.name}`}
         }
 
     }
+    const onChange = (v) => {
+        console.log('onChange', v)
+    }
     const imgUploadDelete = (v) => {
         // 输出被删除的那一项
-        console.log('imgUploadChange',v);
+        console.log('imgUploadChange', v);
         setVantImgData(vantImgData.filter(item => item !== v.url))
     }
     const pushTask = () => {
@@ -48,7 +76,7 @@ export default function postTaskPage() {
 
     return (
         <div className="container flex flex-col justify-center items-center px-4 h-lvh">
-            <Uploader upload={vantUpload} onDelete={imgUploadDelete}/>
+            <Uploader upload={vantUpload} resultType={'dataUrl'} onDelete={imgUploadDelete}/>
             <Input type="text" label="任务名称" placeholder="请输入任务名称" value={taskName} className="mb-5"
                    onChange={(e) => setTaskName(e.target.value)}/>
 
