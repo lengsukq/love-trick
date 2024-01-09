@@ -10,10 +10,12 @@ MYSQL_DATABASE= 数据库名
 MYSQL_USER= 数据库用户名
 MYSQL_PASSWORD= 数据库密码
 WX_ROBOT_URL= 企业微信机器人的url 如：https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=11111111-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-JWT_SECRET_KEY= xxxxxxx 随便写
+JWT_SECRET_KEY= xxxxxxx cookie加密密钥，随便写
+DRAWING_BED = BilibiliDaily 图床选择：SM：sm图床 BilibiliDaily：哔哩哔哩动态或专栏 BilibiliCover：哔哩哔哩视频封面 IMGBB：IMGBB 图床
 SM_TOKEN = SM图床注册后获取的API 地址：https://smms.app/
 BILIBILI_SESSDATA = 登录bilibili后获取的sessdata 参考：https://www.yuque.com/xlzy520/blog/fydq8g?
 BILIBILI_CSRF = 同上
+IMGBB_API = IMGBB图床API 地址：https://imgbb.com/
 ```
 SM图床和哔哩哔哩SESSDATA二选一即可
 
