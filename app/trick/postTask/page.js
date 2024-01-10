@@ -1,7 +1,7 @@
 'use client'
 
 import React, {useState} from "react";
-import {Button, Input, Textarea} from "@nextui-org/react";
+import {Button, Card, CardBody, Input, Textarea} from "@nextui-org/react";
 import {postTask, uploadImages} from "@/app/utils/apihttp";
 import {Notify, Uploader} from "react-vant";
 export default function postTaskPage() {
@@ -72,27 +72,42 @@ export default function postTaskPage() {
 
     return (
         <div className="container flex flex-col justify-center items-center px-4 h-lvh">
-            <Uploader upload={vantUpload} resultType={'dataUrl'} onDelete={imgUploadDelete}/>
-            <Input type="text" label="任务名称" placeholder="请输入任务名称" value={taskName} className="mb-5"
-                   onChange={(e) => setTaskName(e.target.value)}/>
+            <Card className={"w-full mb-5"}>
+                <CardBody>
+                    <Uploader upload={vantUpload} resultType={'dataUrl'} onDelete={imgUploadDelete}/>
+                </CardBody>
+            </Card>
+            <Card className={"w-full mb-5"}>
+                <CardBody>
+                    <Input type="text" label="任务名称" placeholder="请输入任务名称" value={taskName} className="mb-5"
+                           onChange={(e) => setTaskName(e.target.value)}/>
 
-            <Textarea
-                value={taskDetail}
-                onChange={(e) => setTaskDetail(e.target.value)}
-                label="发布任务"
-                placeholder="请输入任务描述"
-                className="mb-5"
-            />
-            <Textarea
-                value={taskReward}
-                onChange={(e) => setTaskReward(e.target.value)}
-                label="任务奖励"
-                placeholder="请输入任务奖励"
-                className="mb-5"
-            />
-            <Button color="primary" className="" onClick={pushTask}>
-                发布
-            </Button>
+                    <Textarea
+                        value={taskDetail}
+                        onChange={(e) => setTaskDetail(e.target.value)}
+                        label="发布任务"
+                        placeholder="请输入任务描述"
+                        className="mb-5"
+                    />
+                    <Textarea
+                        value={taskReward}
+                        onChange={(e) => setTaskReward(e.target.value)}
+                        label="任务奖励"
+                        placeholder="请输入任务奖励"
+                        className="mb-5"
+                    />
+                </CardBody>
+            </Card>
+            <Card className={"w-full mb-5"}>
+                <CardBody >
+                    <div className={"flex justify-center"}>
+                        <Button color="primary" className={"w-1/4"} onClick={pushTask}>
+                            发布
+                        </Button>
+                    </div>
+                </CardBody>
+            </Card>
+
         </div>
 
     );

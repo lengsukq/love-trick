@@ -4,5 +4,5 @@ export const metadata  = {
     description: 'love-trick',
 }
 export default function PostTaskLayout({children}) {
-    return <section>{children}</section>
+    return <>{children}</>
 }
