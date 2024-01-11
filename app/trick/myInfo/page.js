@@ -63,20 +63,31 @@ export default function App() {
 
     }
 
-    const updateUserInfoAct = async () => {
+    const updateUserInfoAct = () => {
+        if (isInvalidFn(username) || isInvalidFn(describeBySelf)){
+            return;
+        }
+
         try {
-            await updateUserInfo({username: username, avatar: avatar, describeBySelf: describeBySelf}).then(res => {
+            updateUserInfo({username: username, avatar: avatar, describeBySelf: describeBySelf}).then(res => {
                 console.log('updateUserInfo', res.data);
                 Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
                 if (res.code === 200){
-                    getUserInfoAct();
-                    onClose();
+                    getUserInfoAct().then(r =>{} );
+                    onOpenChange(false);
                 }
             });
 
         } catch (error) {
             console.log('updateUserInfo', error)
         }
+    }
+    const isInvalidFn = (key)=>{
+        return key === ""
+        // 要注意的是，useMemo 主要用于缓存计算昂贵的值，而不是用于创建验证函数。
+        // return React.useMemo(() => {
+        //     return key === ""
+        // }, [key])
     }
 
     return (
@@ -100,6 +111,9 @@ export default function App() {
                                     </label>
                                 </div>
                                 <Input
+                                    isInvalid={isInvalidFn(username)}
+                                    color={isInvalidFn(username) ? "danger" : "success"}
+                                    errorMessage={isInvalidFn(username) && "请输入昵称"}
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
                                     autoFocus
@@ -108,6 +122,9 @@ export default function App() {
                                     variant="bordered"
                                 />
                                 <Input
+                                    isInvalid={isInvalidFn(describeBySelf)}
+                                    color={isInvalidFn(describeBySelf) ? "danger" : "success"}
+                                    errorMessage={isInvalidFn(describeBySelf) && "请输入一言"}
                                     value={describeBySelf}
                                     onChange={(e) => setDescribeBySelf(e.target.value)}
                                     label="一言"
