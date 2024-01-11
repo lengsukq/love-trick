@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import {Button, Card, CardBody, Input, Textarea} from "@nextui-org/react";
 import {postTask, uploadImages} from "@/app/utils/apihttp";
 import {Notify, Uploader} from "react-vant";
+import {isInvalidFn} from "@/app/utils/formValidation";
 export default function postTaskPage() {
     const [taskName, setTaskName] = useState('');
     const [taskDetail, setTaskDetail] = useState('');
@@ -58,13 +59,18 @@ export default function postTaskPage() {
     const pushTask = () => {
         // console.log('vantImgData',vantImgData)
         // return
-        console.log('taskName', taskName, 'taskReward', taskReward);
-        postTask({
+        let params = {
             taskName: taskName,
             taskDetail: taskDetail,
             taskReward: taskReward,
-            taskImage: vantImgData.toString()
-        }).then(res => {
+        }
+        if (isInvalidFn(params)){
+            return;
+        }
+        params["taskImage"]=vantImgData.toString()
+
+        console.log('taskName', taskName, 'taskReward', taskReward);
+        postTask(params).then(res => {
             console.log('res', res)
             Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
         })
@@ -79,17 +85,17 @@ export default function postTaskPage() {
             </Card>
             <Card className={"w-full mb-5"}>
                 <CardBody>
-                    <Input type="text" label="任务名称" placeholder="请输入任务名称" value={taskName} className="mb-5"
+                    <Input isInvalid={isInvalidFn(taskName)} color={isInvalidFn(taskName) ? "danger" : "success"} errorMessage={isInvalidFn(taskName) && "请输入任务名称"}
+                        type="text" label="任务名称" placeholder="请输入任务名称" value={taskName} className="mb-5"
                            onChange={(e) => setTaskName(e.target.value)}/>
-
-                    <Textarea
+                    <Textarea isInvalid={isInvalidFn(taskDetail)} color={isInvalidFn(taskDetail) ? "danger" : "success"} errorMessage={isInvalidFn(taskDetail) && "请输入任务描述"}
                         value={taskDetail}
                         onChange={(e) => setTaskDetail(e.target.value)}
                         label="发布任务"
                         placeholder="请输入任务描述"
                         className="mb-5"
                     />
-                    <Textarea
+                    <Textarea isInvalid={isInvalidFn(taskReward)} color={isInvalidFn(taskReward) ? "danger" : "success"} errorMessage={isInvalidFn(taskReward) && "请输入任务奖励"}
                         value={taskReward}
                         onChange={(e) => setTaskReward(e.target.value)}
                         label="任务奖励"
