@@ -21,7 +21,6 @@ import {Notify, Uploader} from "react-vant";
 export default function App() {
     const router = useRouter()
     const searchParams = useSearchParams();
-    const pathname = usePathname();
     const [taskInfo, setTaskInfo] = useState({
         acceptanceTime: '',
         completeRemarks: '',
@@ -179,6 +178,5 @@ export default function App() {
                 </CardBody>
             </Card>
         </div>
-
     );
 }
