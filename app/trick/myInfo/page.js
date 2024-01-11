@@ -1,15 +1,29 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import {getUserInfo} from "@/app/utils/apihttp";
-import {Card, CardBody, CardFooter, Button, CardHeader, Avatar, Chip} from "@nextui-org/react";
-
-import {User} from "@nextui-org/react";
-import {Divider} from "react-vant";
+import {getUserInfo, updateUserInfo, uploadImages} from "@/app/utils/apihttp";
+import {
+    Avatar,
+    Button,
+    Card,
+    CardBody,
+    CardFooter,
+    CardHeader,
+    Chip,
+    Divider,
+    Input,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    useDisclosure
+} from "@nextui-org/react";
+import {Notify} from "react-vant";
 
 export default function App() {
     const [userInfo, setUserInfo] = useState({
         avatar: "",
-        describeByself: "",
+        describeBySelf: "",
         lover: "",
         password: "",
         registrationTime: "",
@@ -17,7 +31,6 @@ export default function App() {
         userId: 0,
         username: ""
     })
-    const [isFollowed, setIsFollowed] = React.useState(false);
     useEffect(() => {
         getUserInfoAct().then(r => {
         });
@@ -26,10 +39,96 @@ export default function App() {
         await getUserInfo().then(res => {
             console.log('getTaskList', res.data);
             setUserInfo(res.data ? res.data : {});
+            setDescribeBySelf(res.data.describeBySelf);
+            setAvatar(res.data.avatar);
+            setUsername(res.data.username)
         })
     }
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const [username, setUsername] = useState('');
+    const [avatar, setAvatar] = useState('')
+    const [describeBySelf, setDescribeBySelf] = useState('')
+
+    const avatarUpload = async (event) => {
+        const file = event.target.files[0];
+        try {
+            await uploadImages({file: file, base64: ""}).then(res => {
+                console.log('avatarUpload', res.data);
+                setAvatar(res.data.url)
+            });
+
+        } catch (error) {
+            console.log('avatarUpload', error)
+        }
+
+    }
+
+    const updateUserInfoAct = async () => {
+        try {
+            await updateUserInfo({username: username, avatar: avatar, describeBySelf: describeBySelf}).then(res => {
+                console.log('updateUserInfo', res.data);
+                Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
+                if (res.code === 200){
+                    getUserInfoAct();
+                    onClose();
+                }
+            });
+
+        } catch (error) {
+            console.log('updateUserInfo', error)
+        }
+    }
+
     return (
         <div className="p-5">
+            <Modal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                placement="center"
+            >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">编辑信息</ModalHeader>
+                            <ModalBody>
+
+                                <div className={"w-full flex justify-center"}>
+                                    <input type="file" name="file" className={"hidden"} id="upload"
+                                           onChange={avatarUpload}/>
+                                    <label htmlFor="upload">
+                                        <Avatar isBordered src={avatar} className="w-20 h-20 text-large"/>
+                                    </label>
+                                </div>
+                                <Input
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    autoFocus
+                                    label="昵称"
+                                    placeholder="请输入昵称"
+                                    variant="bordered"
+                                />
+                                <Input
+                                    value={describeBySelf}
+                                    onChange={(e) => setDescribeBySelf(e.target.value)}
+                                    label="一言"
+                                    placeholder="请输入一言"
+                                    variant="bordered"
+                                />
+                                <div className="flex py-2 px-1 justify-between">
+                                </div>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="danger" variant="flat" onClick={onClose}>
+                                    取消
+                                </Button>
+                                <Button color="primary" onClick={updateUserInfoAct}>
+                                    提交
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
             <Card className="mb-5">
                 <CardHeader className="justify-between">
                     <div className="flex gap-5">
@@ -40,19 +139,19 @@ export default function App() {
                         </div>
                     </div>
                     <Button
-                        className={isFollowed ? "bg-transparent text-foreground border-default-200" : ""}
+                        className={"bg-transparent text-foreground border-default-200"}
                         color="primary"
                         radius="full"
                         size="sm"
-                        variant={isFollowed ? "bordered" : "solid"}
-                        onPress={() => setIsFollowed(!isFollowed)}
+                        variant={"bordered"}
+                        onClick={onOpen}
                     >
-                        {isFollowed ? "联结" : "断联"}
+                        编辑
                     </Button>
                 </CardHeader>
                 <CardBody className="px-3 py-0 text-small text-default-400">
                     <p>
-                        {userInfo.describeByself}
+                        {userInfo.describeBySelf}
                     </p>
                 </CardBody>
                 <CardFooter className="gap-3">

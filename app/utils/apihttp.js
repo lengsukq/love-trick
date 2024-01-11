@@ -45,3 +45,6 @@ export async function uploadImages(params) {
         }
     });
 }
+export async function updateUserInfo(params) {
+    return await post(`/api/userInfo`, params);
+}
