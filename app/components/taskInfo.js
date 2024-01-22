@@ -1,8 +1,9 @@
 'use client'
 import React from "react";
-import {Card, CardBody, Input, Textarea,Slider} from "@nextui-org/react";
-import {isInvalidFn} from "../utils/formValidation";
+import {Card, CardBody, Input, Textarea, Slider, Button} from "@nextui-org/react";
+import {isInvalidFn} from "../utils/dataTools";
 import {Uploader} from "react-vant";
+import {TrashCan} from "@/app/components/icon/trashCan";
 
 export default function TaskInfoCom({
                                         isPost = false,
@@ -16,14 +17,18 @@ export default function TaskInfoCom({
                                         setTaskName = () => {},
                                         setTaskReward = () => {},
                                         setTaskDetail = () => {},
+                                        deleteButton = ()=>{}
                                     }) {
 
 
     return (
         <>
             <Card className={isPost ? "hidden" : "mb-5"}>
-                <CardBody className="flex justify-center">
+                <CardBody className="flex justify-between flex-row items-center">
                     <p>{taskStatus}</p>
+                    <Button isIconOnly variant="faded" onClick={() => deleteButton()}>
+                        <TrashCan></TrashCan>
+                    </Button>
                 </CardBody>
             </Card>
             <Card className="mb-5">
@@ -71,10 +76,10 @@ export default function TaskInfoCom({
                     />
                     <Slider
                         label="悬赏❤️"
-                        step={0.01}
+                        step={5}
                         maxValue={1}
                         minValue={0}
-                        defaultValue={0.4}
+                        defaultValue={0}
                         className="max-w-md"
                     />
                 </CardBody>

@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import {Button, Card, CardBody, Input, Textarea} from "@nextui-org/react";
 import {postTask, uploadImages} from "@/app/utils/apihttp";
 import {Notify, Uploader} from "react-vant";
-import {isInvalidFn} from "@/app/utils/formValidation";
+import {isInvalidFn} from "@/app/utils/dataTools";
 import TaskInfoCom from "@/app/components/taskInfo";
 export default function postTaskPage() {
     const [taskName, setTaskName] = useState('');

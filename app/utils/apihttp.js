@@ -48,3 +48,7 @@ export async function uploadImages(params) {
 export async function updateUserInfo(params) {
     return await post(`/api/userInfo`, params);
 }
+// 获取积分余额
+export async function getScore() {
+    return await get(`/api/userInfo/score`);
+}
