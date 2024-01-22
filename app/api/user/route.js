@@ -30,7 +30,7 @@ export async function GET(req) {
                 path: '/',
                 expires: Date.now() + oneDay
             })
-            return Response.json(BizResult.success(result, '登录成功'), {
+            return Response.json(BizResult.success(result[0], '登录成功'), {
                 status: 200,
                 headers: {'Set-Cookie': `cookie=${JSON.stringify(cookies().get(userEmail))}`},
             })

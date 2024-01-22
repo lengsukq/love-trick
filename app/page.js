@@ -16,10 +16,15 @@ export default function Home() {
             console.log('res',res)
             Notify.show({ type: res.code ===200?'success':'warning', message: `${res.msg}` })
             if (res.code === 200) {
+                localStorage.setItem("myUserInfo", JSON.stringify({
+                    username:username,
+                    userId:res.data.userId,
+                    userEmail:res.data.userEmail,
+                    lover:res.data.lover
+                }));
                 router.push('/trick')
             }
         })
-
     };
 
     return (
