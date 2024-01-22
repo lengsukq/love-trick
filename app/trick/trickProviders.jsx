@@ -25,7 +25,7 @@ const GlobalComponent = () => {
     // 只在路由为 "/trick" 时显示组件
     if (pathname === '/trick' || pathname === '/trick/postTask' || pathname === '/trick/myInfo') {
         return (
-            <div className="GlobalComponent flex flex-wrap gap-4 w-full justify-center absolute bottom-10 z-10">
+            <div className="GlobalComponent flex flex-wrap gap-4 w-full justify-center fixed bottom-10 z-10">
                 <Tabs selectedKey={pathname} key="lg" size="lg" aria-label="Options" onSelectionChange={(e) => toPage(e)}>
                     <Tab key="/trick" title="首页"/>
                     <Tab key="/trick/postTask" title="发布"/>

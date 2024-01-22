@@ -17,9 +17,11 @@ import {deleteTask, getTaskInfo, upDateTaskState} from "@/app/utils/apihttp";
 import {useRouter, useSearchParams} from 'next/navigation'
 import {Notify, Uploader} from "react-vant";
 import TaskInfoCom from "@/app/components/taskInfo";
-import {isInvalidFn} from "@/app/utils/formValidation";
+import {isInvalidFn} from "@/app/utils/dataTools";
+import {ConfirmBox} from "@/app/components/confirmBox";
 
 export default function App() {
+    const {userEmail} = JSON.parse(localStorage.getItem('myUserInfo'));
     const router = useRouter()
     const searchParams = useSearchParams();
     const [taskInfo, setTaskInfo] = useState({
@@ -39,6 +41,9 @@ export default function App() {
     })
     const [completeRemarks, setTCompleteRemarks] = useState('')
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const {notIsOpen, notOnOpen, notOnClose} = useDisclosure();
+    const {passIsOpen, passOnOpen, passOnClose} = useDisclosure();
+
     const [defaultValue, setDefaultValue] = useState([])
     useEffect(() => {
         getTaskInfoAct(searchParams.get('taskId')).then(r => {
@@ -53,12 +58,12 @@ export default function App() {
             setDefaultValue(arr)
         })
     }
-    const acceptTask = () => {
-        if (taskInfo.acceptanceTime && isInvalid) {
+    const acceptTask = (actType) => {
+        if ((taskInfo.acceptanceTime && isInvalid) && (actType==="complete")) {
             return;
         }
         let params = {
-            actType: taskInfo.acceptanceTime ? "complete" : 'accept',
+            actType: actType,
             taskId: taskInfo.taskId,
             taskName: taskInfo.taskName
         };
@@ -88,31 +93,27 @@ export default function App() {
     }, [completeRemarks]);
     return (
         <div className="p-5">
-            <Modal
-                size="xs"
-                placement={"center"}
-                isOpen={isOpen}
-                onClose={onClose}>
-                <ModalContent>
-                    {(onClose) => (
-                        <>
-                            <ModalHeader className="flex flex-col gap-1">提示</ModalHeader>
-                            <ModalBody>
-                                确认删除吗？
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="danger" variant="light" onPress={onClose}>
-                                    取消
-                                </Button>
-                                <Button color="primary" onPress={deleteTaskAct}>
-                                    确认
-                                </Button>
-                            </ModalFooter>
-                        </>
-                    )}
-                </ModalContent>
-            </Modal>
-
+            <ConfirmBox
+            isOpen={isOpen}
+            onClose={onClose}
+            modalText={"确认删除吗？"}
+            confirmAct={deleteTaskAct}
+            cancelAct={onClose}
+            ></ConfirmBox>
+            <ConfirmBox
+                isOpen={notIsOpen}
+                onClose={notOnClose}
+                modalText={"确认驳回吗？"}
+                confirmAct={()=>acceptTask("notPassed")}
+                cancelAct={notOnClose}
+            ></ConfirmBox>
+            <ConfirmBox
+                isOpen={passIsOpen}
+                onClose={passOnClose}
+                modalText={"确认通过吗？"}
+                confirmAct={()=>acceptTask("pass")}
+                cancelAct={passOnClose}
+            ></ConfirmBox>
             <TaskInfoCom
                 acceptanceTime={taskInfo.acceptanceTime}
                 completeRemarks={completeRemarks}
@@ -123,10 +124,9 @@ export default function App() {
                 taskStatus={taskInfo.taskStatus}
                 defaultValue={defaultValue}
                 setTCompleteRemarks={setTCompleteRemarks}
-                onOpen={onOpen}
-                acceptTask={acceptTask}
+                deleteButton={onOpen}
             ></TaskInfoCom>
-            <Card className={"mb-5"}>
+            <Card className={userEmail===taskInfo.publisherEmail?"hidden":"mb-5"}>
                 <CardBody className="flex justify-center items-center">
                     <Textarea
                         isInvalid={isInvalidFn(taskInfo.completeRemarks)}
@@ -140,12 +140,20 @@ export default function App() {
                         className={taskInfo.acceptanceTime ? "mb-5" : "hidden"}
                         value={completeRemarks}
                     />
-                    <div className="flex justify-evenly w-full">
-                        <Button color="danger" className={"w-1/4"}
-                                onClick={() => onOpen()}>删除</Button>
+                    <div className={"flex justify-evenly w-full"}>
                         <Button color="primary" className={taskInfo.completionTime ? "hidden" : "w-1/4"}
-                                onClick={() => acceptTask()}>
+                                onClick={() => acceptTask(taskInfo.acceptanceTime ? 'complete' : 'accept')}>
                             {taskInfo.acceptanceTime ? '完成' : '接受'}</Button>
+                    </div>
+                </CardBody>
+            </Card>
+            <Card className={userEmail===taskInfo.publisherEmail&&taskInfo.taskStatus==="待核验"?"mb-5":"hidden"}>
+                <CardBody className="flex justify-center items-center">
+                    <div className={"flex justify-evenly w-full"}>
+                        <Button color="danger" className={"w-1/4"}
+                                onClick={notOnOpen}>驳回</Button>
+                        <Button color="primary" className={ "w-1/4"}
+                                onClick={passOnOpen}>通过</Button>
                     </div>
                 </CardBody>
             </Card>

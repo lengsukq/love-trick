@@ -5,6 +5,7 @@ import {cookieTools} from "@/app/utils/cookieTools";
 import dayjs from "dayjs";
 import {sendMsg} from "@/app/utils/sendMSgByWXRobot";
 
+
 export async function DELETE(req) {
     // const {userName} = cookieTools(req);
     const {searchParams} = new URL(req.url)
@@ -20,9 +21,8 @@ export async function DELETE(req) {
         console.log(error);
         return Response.json(BizResult.fail(''))
     }
-
-
 }
+
 export async function GET(req) {
     const {searchParams} = new URL(req.url)
     const taskId = searchParams.get('taskId')
@@ -47,33 +47,57 @@ export async function GET(req) {
     }
 }
 
+// 接受或完成任务
 export async function POST(req) {
-    const {userEmail,userName} = cookieTools(req);
+    const {userEmail, userName} = cookieTools(req);
     const nowTime = dayjs().format('YYYY-MM-DD HH:mm:ss')
     const jsonData = await req.json();
     console.log('jsonData', jsonData)
-    const {actType, taskId, completeRemarks,taskName} = JSON.parse(jsonData);
+    const {actType, taskId, completeRemarks, taskName} = JSON.parse(jsonData);
     try {
-        if (actType === 'accept') {
+
+        const actTypeObj = {
+            accept: ["已接受", `${userName}已接受任务：${taskName}`, "接受任务成功"],
+            complete: ["已完成", `${userName}已完成任务：${taskName}——等待发布者核验任务情况`, "已完成任务，等待发布者核验任务情况"],
+            notPassed: ["未通过", `任务：${taskName}——已被驳回`, "已驳回任务"],
+            pass: ["已核验", `${userName}已核验任务：${taskName}`, "已核验任务"]
+        }
+        const taskDetail = await executeQuery({
+            // 查询任务列表
+            query: 'SELECT * FROM tasklist WHERE taskId = ?',
+            values: [taskId]
+        });
+        const {publisherEmail,receiverEmail} = {...taskDetail[0]}
+        if (actType === 'accept' && publisherEmail!==userEmail) {
             const result = await executeQuery({
                 query: 'UPDATE tasklist SET receiverEmail = ?, acceptanceTime = ? ,taskStatus = ? WHERE tasklist.taskId = ?',
-                values: [userEmail, nowTime,"已接受", taskId]
+                values: [userEmail, nowTime, "已接受", taskId]
             });
-            console.log("result", result[0]);
-            await sendMsg(`${userName}已接受任务：${taskName}`);
 
-            return Response.json(BizResult.success('', '接受任务成功'))
-        } else if (actType === 'complete') {
+
+        } else if (actType === 'complete' && publisherEmail!==userEmail) {
             const result = await executeQuery({
                 query: 'UPDATE tasklist SET completeRemarks = ?, completionTime = ? ,taskStatus = ? WHERE tasklist.taskId = ?',
                 values: [completeRemarks, nowTime, "待核验", taskId]
             });
-            console.log("result", result[0]);
-            await sendMsg(`${userName}已完成任务：${taskName}，等待发布者核验任务情况`);
 
-            return Response.json(BizResult.success('', '已完成任务，等待发布者核验任务情况'))
+        } else if (actType === 'notPassed' && publisherEmail===userEmail) {
+            const result = await executeQuery({
+                query: 'UPDATE tasklist SET completeRemarks = ?, completionTime = ? ,taskStatus = ? WHERE tasklist.taskId = ?',
+                values: ["", "", "已接受", taskId]
+            });
+        } else if (actType === 'pass' && publisherEmail===userEmail){
+            const result = await executeQuery({
+                query: 'UPDATE tasklist SET taskStatus = ? WHERE tasklist.taskId = ?',
+                values: ["已核验", taskId]
+            });
+        }else{
+            return Response.json(BizResult.fail('', '系统异常'))
         }
 
+        await sendMsg(actTypeObj[actType][1]);
+
+        return Response.json(BizResult.success('', actTypeObj[actType][2]))
     } catch (error) {
         console.log(error);
         return Response.json(BizResult.fail('', '系统异常'))

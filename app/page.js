@@ -20,7 +20,8 @@ export default function Home() {
                     username:username,
                     userId:res.data.userId,
                     userEmail:res.data.userEmail,
-                    lover:res.data.lover
+                    lover:res.data.lover,
+                    score:res.data.score,
                 }));
                 router.push('/trick')
             }
