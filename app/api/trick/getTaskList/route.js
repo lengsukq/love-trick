@@ -14,10 +14,9 @@ export async function GET(req) {
             query: 'SELECT * FROM tasklist WHERE publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ? ORDER BY taskId DESC',
             values: [userEmail, lover, userEmail]
         });
-        // console.log('result',result)
         result.forEach(item => {
             item.taskImage = item.taskImage.split(',');
-            item["taskStatus"] = item.completionTime ? '已完成' : (item.acceptanceTime ? '已接受' : '未开始')
+            item["isApprove"] = item.isApprove !== 0;
         })
 
         return Response.json(BizResult.success(result, '获取列表成功'))

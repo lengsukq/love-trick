@@ -132,7 +132,7 @@ export default function App() {
                         isInvalid={isInvalidFn(taskInfo.completeRemarks)}
                         color={isInvalidFn(completeRemarks) ? "danger" : "success"}
                         errorMessage={isInvalidFn(completeRemarks) && "请输入完成备注"}
-                        isDisabled={completeRemarks}
+                        isDisabled={taskInfo.completeRemarks}
                         onChange={(e) => setTCompleteRemarks(e.target.value)}
                         label="完成备注"
                         labelPlacement="outside"

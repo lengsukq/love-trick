@@ -37,7 +37,7 @@ export async function GET(req) {
         });
         result.forEach(item => {
             item.taskImage = item.taskImage.split(',');
-            item["taskStatus"] = item.completionTime ? '已完成' : (item.acceptanceTime ? '已接受' : '未开始')
+            item["isApprove"] = item.isApprove !== 0;
         })
 
         return Response.json(BizResult.success(result[0], '获取任务详情成功'))
@@ -56,8 +56,8 @@ export async function POST(req) {
     try {
         if (actType === 'accept') {
             const result = await executeQuery({
-                query: 'UPDATE tasklist SET receiverEmail = ?, acceptanceTime = ? WHERE tasklist.taskId = ?',
-                values: [userEmail, nowTime, taskId]
+                query: 'UPDATE tasklist SET receiverEmail = ?, acceptanceTime = ? ,taskStatus = ? WHERE tasklist.taskId = ?',
+                values: [userEmail, nowTime,"已接受", taskId]
             });
             console.log("result", result[0]);
             await sendMsg(`${userName}已接受任务：${taskName}`);
@@ -65,13 +65,13 @@ export async function POST(req) {
             return Response.json(BizResult.success('', '接受任务成功'))
         } else if (actType === 'complete') {
             const result = await executeQuery({
-                query: 'UPDATE tasklist SET completeRemarks = ?, completionTime = ? WHERE tasklist.taskId = ?',
-                values: [completeRemarks, nowTime, taskId]
+                query: 'UPDATE tasklist SET completeRemarks = ?, completionTime = ? ,taskStatus = ? WHERE tasklist.taskId = ?',
+                values: [completeRemarks, nowTime, "待核验", taskId]
             });
             console.log("result", result[0]);
-            await sendMsg(`${userName}已完成任务：${taskName}`);
+            await sendMsg(`${userName}已完成任务：${taskName}，等待发布者核验任务情况`);
 
-            return Response.json(BizResult.success('', '已完成任务'))
+            return Response.json(BizResult.success('', '已完成任务，等待发布者核验任务情况'))
         }
 
     } catch (error) {

@@ -24,7 +24,7 @@ export default function App() {
     }
 
     const onPressHandler = (item) => {
-        console.log("item pressed", item)
+        console.log("item pressed", item);
         router.push(`/trick/taskInfo?taskId=${item.taskId}`)
     }
 

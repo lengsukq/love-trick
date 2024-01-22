@@ -1,6 +1,6 @@
 'use client'
 import React from "react";
-import {Card, CardBody, Input, Textarea} from "@nextui-org/react";
+import {Card, CardBody, Input, Textarea,Slider} from "@nextui-org/react";
 import {isInvalidFn} from "../utils/formValidation";
 import {Uploader} from "react-vant";
 
@@ -68,6 +68,14 @@ export default function TaskInfoCom({
                               label="任务奖励"
                               placeholder="请输入任务奖励"
                               className="mb-5"
+                    />
+                    <Slider
+                        label="悬赏❤️"
+                        step={0.01}
+                        maxValue={1}
+                        minValue={0}
+                        defaultValue={0.4}
+                        className="max-w-md"
                     />
                 </CardBody>
             </Card>
