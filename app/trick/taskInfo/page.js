@@ -17,6 +17,7 @@ import {deleteTask, getTaskInfo, upDateTaskState} from "@/app/utils/apihttp";
 import {useRouter, useSearchParams} from 'next/navigation'
 import {Notify, Uploader} from "react-vant";
 import TaskInfoCom from "@/app/components/taskInfo";
+import {isInvalidFn} from "@/app/utils/formValidation";
 
 export default function App() {
     const router = useRouter()
@@ -125,6 +126,29 @@ export default function App() {
                 onOpen={onOpen}
                 acceptTask={acceptTask}
             ></TaskInfoCom>
+            <Card className={"mb-5"}>
+                <CardBody className="flex justify-center items-center">
+                    <Textarea
+                        isInvalid={isInvalidFn(taskInfo.completeRemarks)}
+                        color={isInvalidFn(completeRemarks) ? "danger" : "success"}
+                        errorMessage={isInvalidFn(completeRemarks) && "请输入完成备注"}
+                        isDisabled={completeRemarks}
+                        onChange={(e) => setTCompleteRemarks(e.target.value)}
+                        label="完成备注"
+                        labelPlacement="outside"
+                        placeholder="请输入完成备注"
+                        className={taskInfo.acceptanceTime ? "mb-5" : "hidden"}
+                        value={completeRemarks}
+                    />
+                    <div className="flex justify-evenly w-full">
+                        <Button color="danger" className={"w-1/4"}
+                                onClick={() => onOpen()}>删除</Button>
+                        <Button color="primary" className={taskInfo.completionTime ? "hidden" : "w-1/4"}
+                                onClick={() => acceptTask()}>
+                            {taskInfo.acceptanceTime ? '完成' : '接受'}</Button>
+                    </div>
+                </CardBody>
+            </Card>
         </div>
     );
 }
