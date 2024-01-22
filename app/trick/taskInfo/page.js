@@ -4,12 +4,6 @@ import {
     Button,
     Card,
     CardBody,
-    Input,
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
     Textarea,
     useDisclosure
 } from "@nextui-org/react";
@@ -41,8 +35,9 @@ export default function App() {
     })
     const [completeRemarks, setTCompleteRemarks] = useState('')
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const {notIsOpen, notOnOpen, notOnClose} = useDisclosure();
     const {passIsOpen, passOnOpen, passOnClose} = useDisclosure();
+    const notModal = useDisclosure()
+    const passModal = useDisclosure()
 
     const [defaultValue, setDefaultValue] = useState([])
     useEffect(() => {
@@ -101,18 +96,18 @@ export default function App() {
             cancelAct={onClose}
             ></ConfirmBox>
             <ConfirmBox
-                isOpen={notIsOpen}
-                onClose={notOnClose}
+                isOpen={notModal.isOpen}
+                onClose={notModal.onClose}
                 modalText={"确认驳回吗？"}
                 confirmAct={()=>acceptTask("notPassed")}
-                cancelAct={notOnClose}
+                cancelAct={notModal.onClose}
             ></ConfirmBox>
             <ConfirmBox
-                isOpen={passIsOpen}
-                onClose={passOnClose}
+                isOpen={passModal.isOpen}
+                onClose={passModal.onClose}
                 modalText={"确认通过吗？"}
                 confirmAct={()=>acceptTask("pass")}
-                cancelAct={passOnClose}
+                cancelAct={passModal.onClose}
             ></ConfirmBox>
             <TaskInfoCom
                 acceptanceTime={taskInfo.acceptanceTime}
@@ -151,9 +146,9 @@ export default function App() {
                 <CardBody className="flex justify-center items-center">
                     <div className={"flex justify-evenly w-full"}>
                         <Button color="danger" className={"w-1/4"}
-                                onClick={notOnOpen}>驳回</Button>
+                                onClick={notModal.onOpen}>驳回</Button>
                         <Button color="primary" className={ "w-1/4"}
-                                onClick={passOnOpen}>通过</Button>
+                                onClick={passModal.onOpen}>通过</Button>
                     </div>
                 </CardBody>
             </Card>
