@@ -15,8 +15,7 @@ import {isInvalidFn} from "@/app/utils/dataTools";
 import {ConfirmBox} from "@/app/components/confirmBox";
 
 export default function App() {
-    const {userEmail} = JSON.parse(localStorage.getItem('myUserInfo'));
-    const router = useRouter()
+    const [userEmail, setUserEmail] = useState('')
     const searchParams = useSearchParams();
     const [taskInfo, setTaskInfo] = useState({
         acceptanceTime: '',
@@ -43,6 +42,8 @@ export default function App() {
     useEffect(() => {
         getTaskInfoAct(searchParams.get('taskId')).then(r => {
         });
+        const {userEmail} = JSON.parse(localStorage.getItem('myUserInfo'));
+        setUserEmail(userEmail);
     }, [])
     const getTaskInfoAct = async (taskId) => {
         await getTaskInfo({taskId: taskId}).then(res => {
