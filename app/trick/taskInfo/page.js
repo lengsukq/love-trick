@@ -14,9 +14,9 @@ import {
     useDisclosure
 } from "@nextui-org/react";
 import {deleteTask, getTaskInfo, upDateTaskState} from "@/app/utils/apihttp";
-import {usePathname, useRouter, useSearchParams} from 'next/navigation'
+import {useRouter, useSearchParams} from 'next/navigation'
 import {Notify, Uploader} from "react-vant";
-
+import TaskInfoCom from "@/app/components/taskInfo";
 
 export default function App() {
     const router = useRouter()
@@ -38,7 +38,7 @@ export default function App() {
     })
     const [completeRemarks, setTCompleteRemarks] = useState('')
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const [defaultValue,setDefaultValue] = useState([])
+    const [defaultValue, setDefaultValue] = useState([])
     useEffect(() => {
         getTaskInfoAct(searchParams.get('taskId')).then(r => {
         });
@@ -47,13 +47,13 @@ export default function App() {
         await getTaskInfo({taskId: taskId}).then(res => {
             setTaskInfo(res.data);
             setTCompleteRemarks(res.data.completeRemarks);
-            let arr = res.data.taskImage.map(item => ({url:item}))
-            console.log('获取图片数组',arr)
+            let arr = res.data.taskImage.map(item => ({url: item}))
+            console.log('获取图片数组', arr)
             setDefaultValue(arr)
         })
     }
     const acceptTask = () => {
-        if (taskInfo.acceptanceTime && isInvalid){
+        if (taskInfo.acceptanceTime && isInvalid) {
             return;
         }
         let params = {
@@ -111,72 +111,20 @@ export default function App() {
                     )}
                 </ModalContent>
             </Modal>
-            <Card className="mb-5">
-                <CardBody className="flex justify-center">
-                    <p>{taskInfo.taskStatus}</p>
-                </CardBody>
-            </Card>
-            <Card className="mb-5">
-                <CardBody className="flex justify-center">
-                    <Uploader
-                        value={defaultValue}
-                        deletable={false}
-                        showUpload={false}
-                    />
-                </CardBody>
-            </Card>
-            <Card className="mb-5">
-                <CardBody className="flex justify-center">
-                    <Input type="text" isDisabled
-                           labelPlacement="outside"
-                           label="任务名称"
-                           placeholder="请输入任务名称"
-                           value={taskInfo.taskName}
-                           className="mb-5"/>
-                    <Textarea
-                        isDisabled
-                        label="任务描述"
-                        labelPlacement="outside"
-                        placeholder="请输入任务描述"
-                        className="mb-5"
-                        value={taskInfo.taskDetail}
-                    />
-                    <Textarea
-                        isDisabled
-                        label="任务奖励"
-                        labelPlacement="outside"
-                        placeholder="请输入任务奖励"
-                        className="mb-5"
-                        value={taskInfo.taskReward}
-                    />
-                </CardBody>
-            </Card>
 
-            <Card className="mb-5">
-                <CardBody className="flex justify-center items-center">
-                    <Textarea
-                        isInvalid={isInvalid}
-                        color={isInvalid ? "danger" : "success"}
-                        errorMessage={isInvalid && "请输入完成备注"}
-                        isDisabled={taskInfo.completionTime}
-                        onChange={(e) => setTCompleteRemarks(e.target.value)}
-                        label="完成备注"
-                        labelPlacement="outside"
-                        placeholder="请输入完成备注"
-                        className={taskInfo.acceptanceTime ? "mb-5" : "hidden"}
-                        value={completeRemarks}
-                    />
-                    <div className="flex justify-evenly w-full">
-                        <Button color="danger" className={"w-1/4"}
-                                onClick={() => onOpen()}>删除</Button>
-                        <Button color="primary" className={taskInfo.completionTime ? "hidden" : "w-1/4"}
-                                onClick={() => acceptTask()}>
-                            {taskInfo.acceptanceTime ? '完成' : '接受'}</Button>
-                    </div>
-
-
-                </CardBody>
-            </Card>
+            <TaskInfoCom
+                acceptanceTime={taskInfo.acceptanceTime}
+                completeRemarks={completeRemarks}
+                completionTime={taskInfo.completionTime}
+                taskDetail={taskInfo.taskDetail}
+                taskName={taskInfo.taskName}
+                taskReward={taskInfo.taskReward}
+                taskStatus={taskInfo.taskStatus}
+                defaultValue={defaultValue}
+                setTCompleteRemarks={setTCompleteRemarks}
+                onOpen={onOpen}
+                acceptTask={acceptTask}
+            ></TaskInfoCom>
         </div>
     );
 }
