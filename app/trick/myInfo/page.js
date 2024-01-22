@@ -25,11 +25,11 @@ export default function App() {
         avatar: "",
         describeBySelf: "",
         lover: "",
-        password: "",
         registrationTime: "",
         userEmail: "",
         userId: 0,
-        username: ""
+        username: "",
+        score:"",
     })
     useEffect(() => {
         getUserInfoAct().then(r => {
@@ -102,7 +102,6 @@ export default function App() {
                         <>
                             <ModalHeader className="flex flex-col gap-1">编辑信息</ModalHeader>
                             <ModalBody>
-
                                 <div className={"w-full flex justify-center"}>
                                     <input type="file" name="file" className={"hidden"} id="upload"
                                            onChange={avatarUpload}/>
@@ -151,7 +150,8 @@ export default function App() {
                     <div className="flex gap-5">
                         <Avatar isBordered radius="full" size="md" src={userInfo.avatar}/>
                         <div className="flex flex-col gap-1 items-start justify-center">
-                            <h4 className="text-small font-semibold leading-none text-default-600">{userInfo.username}</h4>
+                            <h4 className="text-small font-semibold leading-none text-default-600">{userInfo.username}  <span className={"text-default-400"}>❤️{userInfo.score}</span></h4>
+
                             <h5 className="text-small tracking-tight text-default-400">{userInfo.userEmail}</h5>
                         </div>
                     </div>
@@ -161,8 +161,7 @@ export default function App() {
                         radius="full"
                         size="sm"
                         variant={"bordered"}
-                        onClick={onOpen}
-                    >
+                        onClick={onOpen}>
                         编辑
                     </Button>
                 </CardHeader>

@@ -14,7 +14,12 @@
         /*--background-end-rgb: 0, 0, 0;*/
     }
 }
-
+/*唤起键盘时，高度变小，隐藏全局导航*/
+@media only screen and (max-height: 600px) {
+    .GlobalComponent {
+        display: none;
+    }
+}
 body {
     /*color: rgb(var(--foreground-rgb));*/
     /*background: linear-gradient(*/
