@@ -27,6 +27,8 @@ export async function POST(req) {
         return Response.json(BizResult.fail(''))
     }
 }
+
+// 获取用户信息
 export async function GET(req) {
     const {userEmail} = await cookieTools(req);
     try {
@@ -36,7 +38,7 @@ export async function GET(req) {
             values: [userEmail]
         });
         console.log('result', result[0])
-
+        delete result[0].password;
         return Response.json(BizResult.success(result[0], '获取用户信息成功'))
     } catch (error) {
         console.log(error);
