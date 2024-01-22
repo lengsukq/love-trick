@@ -5,6 +5,7 @@ import {Button, Card, CardBody, Input, Textarea} from "@nextui-org/react";
 import {postTask, uploadImages} from "@/app/utils/apihttp";
 import {Notify, Uploader} from "react-vant";
 import {isInvalidFn} from "@/app/utils/formValidation";
+import TaskInfoCom from "@/app/components/taskInfo";
 export default function postTaskPage() {
     const [taskName, setTaskName] = useState('');
     const [taskDetail, setTaskDetail] = useState('');
@@ -77,33 +78,14 @@ export default function postTaskPage() {
     }
 
     return (
-        <div className="container flex flex-col justify-center items-center px-4 h-lvh">
-            <Card className={"w-full mb-5"}>
-                <CardBody>
-                    <Uploader upload={vantUpload} resultType={'dataUrl'} onDelete={imgUploadDelete}/>
-                </CardBody>
-            </Card>
-            <Card className={"w-full mb-5"}>
-                <CardBody>
-                    <Input isInvalid={isInvalidFn(taskName)} color={isInvalidFn(taskName) ? "danger" : "success"} errorMessage={isInvalidFn(taskName) && "请输入任务名称"}
-                        type="text" label="任务名称" placeholder="请输入任务名称" value={taskName} className="mb-5"
-                           onChange={(e) => setTaskName(e.target.value)}/>
-                    <Textarea isInvalid={isInvalidFn(taskDetail)} color={isInvalidFn(taskDetail) ? "danger" : "success"} errorMessage={isInvalidFn(taskDetail) && "请输入任务描述"}
-                        value={taskDetail}
-                        onChange={(e) => setTaskDetail(e.target.value)}
-                        label="发布任务"
-                        placeholder="请输入任务描述"
-                        className="mb-5"
-                    />
-                    <Textarea isInvalid={isInvalidFn(taskReward)} color={isInvalidFn(taskReward) ? "danger" : "success"} errorMessage={isInvalidFn(taskReward) && "请输入任务奖励"}
-                        value={taskReward}
-                        onChange={(e) => setTaskReward(e.target.value)}
-                        label="任务奖励"
-                        placeholder="请输入任务奖励"
-                        className="mb-5"
-                    />
-                </CardBody>
-            </Card>
+        <div className="p-5">
+            <TaskInfoCom vantUpload={vantUpload}
+                         imgUploadDelete={imgUploadDelete}
+                         isPost={true}
+                         setTaskName={setTaskName}
+                         setTaskReward={setTaskReward}
+                         setTaskDetail={setTaskDetail}>
+            </TaskInfoCom>
             <Card className={"w-full mb-5"}>
                 <CardBody >
                     <div className={"flex justify-center"}>
@@ -113,7 +95,6 @@ export default function postTaskPage() {
                     </div>
                 </CardBody>
             </Card>
-
         </div>
 
     );

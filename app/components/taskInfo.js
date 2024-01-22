@@ -1,26 +1,21 @@
 'use client'
 import React from "react";
-import {Button, Card, CardBody, Input, Textarea} from "@nextui-org/react";
+import {Card, CardBody, Input, Textarea} from "@nextui-org/react";
 import {isInvalidFn} from "../utils/formValidation";
 import {Uploader} from "react-vant";
 
 export default function TaskInfoCom({
-                                        isPost = false, acceptanceTime = '',
-                                        completeRemarks = '',
-                                        completionTime = '',
-                                        creationTime = "",
-                                        publisherEmail = "",
-                                        publisherName = "",
-                                        receiverEmail = '',
+                                        isPost = false,
                                         taskDetail = "",
-                                        taskId = '',
-                                        taskImage = [],
                                         taskName = "",
                                         taskReward = "",
                                         taskStatus = "未开始",
                                         defaultValue = [{url: ""}],
-                                        onOpen,
-                                        acceptTask
+                                        vantUpload = () => {},
+                                        imgUploadDelete = () => {},
+                                        setTaskName = () => {},
+                                        setTaskReward = () => {},
+                                        setTaskDetail = () => {},
                                     }) {
 
 
@@ -33,61 +28,47 @@ export default function TaskInfoCom({
             </Card>
             <Card className="mb-5">
                 <CardBody className="flex justify-center">
-                    <Uploader
-                        value={defaultValue}
-                        deletable={false}
-                        showUpload={false}
-                    />
+                    {isPost ? <Uploader
+                            upload={vantUpload}
+                            resultType={'dataUrl'}
+                            onDelete={imgUploadDelete}/>
+                        : <Uploader
+                            value={defaultValue}
+                            deletable={false}
+                            showUpload={false}
+                        />}
                 </CardBody>
             </Card>
             <Card className="mb-5">
-                <CardBody className="flex justify-center">
-                    <Input type="text" isDisabled
-                           labelPlacement="outside"
-                           label="任务名称"
-                           placeholder="请输入任务名称"
-                           value={taskName}
-                           className="mb-5"/>
-                    <Textarea
-                        isDisabled
-                        label="任务描述"
-                        labelPlacement="outside"
-                        placeholder="请输入任务描述"
-                        className="mb-5"
-                        value={taskDetail}
-                    />
-                    <Textarea
-                        isDisabled
-                        label="任务奖励"
-                        labelPlacement="outside"
-                        placeholder="请输入任务奖励"
-                        className="mb-5"
-                        value={taskReward}
-                    />
-                </CardBody>
-            </Card>
+                <CardBody>
 
-            <Card className={isPost ? "hidden" : "mb-5"}>
-                <CardBody className="flex justify-center items-center">
-                    <Textarea
-                        isInvalid={isInvalidFn(completionTime)}
-                        color={isInvalidFn(completionTime) ? "danger" : "success"}
-                        errorMessage={isInvalidFn(completionTime) && "请输入完成备注"}
-                        isDisabled={completionTime}
-                        onChange={(e) => setTCompleteRemarks(e.target.value)}
-                        label="完成备注"
-                        labelPlacement="outside"
-                        placeholder="请输入完成备注"
-                        className={acceptanceTime ? "mb-5" : "hidden"}
-                        value={completeRemarks}
+                    <Input isDisabled={!isPost}
+                           isInvalid={isPost?isInvalidFn(taskName):false}
+                           color={isPost?(isInvalidFn(taskName) ? "danger" : "success"):"default"}
+                           errorMessage={isPost?isInvalidFn(taskName) && "请输入任务名称":""}
+                           type="text" label="任务名称" placeholder="请输入任务名称"
+                           value={taskName} className="mb-5"
+                           onChange={(e) => setTaskName(e.target.value)}/>
+                    <Textarea isDisabled={!isPost}
+                              isInvalid={isPost?isInvalidFn(taskDetail):false}
+                              color={isPost?(isInvalidFn(taskDetail) ? "danger" : "success"):"default"}
+                              errorMessage={isPost?isInvalidFn(taskDetail) && "请输入任务描述":""}
+                              value={taskDetail}
+                              onChange={(e) => setTaskDetail(e.target.value)}
+                              label="发布任务"
+                              placeholder="请输入任务描述"
+                              className="mb-5"
                     />
-                    <div className="flex justify-evenly w-full">
-                        <Button color="danger" className={"w-1/4"}
-                                onClick={() => onOpen()}>删除</Button>
-                        <Button color="primary" className={completionTime ? "hidden" : "w-1/4"}
-                                onClick={() => acceptTask()}>
-                            {acceptanceTime ? '完成' : '接受'}</Button>
-                    </div>
+                    <Textarea isDisabled={!isPost}
+                              isInvalid={isPost?isInvalidFn(taskReward):false}
+                              color={isPost?(isInvalidFn(taskReward) ? "danger" : "success"):"default"}
+                              errorMessage={isPost?isInvalidFn(taskReward) && "请输入任务奖励":""}
+                              value={taskReward}
+                              onChange={(e) => setTaskReward(e.target.value)}
+                              label="任务奖励"
+                              placeholder="请输入任务奖励"
+                              className="mb-5"
+                    />
                 </CardBody>
             </Card>
         </>
