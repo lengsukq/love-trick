@@ -39,11 +39,7 @@ export async function GET(req) {
         return Response.json(BizResult.fail('', '未获取到任务Id'))
     }
     try {
-        const result = await executeQuery({
-            // 查询任务列表
-            query: 'SELECT * FROM tasklist WHERE taskId = ?',
-            values: [taskId]
-        });
+        const result = await getTaskDetail(taskId)
         result.forEach(item => {
             item.taskImage = item.taskImage.split(',');
             item["isApprove"] = item.isApprove !== 0;

@@ -50,7 +50,7 @@ export async function getTaskDetail(taskId) {
             query: 'SELECT * FROM tasklist WHERE taskId = ?',
             values: [taskId]
         });
-        console.log('getScore', result)
+        console.log('getTaskDetail', result)
         return result;
     } catch (e) {
         console.log(e)
