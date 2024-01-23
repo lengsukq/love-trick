@@ -18,8 +18,10 @@ export async function subtractScore(value, userEmail) {
             query: 'UPDATE userinfo SET score = score - ? WHERE userEmail = ?',
             values: [value,userEmail]
         });
-    } catch (e) {
 
+        return await getScore(userEmail);
+    } catch (e) {
+        return e
     }
 }
 export async function getScore( userEmail) {

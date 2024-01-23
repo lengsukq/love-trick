@@ -15,7 +15,8 @@ import {isInvalidFn} from "@/app/utils/dataTools";
 import {ConfirmBox} from "@/app/components/confirmBox";
 
 export default function App() {
-    const [userEmail, setUserEmail] = useState('')
+    const router = useRouter();
+    const [userEmail, setUserEmail] = useState('');
     const searchParams = useSearchParams();
     const [taskInfo, setTaskInfo] = useState({
         acceptanceTime: '',
@@ -30,14 +31,13 @@ export default function App() {
         taskImage: [],
         taskName: "",
         taskReward: "",
-        taskStatus: "未开始"
+        taskScore:5,
+        taskStatus: "未开始",
     })
     const [completeRemarks, setTCompleteRemarks] = useState('')
     const {isOpen, onOpen, onClose} = useDisclosure();
-    const {passIsOpen, passOnOpen, passOnClose} = useDisclosure();
     const notModal = useDisclosure()
     const passModal = useDisclosure()
-
     const [defaultValue, setDefaultValue] = useState([])
     useEffect(() => {
         getTaskInfoAct(searchParams.get('taskId')).then(r => {
@@ -52,6 +52,7 @@ export default function App() {
             let arr = res.data.taskImage.map(item => ({url: item}))
             console.log('获取图片数组', arr)
             setDefaultValue(arr)
+
         })
     }
     const acceptTask = (actType) => {
@@ -66,7 +67,8 @@ export default function App() {
         if (completeRemarks) {
             params['completeRemarks'] = completeRemarks
         }
-
+        passModal.onClose;
+        notModal.onClose
         upDateTaskState(params).then(res => {
             Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
             if (res.code === 200) {
@@ -112,15 +114,14 @@ export default function App() {
             ></ConfirmBox>
             <TaskInfoCom
                 acceptanceTime={taskInfo.acceptanceTime}
-                completeRemarks={completeRemarks}
                 completionTime={taskInfo.completionTime}
                 taskDetail={taskInfo.taskDetail}
                 taskName={taskInfo.taskName}
                 taskReward={taskInfo.taskReward}
                 taskStatus={taskInfo.taskStatus}
                 defaultValue={defaultValue}
-                setTCompleteRemarks={setTCompleteRemarks}
                 deleteButton={onOpen}
+                taskScore={taskInfo.taskScore}
             ></TaskInfoCom>
             <Card className={userEmail===taskInfo.publisherEmail?"hidden":"mb-5"}>
                 <CardBody className="flex justify-center items-center">

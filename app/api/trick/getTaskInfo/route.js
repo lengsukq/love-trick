@@ -4,6 +4,7 @@ import executeQuery from "@/app/utils/db";
 import {cookieTools} from "@/app/utils/cookieTools";
 import dayjs from "dayjs";
 import {sendMsg} from "@/app/utils/sendMSgByWXRobot";
+import {addScore} from "@/app/utils/scoreByServer";
 
 
 export async function DELETE(req) {
@@ -67,7 +68,7 @@ export async function POST(req) {
             query: 'SELECT * FROM tasklist WHERE taskId = ?',
             values: [taskId]
         });
-        const {publisherEmail,receiverEmail} = {...taskDetail[0]}
+        const {publisherEmail,receiverEmail,taskScore} = {...taskDetail[0]}
         if (actType === 'accept' && publisherEmail!==userEmail) {
             const result = await executeQuery({
                 query: 'UPDATE tasklist SET receiverEmail = ?, acceptanceTime = ? ,taskStatus = ? WHERE tasklist.taskId = ?',
@@ -91,6 +92,7 @@ export async function POST(req) {
                 query: 'UPDATE tasklist SET taskStatus = ? WHERE tasklist.taskId = ?',
                 values: ["已核验", taskId]
             });
+            await addScore(taskScore,receiverEmail);
         }else{
             return Response.json(BizResult.fail('', '系统异常'))
         }
