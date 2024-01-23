@@ -15,7 +15,7 @@ export async function getUserInfo() {
 }
 // 默认application/json
 export async function postTask(params) {
-    return post(`/api/trick/postTask`, JSON.stringify(params));
+    return post(`/api/trick/postTask`, params);
 }
 
 // 获取任务列表

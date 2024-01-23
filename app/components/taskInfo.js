@@ -1,15 +1,17 @@
 'use client'
-import React from "react";
-import {Card, CardBody, Input, Textarea, Slider, Button} from "@nextui-org/react";
+import React, {useEffect, useState} from "react";
+import {Button, Card, CardBody, Input, Slider, Textarea} from "@nextui-org/react";
 import {isInvalidFn} from "../utils/dataTools";
 import {Uploader} from "react-vant";
 import {TrashCan} from "@/app/components/icon/trashCan";
+import {getScore} from "@/app/utils/apihttp";
 
 export default function TaskInfoCom({
                                         isPost = false,
                                         taskDetail = "",
                                         taskName = "",
                                         taskReward = "",
+                                        taskScore=0,
                                         taskStatus = "未开始",
                                         defaultValue = [{url: ""}],
                                         vantUpload = () => {},
@@ -17,8 +19,24 @@ export default function TaskInfoCom({
                                         setTaskName = () => {},
                                         setTaskReward = () => {},
                                         setTaskDetail = () => {},
-                                        deleteButton = ()=>{}
+                                        deleteButton = () => {},
+                                        onChangeEnd= ()=>{},
                                     }) {
+
+    const [sliderMax,setSliderMax] = useState(1000)
+    const [sliderValue,setSliderValue] = useState(0)
+    useEffect(() => {
+        if (isPost){
+            // 获取积分
+            getScore().then(res=>{
+                setSliderMax(res.data.score)
+            })
+        }else {
+            setSliderMax(taskScore+1)
+        }
+        console.log('useEffect')
+        setSliderValue(taskScore)
+    },[taskScore])
 
 
     return (
@@ -48,16 +66,16 @@ export default function TaskInfoCom({
                 <CardBody>
 
                     <Input isDisabled={!isPost}
-                           isInvalid={isPost?isInvalidFn(taskName):false}
-                           color={isPost?(isInvalidFn(taskName) ? "danger" : "success"):"default"}
-                           errorMessage={isPost?isInvalidFn(taskName) && "请输入任务名称":""}
+                           isInvalid={isPost ? isInvalidFn(taskName) : false}
+                           color={isPost ? (isInvalidFn(taskName) ? "danger" : "success") : "default"}
+                           errorMessage={isPost ? isInvalidFn(taskName) && "请输入任务名称" : ""}
                            type="text" label="任务名称" placeholder="请输入任务名称"
                            value={taskName} className="mb-5"
                            onChange={(e) => setTaskName(e.target.value)}/>
                     <Textarea isDisabled={!isPost}
-                              isInvalid={isPost?isInvalidFn(taskDetail):false}
-                              color={isPost?(isInvalidFn(taskDetail) ? "danger" : "success"):"default"}
-                              errorMessage={isPost?isInvalidFn(taskDetail) && "请输入任务描述":""}
+                              isInvalid={isPost ? isInvalidFn(taskDetail) : false}
+                              color={isPost ? (isInvalidFn(taskDetail) ? "danger" : "success") : "default"}
+                              errorMessage={isPost ? isInvalidFn(taskDetail) && "请输入任务描述" : ""}
                               value={taskDetail}
                               onChange={(e) => setTaskDetail(e.target.value)}
                               label="发布任务"
@@ -65,9 +83,9 @@ export default function TaskInfoCom({
                               className="mb-5"
                     />
                     <Textarea isDisabled={!isPost}
-                              isInvalid={isPost?isInvalidFn(taskReward):false}
-                              color={isPost?(isInvalidFn(taskReward) ? "danger" : "success"):"default"}
-                              errorMessage={isPost?isInvalidFn(taskReward) && "请输入任务奖励":""}
+                              isInvalid={isPost ? isInvalidFn(taskReward) : false}
+                              color={isPost ? (isInvalidFn(taskReward) ? "danger" : "success") : "default"}
+                              errorMessage={isPost ? isInvalidFn(taskReward) && "请输入任务奖励" : ""}
                               value={taskReward}
                               onChange={(e) => setTaskReward(e.target.value)}
                               label="任务奖励"
@@ -75,12 +93,16 @@ export default function TaskInfoCom({
                               className="mb-5"
                     />
                     <Slider
-                        label="悬赏❤️"
+                        isDisabled={!isPost}
+                        label="悬赏积分"
                         step={5}
-                        maxValue={1}
+                        maxValue={sliderMax}
                         minValue={0}
-                        defaultValue={0}
+                        getValue={(donuts) => `❤️${donuts}`}
+                        value={sliderValue}
                         className="max-w-md"
+                        onChange={setSliderValue}
+                        onChangeEnd={onChangeEnd}
                     />
                 </CardBody>
             </Card>

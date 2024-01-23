@@ -1,29 +1,30 @@
 'use client'
 
 import React, {useState} from "react";
-import {Button, Card, CardBody, Input, Textarea} from "@nextui-org/react";
+import {Button, Card, CardBody} from "@nextui-org/react";
 import {postTask, uploadImages} from "@/app/utils/apihttp";
-import {Notify, Uploader} from "react-vant";
+import {Notify} from "react-vant";
 import {isInvalidFn} from "@/app/utils/dataTools";
 import TaskInfoCom from "@/app/components/taskInfo";
+
 export default function postTaskPage() {
     const [taskName, setTaskName] = useState('');
     const [taskDetail, setTaskDetail] = useState('');
     const [taskReward, setTaskReward] = useState('');
     const [vantImgData, setVantImgData] = useState([]);
-    const  readAndUploadFile= (file)=> {
+    const readAndUploadFile = (file) => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             // 定义文件读取完成时的回调函数
             reader.onload = async function (event) {
                 const base64String = event.target.result.split(',')[1]; // 获取 base64 字符串部分
                 const base64 = `data:${file.type};base64,${base64String}`;
-                console.log('base64',base64)
+                console.log('base64', base64)
                 try {
-                    const res = await uploadImages({ file: file, base64: base64 });
+                    const res = await uploadImages({file: file, base64: base64});
                     console.log('uploadImages', res.data);
                     const url = res.data.url;
-                    resolve({ url: url });
+                    resolve({url: url});
                 } catch (error) {
                     reject(error);
                 }
@@ -64,11 +65,12 @@ export default function postTaskPage() {
             taskName: taskName,
             taskDetail: taskDetail,
             taskReward: taskReward,
+            taskScore: taskScore,
         }
-        if (isInvalidFn(params)){
+        if (isInvalidFn(params)) {
             return;
         }
-        params["taskImage"]=vantImgData.toString()
+        params["taskImage"] = vantImgData.toString()
 
         console.log('taskName', taskName, 'taskReward', taskReward);
         postTask(params).then(res => {
@@ -77,17 +79,27 @@ export default function postTaskPage() {
         })
     }
 
+    const [taskScore ,setTaskScore ]= useState(0)
+    const onChangeEnd = (value) => {
+        console.log('onChangeEnd',value);
+        setTaskScore(value)
+    }
     return (
         <div className="p-5">
             <TaskInfoCom vantUpload={vantUpload}
                          imgUploadDelete={imgUploadDelete}
                          isPost={true}
+                         taskName={taskName}
+                         taskDetail={taskDetail}
                          setTaskName={setTaskName}
+                         taskReward={taskReward}
                          setTaskReward={setTaskReward}
-                         setTaskDetail={setTaskDetail}>
+                         setTaskDetail={setTaskDetail}
+                         onChangeEnd={onChangeEnd}
+            >
             </TaskInfoCom>
             <Card className={"w-full mb-5"}>
-                <CardBody >
+                <CardBody>
                     <div className={"flex justify-center"}>
                         <Button color="primary" className={"w-1/4"} onClick={pushTask}>
                             发布
