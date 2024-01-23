@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import {deleteTask, getTaskInfo, upDateTaskState} from "@/app/utils/apihttp";
 import {useRouter, useSearchParams} from 'next/navigation'
-import {Notify, Uploader} from "react-vant";
+import {Notify} from "react-vant";
 import TaskInfoCom from "@/app/components/taskInfo";
 import {isInvalidFn} from "@/app/utils/dataTools";
 import {ConfirmBox} from "@/app/components/confirmBox";
@@ -31,7 +31,7 @@ export default function App() {
         taskImage: [],
         taskName: "",
         taskReward: "",
-        taskScore:5,
+        taskScore:0,
         taskStatus: "未开始",
     })
     const [completeRemarks, setTCompleteRemarks] = useState('')

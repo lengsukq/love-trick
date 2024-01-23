@@ -4,7 +4,7 @@ import executeQuery from "@/app/utils/db";
 import {cookieTools} from "@/app/utils/cookieTools";
 import dayjs from "dayjs";
 import {sendMsg} from "@/app/utils/sendMSgByWXRobot";
-import {addScore} from "@/app/utils/scoreByServer";
+import {addScore, getTaskDetail} from "@/app/utils/scoreByServer";
 
 
 export async function DELETE(req) {
@@ -12,8 +12,16 @@ export async function DELETE(req) {
     const {searchParams} = new URL(req.url)
     const taskId = searchParams.get('taskId')
     try {
+        const taskDetail = await getTaskDetail(taskId);
+        const {publisherEmail,taskStatus,taskScore} = {...taskDetail[0]}
+        if (taskStatus==="已核验"){
+            return Response.json(BizResult.fail('','已核验的任务无法删除'))
+        }else{
+            await addScore(taskScore,publisherEmail)
+        }
+
         const result = await executeQuery({
-            // 查询任务列表
+            // 删除任务列表
             query: 'DELETE FROM tasklist WHERE taskId = ?',
             values: [taskId]
         });
@@ -63,11 +71,7 @@ export async function POST(req) {
             notPassed: ["未通过", `任务：${taskName}——已被驳回`, "已驳回任务"],
             pass: ["已核验", `${userName}已核验任务：${taskName}`, "已核验任务"]
         }
-        const taskDetail = await executeQuery({
-            // 查询任务列表
-            query: 'SELECT * FROM tasklist WHERE taskId = ?',
-            values: [taskId]
-        });
+        const taskDetail = await getTaskDetail(taskId);
         const {publisherEmail,receiverEmail,taskScore} = {...taskDetail[0]}
         if (actType === 'accept' && publisherEmail!==userEmail) {
             const result = await executeQuery({

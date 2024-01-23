@@ -32,7 +32,7 @@ export default function TaskInfoCom({
                 setSliderMax(res.data.score)
             })
         }else {
-            setSliderMax(taskScore+1)
+            setSliderMax(taskScore)
         }
         console.log('useEffect')
         setSliderValue(taskScore)
