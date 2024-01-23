@@ -26,7 +26,7 @@ export async function subtractScore(value, userEmail) {
         return e
     }
 }
-
+// 获取积分
 export async function getScore(userEmail) {
     try {
         const result = await executeQuery({
