@@ -11,32 +11,34 @@ export default function TaskInfoCom({
                                         taskDetail = "",
                                         taskName = "",
                                         taskReward = "",
-                                        taskScore=0,
+                                        taskScore = 0,
                                         taskStatus = "未开始",
                                         defaultValue = [{url: ""}],
-                                        vantUpload = () => {},
-                                        imgUploadDelete = () => {},
-                                        setTaskName = () => {},
-                                        setTaskReward = () => {},
-                                        setTaskDetail = () => {},
-                                        deleteButton = () => {},
-                                        onChangeEnd= ()=>{},
+                                        vantUpload = () => "",
+                                        imgUploadDelete = () => "",
+                                        setTaskName = () => "",
+                                        setTaskReward = () => "",
+                                        setTaskDetail = () => "",
+                                        deleteButton = () => "",
+                                        onChangeEnd = () => "",
                                     }) {
-
-    const [sliderMax,setSliderMax] = useState(1000)
-    const [sliderValue,setSliderValue] = useState(0)
+    const getScoreAct = async () => {
+        await getScore().then(res => {
+            setSliderMax(res.data.score)
+        })
+    }
+    const [sliderMax, setSliderMax] = useState(1000)
+    const [sliderValue, setSliderValue] = useState(0)
     useEffect(() => {
-        if (isPost){
+        if (isPost) {
             // 获取积分
-            getScore().then(res=>{
-                setSliderMax(res.data.score)
-            })
-        }else {
+            getScoreAct().then(r =>{})
+        } else {
             setSliderMax(taskScore)
         }
         console.log('useEffect')
         setSliderValue(taskScore)
-    },[taskScore])
+    }, [taskScore])
 
 
     return (

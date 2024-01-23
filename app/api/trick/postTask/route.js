@@ -17,9 +17,9 @@ export async function POST(req) {
     // 获取随机图片
     const taskImage = imgURL ? imgURL : await randomImages()
     try {
-        const {score} = await getScore(userEmail);
+        const {score} = (await getScore(userEmail))[0];
         if (score < taskScore) {
-            return Response.json(BizResult.fail('', '积分不足'))
+            return Response.json(BizResult.fail('', '积分不足，无法发布任务'))
         }
 
         const result = await executeQuery({
