@@ -8,12 +8,26 @@ export async function PUT(request) {
 }
 export async function GET(req) {
     const {userEmail, lover} = await cookieTools(req);
+    const {searchParams} = new URL(req.url)
+    const taskStatus = searchParams.get('taskStatus')
     try {
-        const result = await executeQuery({
-            // 查询任务列表
-            query: 'SELECT * FROM tasklist WHERE publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ? ORDER BY taskId DESC',
-            values: [userEmail, lover, userEmail]
-        });
+        let result;
+        if (taskStatus){
+
+            result = await executeQuery({
+                // 查询任务列表
+                query: `SELECT * FROM tasklist WHERE (publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ?) AND taskStatus = ? ORDER BY taskId DESC`,
+                values: [userEmail, lover, userEmail,taskStatus]
+            });
+            console.log('查询带状态的')
+        }else{
+            result = await executeQuery({
+                // 查询任务列表
+                query: `SELECT * FROM tasklist WHERE publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ? ORDER BY taskId DESC`,
+                values: [userEmail, lover, userEmail]
+            });
+        }
+
         result.forEach(item => {
             item.taskImage = item.taskImage.split(',');
             item["isApprove"] = item.isApprove !== 0;

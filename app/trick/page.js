@@ -1,25 +1,27 @@
 'use client'
-import React from "react";
-import {useEffect, useState} from 'react'
-import {Card, CardBody, CardFooter, Image, CardHeader} from "@nextui-org/react";
+import React, {useEffect, useState} from "react";
+import {Card, CardBody, CardFooter, CardHeader, Image} from "@nextui-org/react";
 import {getTask} from "@/app/utils/apihttp";
 import {useRouter} from 'next/navigation'
+import { useSelector, useDispatch } from 'react-redux'
 
 export default function App() {
+    const taskStatusStore = useSelector((state) => state.taskListDataStatus.status);
     const [taskList, setTaskList] = useState([])
     const router = useRouter()
     useEffect(() => {
+        console.log('taskStatusStore',taskStatusStore)
         getTaskList().then(r => {
             console.log('useEffect', r)
         });
         // console.log('router', pathname)
-    }, [])
+    }, [taskStatusStore])
     // const taskList = await getTaskList();
     const getTaskList = async () => {
-        await getTask().then(res => {
+        await getTask({taskStatus:taskStatusStore}).then(res => {
             console.log('getTaskList', res.data);
 
-            setTaskList(res.code===200?res.data:[]);
+            setTaskList(res.code === 200 ? res.data : []);
         })
     }
 
