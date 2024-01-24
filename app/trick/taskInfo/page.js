@@ -13,7 +13,6 @@ import {Notify} from "react-vant";
 import TaskInfoCom from "@/app/components/taskInfo";
 import {isInvalidFn} from "@/app/utils/dataTools";
 import {ConfirmBox} from "@/app/components/confirmBox";
-
 export default function App() {
     const router = useRouter();
     const [userEmail, setUserEmail] = useState('');

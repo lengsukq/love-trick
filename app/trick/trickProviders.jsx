@@ -5,6 +5,7 @@ import {Tab, Tabs} from "@nextui-org/react";
 // import {usePathname} from "next/navigation";
 import {usePathname, useRouter} from 'next/navigation'
 import TaskListDropdown from "@/app/components/global/taskListDropdown";
+import { Suspense } from 'react'
 
 const LeftComponent = () => {
     // 获取路由信息
@@ -48,11 +49,12 @@ const GlobalComponent = () => {
 
 export function TrickProviders({children}) {
     return (
+        <Suspense>
         <div className="h-lvh">
                 <div className={"pb-16"}>{children}</div>
                 <GlobalComponent/>
         </div>
-
+        </Suspense>
 
     );
 }
