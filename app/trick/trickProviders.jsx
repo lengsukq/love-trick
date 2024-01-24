@@ -1,32 +1,39 @@
 'use client'
 import React from "react";
-import {useEffect, useState} from 'react'
 
-import {Tabs, Tab, Button} from "@nextui-org/react";
+import {Tab, Tabs} from "@nextui-org/react";
 // import {usePathname} from "next/navigation";
-import {useRouter, usePathname} from 'next/navigation'
+import {usePathname, useRouter} from 'next/navigation'
+import TaskListDropdown from "@/app/components/global/taskListDropdown";
+
+const LeftComponent = () => {
+    // 获取路由信息
+    const pathname = usePathname();
+    if (pathname === '/trick') {
+        return (
+            <TaskListDropdown/>
+        )
+    }
+}
 
 // 全局组件
 const GlobalComponent = () => {
     const router = useRouter()
     // 获取路由信息
     const pathname = usePathname();
-    console.log('pathname',pathname)
+    console.log('pathname', pathname)
     const toPage = (key) => {
         console.log('toPage', key)
-        // const pathObj = {
-        //     "home": "/trick",
-        //     "postTask": "/trick/postTask",
-        //     "myInfo": "/trick/myInfo"
-        // }
         router.push(key)
-
     }
     // 只在路由为 "/trick" 时显示组件
     if (pathname === '/trick' || pathname === '/trick/postTask' || pathname === '/trick/myInfo') {
         return (
-            <div className="GlobalComponent flex flex-wrap gap-4 w-full justify-center fixed bottom-10 z-10">
-                <Tabs selectedKey={pathname} key="lg" size="lg" aria-label="Options" onSelectionChange={(e) => toPage(e)}>
+            <div
+                className="GlobalComponent bg-gradient-to-b from-white to-default-200 flex flex-wrap gap-4 w-full justify-center fixed bottom-0 pb-3 pt-3 z-10 items-center">
+                <LeftComponent/>
+                <Tabs selectedKey={pathname} key="lg" size="lg" aria-label="Options"
+                      onSelectionChange={(e) => toPage(e)}>
                     <Tab key="/trick" title="首页"/>
                     <Tab key="/trick/postTask" title="发布"/>
                     <Tab key="/trick/myInfo" title="我的"/>
@@ -42,8 +49,8 @@ const GlobalComponent = () => {
 export function TrickProviders({children}) {
     return (
         <div className="h-lvh">
-            {children}
-            <GlobalComponent />
+                <div className={"pb-16"}>{children}</div>
+                <GlobalComponent/>
         </div>
 
 

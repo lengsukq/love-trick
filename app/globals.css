@@ -20,6 +20,9 @@
         display: none;
     }
 }
+.GlobalComponent{
+    /*background-image: linear-gradient(to bottom, rgba(243, 231, 233, .2) 0%, rgba(227, 238, 255, .5) 90%, rgba(227, 238, 255, .2) 100%);*/
+}
 body {
     /*color: rgb(var(--foreground-rgb));*/
     /*background: linear-gradient(*/

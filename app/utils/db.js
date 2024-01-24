@@ -12,7 +12,7 @@ const db = mysql2({
 });
 export default async function executeQuery({ query, values }) {
     try {
-        console.log('executeQuery', query, values)
+        // console.log('executeQuery', query, values)
         const results = await db.query(query, values);
         await db.end();
         return results;
