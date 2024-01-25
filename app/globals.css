@@ -23,6 +23,9 @@
 .GlobalComponent{
     /*background-image: linear-gradient(to bottom, rgba(243, 231, 233, .2) 0%, rgba(227, 238, 255, .5) 90%, rgba(227, 238, 255, .2) 100%);*/
 }
+input[type="search"]::-webkit-search-cancel-button{
+    -webkit-appearance: none;
+}
 body {
     /*color: rgb(var(--foreground-rgb));*/
     /*background: linear-gradient(*/

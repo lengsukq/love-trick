@@ -15,7 +15,10 @@ export const SearchModal = ({openKey, keyToFalse,searchWords,setSearchWords,onKe
     return (
         <>
             <Modal
-                body={"p-0"}
+                classNames={{
+                    body: "p-0",
+                    wrapper:"mt-5"
+                }}
                 size="xs"
                 hideCloseButton={true}
                 placement={"top"}
@@ -34,6 +37,7 @@ export const SearchModal = ({openKey, keyToFalse,searchWords,setSearchWords,onKe
                                         label=""
                                         isClearable
                                         radius="lg"
+                                        type="search"
                                         placeholder="请输入任务名"
                                         startContent={
                                             <SearchIcon className="" />
