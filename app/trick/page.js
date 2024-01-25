@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {Card, CardBody, CardFooter, CardHeader, Image} from "@nextui-org/react";
 import {getTask} from "@/app/utils/apihttp";
 import {useRouter} from 'next/navigation'
-import { useSelector, useDispatch } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {SearchModal} from "@/app/components/searchModal";
 import {closeSearch} from "@/app/store/taskListStrore";
 
@@ -12,21 +12,31 @@ export default function App() {
     const isSearch = useSelector((state) => state.taskListDataStatus.isSearch);
     const dispatch = useDispatch();
     const [taskList, setTaskList] = useState([])
+    const [searchWords, setSearchWords] = useState([])
+
     const router = useRouter()
     useEffect(() => {
-        console.log('taskStatusStore',taskStatusStore)
+        console.log('taskStatusStore', taskStatusStore)
         getTaskList().then(r => {
             console.log('useEffect', r)
         });
     }, [taskStatusStore])
-    const keyToFalse = ()=>{
+    const keyToFalse = () => {
         dispatch(closeSearch())
     }
-
+    const onKeyDown = async (e) => {
+        console.log('onKeyDown', e.keyCode)
+        if (e.keyCode === 13) {
+            await getTaskList()
+        }
+    }
     const getTaskList = async () => {
-        await getTask({taskStatus:taskStatusStore}).then(res => {
+        await getTask({
+            taskStatus: taskStatusStore,
+            searchWords:searchWords
+        }).then(res => {
             console.log('getTaskList', res.data);
-
+            dispatch(closeSearch());
             setTaskList(res.code === 200 ? res.data : []);
         })
     }
@@ -37,7 +47,11 @@ export default function App() {
     }
     return (
         <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
-            <SearchModal openKey={isSearch} keyToFalse={keyToFalse}/>
+            <SearchModal openKey={isSearch}
+                         keyToFalse={keyToFalse}
+                         searchWords={searchWords}
+                         setSearchWords={setSearchWords}
+                         onKeyDown={onKeyDown}/>
             {taskList.map((item, index) => (
                 <Card shadow="sm" key={index} isPressable onPress={() => onPressHandler(item)}>
                     <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
