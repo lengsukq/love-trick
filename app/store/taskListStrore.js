@@ -2,6 +2,8 @@ import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
     status: '未开始',
+    isSearch:false,
+    SearchWords:"",
 }
 export const statusSlice = createSlice({
     name: 'taskListStatus',
@@ -19,9 +21,16 @@ export const statusSlice = createSlice({
         setPass :(state) => {
             state.status = "已核验";
         },
+        openSearch:(state)=>{
+            console.log('true')
+            state.isSearch = true;
+        },
+        closeSearch:(state)=>{
+            state.isSearch = false;
+        }
     },
 })
 
-export const {setNotStart,setAccept,setComplete,setPass} = statusSlice.actions
+export const {setNotStart,setAccept,setComplete,setPass,openSearch,closeSearch} = statusSlice.actions
 
 export default statusSlice.reducer

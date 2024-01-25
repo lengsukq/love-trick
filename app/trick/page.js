@@ -4,9 +4,13 @@ import {Card, CardBody, CardFooter, CardHeader, Image} from "@nextui-org/react";
 import {getTask} from "@/app/utils/apihttp";
 import {useRouter} from 'next/navigation'
 import { useSelector, useDispatch } from 'react-redux'
+import {SearchModal} from "@/app/components/searchModal";
+import {closeSearch} from "@/app/store/taskListStrore";
 
 export default function App() {
     const taskStatusStore = useSelector((state) => state.taskListDataStatus.status);
+    const isSearch = useSelector((state) => state.taskListDataStatus.isSearch);
+    const dispatch = useDispatch();
     const [taskList, setTaskList] = useState([])
     const router = useRouter()
     useEffect(() => {
@@ -14,9 +18,11 @@ export default function App() {
         getTaskList().then(r => {
             console.log('useEffect', r)
         });
-        // console.log('router', pathname)
     }, [taskStatusStore])
-    // const taskList = await getTaskList();
+    const keyToFalse = ()=>{
+        dispatch(closeSearch())
+    }
+
     const getTaskList = async () => {
         await getTask({taskStatus:taskStatusStore}).then(res => {
             console.log('getTaskList', res.data);
@@ -29,9 +35,9 @@ export default function App() {
         console.log("item pressed", item);
         router.push(`/trick/taskInfo?taskId=${item.taskId}`)
     }
-
     return (
         <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
+            <SearchModal openKey={isSearch} keyToFalse={keyToFalse}/>
             {taskList.map((item, index) => (
                 <Card shadow="sm" key={index} isPressable onPress={() => onPressHandler(item)}>
                     <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
