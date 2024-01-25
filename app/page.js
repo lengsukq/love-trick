@@ -10,8 +10,6 @@ export default function Home() {
     const [password, setPassword] = useState('');
     const router = useRouter()
     const login = async () => {
-        console.log('用户名:', username);
-        console.log('密码:', password);
         loginApi({username:username,password:password}).then(res=>{
             console.log('res',res)
             Notify.show({ type: res.code ===200?'success':'warning', message: `${res.msg}` })

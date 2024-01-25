@@ -1,15 +1,22 @@
 import {Input, Modal, ModalBody, ModalContent, useDisclosure} from "@nextui-org/react";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 import {SearchIcon} from "@/app/components/icon/SearchICon";
 
 export const SearchModal = ({openKey, keyToFalse,searchWords,setSearchWords,onKeyDown}) => {
     const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
+
+    const inputRef = useRef(null);
     useEffect(() => {
         if (openKey) {
             onOpen();
+            // 在组件挂载时将输入框聚焦
+            setTimeout(()=>{
+                inputRef.current.focus();
+            },200)
         } else {
             onClose();
         }
+
     }, [openKey])
 
     return (
@@ -30,6 +37,7 @@ export const SearchModal = ({openKey, keyToFalse,searchWords,setSearchWords,onKe
                         <>
                             <ModalBody>
                                     <Input
+                                        ref={inputRef}
                                         onChange={(e) => setSearchWords(e.target.value)}
                                         onClear={() => setSearchWords("")}
                                         onKeyDown={onKeyDown}
