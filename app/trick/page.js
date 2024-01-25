@@ -35,7 +35,6 @@ export default function App() {
             taskStatus: taskStatusStore,
             searchWords:searchWords
         }).then(res => {
-            console.log('getTaskList', res.data);
             dispatch(closeSearch());
             setTaskList(res.code === 200 ? res.data : []);
         })

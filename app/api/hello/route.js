@@ -32,9 +32,7 @@ export async function POST(req) {
         console.log('formData', formData)
         id = formData.get('id');
     }
-    // 打印 Content-Type 到控制台
-    console.log('BizResult',BizResult.fail('请输入完整信息'))
-    console.log('Content-Type:', contentType);
+
     return Response.json(BizResult.success(id), {
         status: 200,
         headers: {'Set-Cookie': ``},

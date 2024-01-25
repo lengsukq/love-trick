@@ -19,10 +19,9 @@ export default function postTaskPage() {
             reader.onload = async function (event) {
                 const base64String = event.target.result.split(',')[1]; // 获取 base64 字符串部分
                 const base64 = `data:${file.type};base64,${base64String}`;
-                console.log('base64', base64)
+                // console.log('base64', base64)
                 try {
                     const res = await uploadImages({file: file, base64: base64});
-                    console.log('uploadImages', res.data);
                     const url = res.data.url;
                     resolve({url: url});
                 } catch (error) {
@@ -55,7 +54,6 @@ export default function postTaskPage() {
     }
     const imgUploadDelete = (v) => {
         // 输出被删除的那一项
-        console.log('imgUploadChange', v);
         setVantImgData(vantImgData.filter(item => item !== v.url))
     }
     const pushTask = () => {

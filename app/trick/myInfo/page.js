@@ -37,7 +37,6 @@ export default function App() {
     }, [])
     const getUserInfoAct = async () => {
         await getUserInfo().then(res => {
-            console.log('getTaskList', res.data);
             setUserInfo(res.data ? res.data : {});
             setDescribeBySelf(res.data.describeBySelf);
             setAvatar(res.data.avatar);
@@ -53,7 +52,6 @@ export default function App() {
         const file = event.target.files[0];
         try {
             await uploadImages({file: file, base64: ""}).then(res => {
-                console.log('avatarUpload', res.data);
                 setAvatar(res.data.url)
             });
 
