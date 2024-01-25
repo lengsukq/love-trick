@@ -1,22 +1,29 @@
 'use client'
-import React from "react";
+import React, {Suspense} from "react";
 
 import {Tab, Tabs} from "@nextui-org/react";
 // import {usePathname} from "next/navigation";
 import {usePathname, useRouter} from 'next/navigation'
-import TaskListDropdown from "@/app/components/global/taskListDropdown";
-import { Suspense } from 'react'
+import {TaskListLeftDropdown, TaskListRightDropdown} from "@/app/components/global/taskListDropdown";
 
 const LeftComponent = () => {
     // 获取路由信息
     const pathname = usePathname();
     if (pathname === '/trick') {
         return (
-            <TaskListDropdown/>
+            <TaskListLeftDropdown/>
         )
     }
 }
-
+const RightComponent = () => {
+    // 获取路由信息
+    const pathname = usePathname();
+    if (pathname === '/trick') {
+        return (
+            <TaskListRightDropdown/>
+        )
+    }
+}
 // 全局组件
 const GlobalComponent = () => {
     const router = useRouter()
@@ -39,6 +46,7 @@ const GlobalComponent = () => {
                     <Tab key="/trick/postTask" title="发布"/>
                     <Tab key="/trick/myInfo" title="我的"/>
                 </Tabs>
+                <RightComponent/>
             </div>
         );
     }
@@ -50,10 +58,10 @@ const GlobalComponent = () => {
 export function TrickProviders({children}) {
     return (
         <Suspense>
-        <div className="h-lvh">
+            <div className="h-lvh">
                 <div className={"pb-16"}>{children}</div>
                 <GlobalComponent/>
-        </div>
+            </div>
         </Suspense>
 
     );
