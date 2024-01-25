@@ -1,7 +1,8 @@
 import {Input, Modal, ModalBody, ModalContent, useDisclosure} from "@nextui-org/react";
 import {useEffect} from "react";
+import {SearchIcon} from "@/app/components/icon/SearchICon";
 
-export const SearchModal = ({openKey, keyToFalse}) => {
+export const SearchModal = ({openKey, keyToFalse,searchWords,setSearchWords,onKeyDown}) => {
     const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
     useEffect(() => {
         if (openKey) {
@@ -14,6 +15,7 @@ export const SearchModal = ({openKey, keyToFalse}) => {
     return (
         <>
             <Modal
+                body={"p-0"}
                 size="xs"
                 hideCloseButton={true}
                 placement={"top"}
@@ -24,7 +26,19 @@ export const SearchModal = ({openKey, keyToFalse}) => {
                     {(onClose) => (
                         <>
                             <ModalBody>
-                                <Input type="text" label="任务名"/>
+                                    <Input
+                                        onChange={(e) => setSearchWords(e.target.value)}
+                                        onClear={() => setSearchWords("")}
+                                        onKeyDown={onKeyDown}
+                                        value={searchWords}
+                                        label=""
+                                        isClearable
+                                        radius="lg"
+                                        placeholder="请输入任务名"
+                                        startContent={
+                                            <SearchIcon className="" />
+                                        }
+                                    />
                             </ModalBody>
                         </>
                     )}

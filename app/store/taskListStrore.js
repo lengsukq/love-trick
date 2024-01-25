@@ -3,7 +3,6 @@ import {createSlice} from '@reduxjs/toolkit'
 const initialState = {
     status: '未开始',
     isSearch:false,
-    SearchWords:"",
 }
 export const statusSlice = createSlice({
     name: 'taskListStatus',

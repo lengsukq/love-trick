@@ -9,22 +9,24 @@ export async function PUT(request) {
 export async function GET(req) {
     const {userEmail, lover} = await cookieTools(req);
     const {searchParams} = new URL(req.url)
-    const taskStatus = searchParams.get('taskStatus')
+    const taskStatus = searchParams.get('taskStatus');
+    const searchWords = searchParams.get('searchWords')?searchParams.get('searchWords'):'';
+    console.log('searchWords',searchWords)
     try {
         let result;
         if (taskStatus){
 
             result = await executeQuery({
                 // 查询任务列表
-                query: `SELECT * FROM tasklist WHERE (publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ?) AND taskStatus = ? ORDER BY taskId DESC`,
-                values: [userEmail, lover, userEmail,taskStatus]
+                query: `SELECT * FROM tasklist WHERE (publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ?) AND taskStatus = ? AND taskName LIKE ? ORDER BY taskId DESC`,
+                values: [userEmail, lover, userEmail,taskStatus,`%${searchWords}%`]
             });
             console.log('查询带状态的')
         }else{
             result = await executeQuery({
                 // 查询任务列表
-                query: `SELECT * FROM tasklist WHERE publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ? ORDER BY taskId DESC`,
-                values: [userEmail, lover, userEmail]
+                query: `SELECT * FROM tasklist WHERE publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ? AND taskName LIKE ? ORDER BY taskId DESC`,
+                values: [userEmail, lover, userEmail,`%${searchWords}%`]
             });
         }
 
