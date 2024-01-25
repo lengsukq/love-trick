@@ -80,7 +80,7 @@ export default function TaskInfoCom({
                               errorMessage={isPost ? isInvalidFn(taskDetail) && "请输入任务描述" : ""}
                               value={taskDetail}
                               onChange={(e) => setTaskDetail(e.target.value)}
-                              label="发布任务"
+                              label="任务描述"
                               placeholder="请输入任务描述"
                               className="mb-5"
                     />
