@@ -19,6 +19,7 @@ import {
     useDisclosure
 } from "@nextui-org/react";
 import {Notify} from "react-vant";
+import {useRouter} from "next/navigation";
 
 export default function App() {
     const [userInfo, setUserInfo] = useState({
@@ -87,7 +88,10 @@ export default function App() {
         //     return key === ""
         // }, [key])
     }
-
+    const router = useRouter()
+    const toPage = (key) => {
+        router.push(key)
+    }
     return (
         <div className="p-5">
             <Modal
@@ -181,11 +185,11 @@ export default function App() {
                 <CardBody className="overflow-visible py-2">
                     <div className="max-w-md mt-3 mb-3">
                         <div className="flex items-center space-x-4 text-large justify-evenly">
-                            <div><Chip radius="lg" color="default" variant="dot">近频</Chip></div>
+                            <div><Chip radius="lg" color="default" variant="dot" onClick={()=>toPage('/trick/gift')}>货架</Chip></div>
                             <Divider className="mx-4" orientation="vertical"/>
-                            <div><Chip radius="lg" color="success" variant="dot">同频</Chip></div>
+                            <div><Chip radius="lg" color="success" variant="dot">口袋</Chip></div>
                             <Divider className="mx-4" orientation="vertical"/>
-                            <div><Chip radius="lg" color="warning" variant="dot">错频</Chip></div>
+                            <div><Chip radius="lg" color="warning" variant="dot">心欢</Chip></div>
                         </div>
                         <Divider className="my-4"/>
                         <div className="space-y-1 flex justify-center items-center">
