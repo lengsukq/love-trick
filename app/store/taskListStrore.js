@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
-    status: '未开始',
+    status: '',
     isSearch:false,
 }
 export const statusSlice = createSlice({
@@ -20,6 +20,9 @@ export const statusSlice = createSlice({
         setPass :(state) => {
             state.status = "已核验";
         },
+        setAll :(state) => {
+            state.status = "";
+        },
         openSearch:(state)=>{
             console.log('true')
             state.isSearch = true;
@@ -30,6 +33,6 @@ export const statusSlice = createSlice({
     },
 })
 
-export const {setNotStart,setAccept,setComplete,setPass,openSearch,closeSearch} = statusSlice.actions
+export const {setNotStart,setAccept,setComplete,setPass,setAll,openSearch,closeSearch} = statusSlice.actions
 
 export default statusSlice.reducer
