@@ -30,7 +30,7 @@ export default function App() {
         userEmail: "",
         userId: 0,
         username: "",
-        score:"",
+        score: "",
     })
     useEffect(() => {
         getUserInfoAct().then(r => {
@@ -63,7 +63,7 @@ export default function App() {
     }
 
     const updateUserInfoAct = () => {
-        if (isInvalidFn(username) || isInvalidFn(describeBySelf)){
+        if (isInvalidFn(username) || isInvalidFn(describeBySelf)) {
             return;
         }
 
@@ -71,8 +71,9 @@ export default function App() {
             updateUserInfo({username: username, avatar: avatar, describeBySelf: describeBySelf}).then(res => {
                 console.log('updateUserInfo', res.data);
                 Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
-                if (res.code === 200){
-                    getUserInfoAct().then(r =>{} );
+                if (res.code === 200) {
+                    getUserInfoAct().then(r => {
+                    });
                     onOpenChange(false);
                 }
             });
@@ -81,7 +82,7 @@ export default function App() {
             console.log('updateUserInfo', error)
         }
     }
-    const isInvalidFn = (key)=>{
+    const isInvalidFn = (key) => {
         return key === ""
         // 要注意的是，useMemo 主要用于缓存计算昂贵的值，而不是用于创建验证函数。
         // return React.useMemo(() => {
@@ -152,7 +153,8 @@ export default function App() {
                     <div className="flex gap-5">
                         <Avatar isBordered radius="full" size="md" src={userInfo.avatar}/>
                         <div className="flex flex-col gap-1 items-start justify-center">
-                            <h4 className="text-small font-semibold leading-none text-default-600">{userInfo.username}  <span className={"text-default-400"}>❤️{userInfo.score}</span></h4>
+                            <h4 className="text-small font-semibold leading-none text-default-600">{userInfo.username}
+                                <span className={"text-default-400"}>❤️{userInfo.score}</span></h4>
 
                             <h5 className="text-small tracking-tight text-default-400">{userInfo.userEmail}</h5>
                         </div>
@@ -185,7 +187,8 @@ export default function App() {
                 <CardBody className="overflow-visible py-2">
                     <div className="max-w-md mt-3 mb-3">
                         <div className="flex items-center space-x-4 text-large justify-evenly">
-                            <div><Chip radius="lg" color="default" variant="dot" onClick={()=>toPage('/trick/gift')}>货架</Chip></div>
+                            <div><Chip radius="lg" color="default" variant="dot"
+                                       onClick={() => toPage('/trick/gift')}>货架</Chip></div>
                             <Divider className="mx-4" orientation="vertical"/>
                             <div><Chip radius="lg" color="success" variant="dot">口袋</Chip></div>
                             <Divider className="mx-4" orientation="vertical"/>
