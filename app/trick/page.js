@@ -16,10 +16,11 @@ export default function App() {
 
     const router = useRouter()
     useEffect(() => {
-        console.log('taskStatusStore', taskStatusStore)
-        getTaskList().then(r => {
+        setSearchWords('');
+        getTaskList(taskStatusStore, '').then(r => {
             console.log('useEffect', r)
         });
+
     }, [taskStatusStore])
     const keyToFalse = () => {
         dispatch(closeSearch())
@@ -30,10 +31,10 @@ export default function App() {
             await getTaskList()
         }
     }
-    const getTaskList = async () => {
+    const getTaskList = async (taskStatus = taskStatusStore, words = searchWords) => {
         await getTask({
-            taskStatus: taskStatusStore,
-            searchWords:searchWords
+            taskStatus: taskStatus,
+            searchWords: words
         }).then(res => {
             dispatch(closeSearch());
             setTaskList(res.code === 200 ? res.data : []);
