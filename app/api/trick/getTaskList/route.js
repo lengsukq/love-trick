@@ -11,10 +11,11 @@ export async function GET(req) {
     const {searchParams} = new URL(req.url)
     const taskStatus = searchParams.get('taskStatus');
     const searchWords = searchParams.get('searchWords')?searchParams.get('searchWords'):'';
+    console.log('taskStatus',taskStatus,"searchWords",searchWords)
     try {
         let result;
         if (taskStatus){
-
+            console.log('带状态')
             result = await executeQuery({
                 // 查询任务列表
                 query: `SELECT * FROM tasklist WHERE (publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ?) AND taskStatus = ? AND taskName LIKE ? ORDER BY taskId DESC`,
@@ -23,7 +24,7 @@ export async function GET(req) {
         }else{
             result = await executeQuery({
                 // 查询任务列表
-                query: `SELECT * FROM tasklist WHERE publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ? AND taskName LIKE ? ORDER BY taskId DESC`,
+                query: `SELECT * FROM tasklist WHERE (publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ?) AND taskName LIKE ? ORDER BY taskId DESC`,
                 values: [userEmail, lover, userEmail,`%${searchWords}%`]
             });
         }
