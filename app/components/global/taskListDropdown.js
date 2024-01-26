@@ -2,7 +2,15 @@ import React from "react";
 import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/react";
 import {FilterIco} from "@/app/components/icon/filterIco";
 import {useDispatch, useSelector} from 'react-redux'
-import {closeSearch, openSearch, setAccept, setComplete, setNotStart, setPass} from "@/app/store/taskListStrore";
+import {
+    closeSearch,
+    openSearch,
+    setAccept,
+    setAll,
+    setComplete,
+    setNotStart,
+    setPass
+} from "@/app/store/taskListStrore";
 import {SearchIcon} from "@/app/components/icon/SearchICon";
 
 export function TaskListLeftDropdown() {
@@ -16,6 +24,7 @@ export function TaskListLeftDropdown() {
             "已接受": setAccept(),
             "待核验": setComplete(),
             "已核验": setPass(),
+            "所有的": setAll(),
         }
         dispatch(setValueObj[value])
     }
@@ -32,6 +41,7 @@ export function TaskListLeftDropdown() {
                           onAction={onChange}
                           selectedKeys={selectedKeys}
                           onSelectionChange={setSelectedKeys}>
+                <DropdownItem key="所有的">所有的</DropdownItem>
                 <DropdownItem key="未开始">未开始</DropdownItem>
                 <DropdownItem key="已接受">已接受</DropdownItem>
                 <DropdownItem key="待核验">待核验</DropdownItem>
