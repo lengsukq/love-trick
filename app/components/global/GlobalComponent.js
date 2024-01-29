@@ -3,6 +3,7 @@ import {usePathname, useRouter} from "next/navigation";
 import {Tab, Tabs} from "@nextui-org/react";
 import {TaskListLeftDropdown, TaskListRightDropdown} from "@/app/components/global/taskListDropdown";
 import React from "react";
+import {MyGiftLeftDropdown, MyGiftRightDropdown} from "@/app/components/global/myGiftDropdown";
 
 const LeftComponent = () => {
     // 获取路由信息
@@ -10,6 +11,10 @@ const LeftComponent = () => {
     if (pathname === '/trick') {
         return (
             <TaskListLeftDropdown/>
+        )
+    }else if(pathname === '/trick/gift'){
+        return (
+            <MyGiftLeftDropdown/>
         )
     }
 }
@@ -19,6 +24,10 @@ const RightComponent = () => {
     if (pathname === '/trick') {
         return (
             <TaskListRightDropdown/>
+        )
+    }else if(pathname === '/trick/gift'){
+        return (
+            <MyGiftRightDropdown/>
         )
     }
 }

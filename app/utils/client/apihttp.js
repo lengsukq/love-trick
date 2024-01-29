@@ -58,7 +58,7 @@ export async function addGift(params) {
 }
 // 获取我的礼物列表
 export async function getMyGift(params) {
-    return await get(`/api/gift/getMyGift?isShow=${params.isShow}&searchWords=${params.searchWords}`);
+    return await get(`/api/gift/getMyGift?type=${params.type}&searchWords=${params.searchWords}`);
 }
 // 获取我的礼物兑换列表
 export async function getGiftList(params) {
