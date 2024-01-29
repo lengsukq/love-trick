@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import {getMyGift} from "@/app/utils/client/apihttp";
+import {getGiftList} from "@/app/utils/client/apihttp";
 import GiftList from "@/app/components/giftList";
 
 export default function App() {
@@ -9,9 +9,10 @@ export default function App() {
         getTaskList().then(r => {
         })
     }, [])
-    const [giftListData, setGiftListData] = useState([])
+    const [giftListData, setGiftListData] = useState([]);
+
     const getTaskList = async (isShow = '', words = '') => {
-        await getMyGift({
+        await getGiftList({
             isShow: isShow,
             searchWords: words
         }).then(res => {
@@ -19,7 +20,7 @@ export default function App() {
         })
     }
     return (
-        <GiftList giftListData={giftListData}></GiftList>
+        <GiftList giftListData={giftListData} listType={"getList"}></GiftList>
 
     );
 }

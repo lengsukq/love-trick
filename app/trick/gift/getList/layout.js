@@ -1,6 +1,6 @@
 import React from "react";
 export const metadata  = {
-    title: '新增礼物 | love-trick',
+    title: '礼物列表 | love-trick',
     description: 'love-trick',
 }
 export default function AddGiftLayout({children}) {

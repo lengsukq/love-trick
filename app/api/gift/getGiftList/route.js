@@ -7,17 +7,17 @@ import {randomImages} from "@/app/utils/sendMSgByWXRobot";
 export async function PUT(request) {
 }
 export async function GET(req) {
-    const {userEmail, lover} = await cookieTools(req);
+    const {lover} = await cookieTools(req);
     const {searchParams} = new URL(req.url)
     // const taskStatus = searchParams.get('taskStatus');
     const searchWords = searchParams.get('searchWords')?searchParams.get('searchWords'):'';
-    // console.log('taskStatus',taskStatus,"searchWords",searchWords)
+
     try {
         let result;
         result = await executeQuery({
             // 查询任务列表
-            query: `SELECT * FROM gift_list WHERE (publisherEmail = ? OR publisherEmail = ?) AND taskName LIKE ? ORDER BY GiftId DESC`,
-            values: [userEmail, lover, userEmail,`%${searchWords}%`]
+            query: `SELECT * FROM gift_list WHERE (publisherEmail = ?) AND giftName LIKE ? ORDER BY GiftId DESC`,
+            values: [lover,`%${searchWords}%`]
         });
         // if (taskStatus){
         //     console.log('带状态')
@@ -33,9 +33,7 @@ export async function GET(req) {
         //         values: [userEmail, lover, userEmail,`%${searchWords}%`]
         //     });
         // }
-
-
-        return Response.json(BizResult.success(result[0], '获取列表成功'))
+        return Response.json(BizResult.success(result, '获取列表成功'))
     } catch (error) {
         console.log(error);
         return Response.json(BizResult.fail(''))
