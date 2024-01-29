@@ -2,7 +2,7 @@ import executeQuery from "@/app/utils/db";
 
 export async function addScore(value, userEmail) {
     try {
-        const result = await executeQuery({
+        await executeQuery({
             // 查询任务列表
             query: 'UPDATE userinfo SET score = score + ? WHERE userEmail = ?',
             values: [value, userEmail]
@@ -15,7 +15,12 @@ export async function addScore(value, userEmail) {
 
 export async function subtractScore(value, userEmail) {
     try {
-        const result = await executeQuery({
+        const scoreResult = await getScore(userEmail);
+        const score = scoreResult[0].score;
+        if (score<value){
+            return {error:'积分不足，兑换失败'}
+        }
+        await executeQuery({
             // 查询任务列表
             query: 'UPDATE userinfo SET score = score - ? WHERE userEmail = ?',
             values: [value, userEmail]
@@ -23,6 +28,7 @@ export async function subtractScore(value, userEmail) {
 
         return await getScore(userEmail);
     } catch (e) {
+        console.log('subtractScore',e)
         return e
     }
 }
@@ -51,6 +57,21 @@ export async function getTaskDetail(taskId) {
             values: [taskId]
         });
         console.log('getTaskDetail', result)
+        return result;
+    } catch (e) {
+        console.log(e)
+        return e
+    }
+}
+// 查询礼物分数
+export async function getGiftScore(giftId) {
+    try {
+        const result = await executeQuery({
+            // 查询礼物详情
+            query: 'SELECT * FROM gift_list WHERE giftId = ?',
+            values: [giftId]
+        });
+        console.log('getGiftScore', result)
         return result;
     } catch (e) {
         console.log(e)

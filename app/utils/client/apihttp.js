@@ -1,5 +1,4 @@
 import qs from "qs";
-const { stringify } = qs;
 import {get, post, deleteAct} from "./fetchUtil";
 
 
@@ -60,4 +59,8 @@ export async function addGift(params) {
 // 获取我的礼物列表
 export async function getMyGift(params) {
     return await get(`/api/gift/getMyGift?isShow=${params.isShow}&searchWords=${params.searchWords}`);
+}
+// 获取我的礼物兑换列表
+export async function getGiftList(params) {
+    return await get(`/api/gift/getGiftList?isShow=${params.isShow}&searchWords=${params.searchWords}`);
 }
