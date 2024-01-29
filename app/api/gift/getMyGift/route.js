@@ -7,32 +7,43 @@ import {randomImages} from "@/app/utils/sendMSgByWXRobot";
 export async function PUT(request) {
 }
 export async function GET(req) {
-    const {userEmail} = await cookieTools(req);
+    const {userEmail,lover} = await cookieTools(req);
     const {searchParams} = new URL(req.url)
-    // const taskStatus = searchParams.get('taskStatus');
+    const type = searchParams.get('type')
     const searchWords = searchParams.get('searchWords')?searchParams.get('searchWords'):'';
-    // console.log('taskStatus',taskStatus,"searchWords",searchWords)
+    console.log('type',type,"searchWords",searchWords)
     try {
         let result;
-        result = await executeQuery({
-            // 查询任务列表
-            query: `SELECT * FROM gift_list WHERE (publisherEmail = ?) AND giftName LIKE ? ORDER BY GiftId DESC`,
-            values: [userEmail,`%${searchWords}%`]
-        });
-        // if (taskStatus){
-        //     console.log('带状态')
-        //     result = await executeQuery({
-        //         // 查询任务列表
-        //         query: `SELECT * FROM gift_list WHERE (publisherEmail = ? OR publisherEmail = ? ) AND taskStatus = ? AND taskName LIKE ? ORDER BY taskId DESC`,
-        //         values: [userEmail, lover, userEmail,taskStatus,`%${searchWords}%`]
-        //     });
-        // }else{
-        //     result = await executeQuery({
-        //         // 查询任务列表
-        //         query: `SELECT * FROM tasklist WHERE (publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ?) AND taskName LIKE ? ORDER BY taskId DESC`,
-        //         values: [userEmail, lover, userEmail,`%${searchWords}%`]
-        //     });
-        // }
+        if (type==='已上架' || type==='已下架'){
+            console.log('带状态')
+            result = await executeQuery({
+                query: `SELECT * FROM gift_list WHERE (publisherEmail = ?) AND giftName LIKE ? AND isShow = ? ORDER BY GiftId DESC`,
+                values: [userEmail,`%${searchWords}%`,type==='已上架'?1:0]
+            });
+        }else if(type === '待使用'){
+            result = await executeQuery({
+                // 获取售出-已使用大于零的数据
+                query: 'SELECT * FROM gift_list WHERE ((redeemed - used) > 0) AND (publisherEmail = ?)',
+                values: [lover]
+            });
+            result.forEach(item=>{
+                item["use"] = item.redeemed - item.used;
+            })
+        }else if(type === '已用完'){
+            result = await executeQuery({
+                // 获取售出-已使用等于零的数据
+                query: 'SELECT * FROM gift_list WHERE ((redeemed - used) = 0) AND (publisherEmail = ?)',
+                values: [lover]
+            });
+            result.forEach(item=>{
+                item["use"] = item.redeemed - item.used;
+            })
+        }else{
+            result = await executeQuery({
+                query: `SELECT * FROM gift_list WHERE (publisherEmail = ?) AND giftName LIKE ? ORDER BY GiftId DESC`,
+                values: [userEmail,`%${searchWords}%`]
+            });
+        }
 
 
         return Response.json(BizResult.success(result, '获取列表成功'))

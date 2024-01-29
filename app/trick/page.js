@@ -5,7 +5,7 @@ import {getTask} from "@/app/utils/client/apihttp";
 import {useRouter} from 'next/navigation'
 import {useDispatch, useSelector} from 'react-redux'
 import {SearchModal} from "@/app/components/searchModal";
-import {closeSearch} from "@/app/store/taskListStrore";
+import {closeSearch} from "@/app/store/taskListStore";
 
 export default function App() {
     const taskStatusStore = useSelector((state) => state.taskListDataStatus.status);

@@ -2,7 +2,7 @@ import {Input, Modal, ModalBody, ModalContent, useDisclosure} from "@nextui-org/
 import {useEffect, useRef} from "react";
 import {SearchIcon} from "@/app/components/icon/SearchICon";
 
-export const SearchModal = ({openKey, keyToFalse,searchWords,setSearchWords,onKeyDown}) => {
+export const SearchModal = ({openKey, keyToFalse,searchWords,setSearchWords,onKeyDown,placeholder='请输入任务名名称'}) => {
     const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
 
     const inputRef = useRef(null);
@@ -46,7 +46,7 @@ export const SearchModal = ({openKey, keyToFalse,searchWords,setSearchWords,onKe
                                         isClearable
                                         radius="lg"
                                         type="search"
-                                        placeholder="请输入任务名"
+                                        placeholder={placeholder}
                                         startContent={
                                             <SearchIcon className="" />
                                         }

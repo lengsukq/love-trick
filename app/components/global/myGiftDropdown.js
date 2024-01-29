@@ -2,29 +2,21 @@ import React from "react";
 import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/react";
 import {FilterIco} from "@/app/components/icon/filterIco";
 import {useDispatch, useSelector} from 'react-redux'
-import {
-    closeSearch,
-    openSearch,
-    setAccept,
-    setAll,
-    setComplete,
-    setNotStart,
-    setPass
-} from "@/app/store/taskListStore";
 import {SearchIcon} from "@/app/components/icon/SearchICon";
+import {setAll, setUp, setDown, setUse, setUsed, closeSearch, openSearch} from "@/app/store/myGiftStore";
 
-export function TaskListLeftDropdown() {
-    const taskStatusStore = useSelector((state) => state.taskListDataStatus.status);
-    const [selectedKeys, setSelectedKeys] = React.useState(new Set([taskStatusStore]));
+export function MyGiftLeftDropdown() {
+    const myGiftType = useSelector((state) => state.myGiftType.type);
+    const [myGiftTypeKey, setMyGiftTypeKey] = React.useState(new Set([myGiftType]));
     const dispatch = useDispatch()
     const onChange = (value) => {
         console.log('onChange', value, typeof value, value === '已核验');
         const setValueObj = {
-            "未开始": setNotStart(),
-            "已接受": setAccept(),
-            "待核验": setComplete(),
-            "已核验": setPass(),
             "所有的": setAll(),
+            "已上架": setUp(),
+            "已下架": setDown(),
+            "待使用": setUse(),
+            "已用完": setUsed(),
         }
         dispatch(setValueObj[value])
     }
@@ -39,20 +31,20 @@ export function TaskListLeftDropdown() {
                           selectionMode="single"
                           disallowEmptySelection
                           onAction={onChange}
-                          selectedKeys={selectedKeys}
-                          onSelectionChange={setSelectedKeys}>
-                <DropdownItem key="所有的">所有的</DropdownItem>
-                <DropdownItem key="未开始">未开始</DropdownItem>
-                <DropdownItem key="已接受">已接受</DropdownItem>
-                <DropdownItem key="待核验">待核验</DropdownItem>
-                <DropdownItem key="已核验">已核验</DropdownItem>
+                          selectedKeys={myGiftTypeKey}
+                          onSelectionChange={setMyGiftTypeKey}>
+                {/*<DropdownItem key="所有的">所有的</DropdownItem>*/}
+                <DropdownItem key="已上架">已上架</DropdownItem>
+                <DropdownItem key="已下架">已下架</DropdownItem>
+                <DropdownItem key="待使用">待使用</DropdownItem>
+                <DropdownItem key="已用完">已用完</DropdownItem>
             </DropdownMenu>
         </Dropdown>
     );
 }
 
-export function TaskListRightDropdown() {
-    const isSearch = useSelector((state) => state.taskListDataStatus.isSearch);
+export function MyGiftRightDropdown() {
+    const isSearch = useSelector((state) => state.myGiftType.isSearch);
 
     const dispatch = useDispatch();
     const openSearchBtn = () => {
