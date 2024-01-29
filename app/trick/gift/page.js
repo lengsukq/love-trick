@@ -1,7 +1,8 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import {getMyGift} from "@/app/utils/client/apihttp";
+import {getMyGift, showGift} from "@/app/utils/client/apihttp";
 import GiftList from "@/app/components/giftList";
+import {Notify} from "react-vant";
 
 export default function App() {
 
@@ -18,8 +19,16 @@ export default function App() {
             setGiftListData(res.code === 200 ? res.data : []);
         })
     }
-    return (
-        <GiftList giftListData={giftListData}></GiftList>
+    const buttonAction = async (item,theKey) => {
+            await showGift({giftId: item.giftId,isShow:theKey?'1':'0'}).then(res => {
+                Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
+                getTaskList();
 
+            })
+
+    }
+
+    return (
+        <GiftList giftListData={giftListData} listType={"checkGift"} buttonAction={buttonAction}></GiftList>
     );
 }

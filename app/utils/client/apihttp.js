@@ -64,3 +64,11 @@ export async function getMyGift(params) {
 export async function getGiftList(params) {
     return await get(`/api/gift/getGiftList?isShow=${params.isShow}&searchWords=${params.searchWords}`);
 }
+// 兑换礼物
+export async function exchangeGift(params) {
+    return await get(`/api/gift/exchangeGift?giftId=${params.giftId}`);
+}
+// 上架，下架礼物
+export async function showGift(params) {
+    return await get(`/api/gift/showGift?giftId=${params.giftId}&isShow=${params.isShow}`);
+}

@@ -16,7 +16,7 @@ export async function GET(req) {
         let result;
         result = await executeQuery({
             // 查询任务列表
-            query: `SELECT * FROM gift_list WHERE (publisherEmail = ?) AND giftName LIKE ? ORDER BY GiftId DESC`,
+            query: `SELECT * FROM gift_list WHERE (publisherEmail = ?) AND giftName LIKE ? AND isShow = 1 ORDER BY GiftId DESC`,
             values: [lover,`%${searchWords}%`]
         });
         // if (taskStatus){
