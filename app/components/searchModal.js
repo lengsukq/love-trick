@@ -2,7 +2,7 @@ import {Input, Modal, ModalBody, ModalContent, useDisclosure} from "@nextui-org/
 import {useEffect, useRef} from "react";
 import {SearchIcon} from "@/app/components/icon/SearchICon";
 
-export const SearchModal = ({openKey, keyToFalse,searchWords,setSearchWords,onKeyDown,placeholder='请输入任务名名称'}) => {
+export const SearchModal = ({openKey, keyToFalse,searchWords,setSearchWords,onKeyDown,placeholder='请输入任务名称'}) => {
     const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
 
     const inputRef = useRef(null);
