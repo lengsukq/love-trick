@@ -57,3 +57,7 @@ export async function getScore() {
 export async function addGift(params) {
     return post(`/api/gift/addGift`, params);
 }
+// 获取我的礼物列表
+export async function getMyGift(params) {
+    return await get(`/api/gift/getMyGift?isShow=${params.isShow}&searchWords=${params.searchWords}`);
+}
