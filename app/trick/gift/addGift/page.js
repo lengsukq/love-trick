@@ -15,9 +15,8 @@ export default function App() {
     const [remained,setRemained]= useState(10);
     const [isShow,setIsShow] = useState(true);
     const upGiftImg = async (event) => {
-        const img = await imgUpload(event)
-        console.log('upGiftImg', img)
-        setGiftImg(img)
+        const img = await imgUpload(event);
+        setGiftImg(img);
     }
     const addGiftAct = ()=>{
         addGift({giftName, giftDetail, needScore, giftImg, remained,isShow}).then(res=>{
