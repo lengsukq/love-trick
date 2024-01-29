@@ -1,10 +1,10 @@
 'use client'
 import React, {useEffect, useState} from "react";
 import {Button, Card, CardBody, Input, Slider, Textarea} from "@nextui-org/react";
-import {isInvalidFn} from "../utils/dataTools";
+import {isInvalidFn} from "../utils/client/dataTools";
 import {Uploader} from "react-vant";
 import {TrashCan} from "@/app/components/icon/trashCan";
-import {getScore} from "@/app/utils/apihttp";
+import {getScore} from "@/app/utils/client/apihttp";
 
 export default function TaskInfoCom({
                                         isPost = false,

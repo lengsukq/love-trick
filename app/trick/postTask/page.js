@@ -2,9 +2,9 @@
 
 import React, {useState} from "react";
 import {Button, Card, CardBody} from "@nextui-org/react";
-import {postTask, uploadImages} from "@/app/utils/apihttp";
+import {postTask, uploadImages} from "@/app/utils/client/apihttp";
 import {Notify} from "react-vant";
-import {isInvalidFn} from "@/app/utils/dataTools";
+import {isInvalidFn} from "@/app/utils/client/dataTools";
 import TaskInfoCom from "@/app/components/taskInfo";
 
 export default function postTaskPage() {

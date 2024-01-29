@@ -3,7 +3,7 @@ import React from "react";
 export const FilterIco = ({
                               fill = 'currentColor',
                               filled,
-                              size,
+                              size = 30,
                               height,
                               width,
                               label,
@@ -11,8 +11,8 @@ export const FilterIco = ({
                           }) => {
     return (
         <svg t="1705997064124" className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-             p-id="4187" width={size || width || 24}
-             height={size || height || 24}>
+             p-id="4187" width={size || width}
+             height={size || height }>
             <path
                 d="M200.533333 311.466667C162.133333 311.466667 128 277.333333 128 234.666667s34.133333-76.8 76.8-76.8 76.8 34.133333 76.8 76.8c-4.266667 42.666667-38.4 76.8-81.066667 76.8z m0-106.666667c-17.066667 0-29.866667 12.8-29.866666 29.866667 0 17.066667 12.8 29.866667 29.866666 29.866666 17.066667 0 29.866667-12.8 29.866667-29.866666 0-12.8-12.8-29.866667-29.866667-29.866667z"
                 p-id="4188" fill="#8a8a8a"></path>

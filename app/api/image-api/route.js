@@ -9,7 +9,7 @@ export async function POST(req) {
         const file = formData.get('file');
         const base64 = formData.get('base64');
         const fileData = {file,base64}
-        // console.log('fileData',fileData)
+        // console.log('图片上传接口',fileData)
         const {msg,url} = await upImgMain(fileData);
         return Response.json(BizResult.success({url:url},msg))
     }catch (err){
