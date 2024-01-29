@@ -7,11 +7,11 @@ import {
     Textarea,
     useDisclosure
 } from "@nextui-org/react";
-import {deleteTask, getTaskInfo, upDateTaskState} from "@/app/utils/apihttp";
+import {deleteTask, getTaskInfo, upDateTaskState} from "@/app/utils/client/apihttp";
 import {useRouter, useSearchParams} from 'next/navigation'
 import {Notify} from "react-vant";
 import TaskInfoCom from "@/app/components/taskInfo";
-import {isInvalidFn} from "@/app/utils/dataTools";
+import {isInvalidFn} from "@/app/utils/client/dataTools";
 import {ConfirmBox} from "@/app/components/confirmBox";
 export default function App() {
     const router = useRouter();

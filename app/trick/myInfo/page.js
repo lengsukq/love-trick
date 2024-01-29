@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import {getUserInfo, updateUserInfo, uploadImages} from "@/app/utils/apihttp";
+import {getUserInfo, updateUserInfo, uploadImages} from "@/app/utils/client/apihttp";
 import {
     Avatar,
     Button,

@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from "react";
 import {useRouter} from 'next/navigation'
 import {Input, Button, Avatar} from "@nextui-org/react";
-import {loginApi} from "@/app/utils/apihttp";
+import {loginApi} from "@/app/utils/client/apihttp";
 import {Notify} from "react-vant";
 
 export default function Home() {

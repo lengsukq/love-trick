@@ -13,7 +13,7 @@ export async function loginApi(params) {
 export async function getUserInfo() {
     return await get(`/api/userInfo`);
 }
-// 默认application/json
+// 默认application/json，发布任务
 export async function postTask(params) {
     return post(`/api/trick/postTask`, params);
 }
@@ -45,10 +45,15 @@ export async function uploadImages(params) {
         }
     });
 }
+// 更新用户信息
 export async function updateUserInfo(params) {
     return await post(`/api/userInfo`, params);
 }
 // 获取积分余额
 export async function getScore() {
     return await get(`/api/userInfo/score`);
+}
+// 默认application/json，发布礼物信息
+export async function addGift(params) {
+    return post(`/api/gift/addGift`, params);
 }

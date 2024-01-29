@@ -35,12 +35,12 @@ const TabsComponent = ({pathname, toPage}) => {
                 <Tab key="/trick/myInfo" title="我的"/>
             </Tabs>
         );
-    }else if(pathname === '/trick/gift'){
+    }else if(pathname === '/trick/gift'|| pathname==='/trick/gift/addGift'){
         return (
             <Tabs selectedKey={pathname} key="lg" size="lg" aria-label="Options"
                   onSelectionChange={(e) => toPage(e)}>
                 <Tab key="/trick" title="兑换"/>
-                <Tab key="/trick/postTask" title="新增"/>
+                <Tab key="/trick/gift/addGift" title="新增"/>
                 <Tab key="/trick/gift" title="货架"/>
             </Tabs>
         );
