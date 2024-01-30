@@ -3,7 +3,7 @@ import BizResult from "@/app/utils/BizResult";
 import {cookieTools} from "@/app/utils/cookieTools";
 import executeQuery from "@/app/utils/db";
 import dayjs from "dayjs";
-import {randomImages} from "@/app/utils/sendMSgByWXRobot";
+import {randomImages} from "@/app/utils/third-party-tools";
 
 export async function POST(req) {
     // const contentType = req.headers.get('content-type');

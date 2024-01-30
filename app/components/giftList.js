@@ -4,7 +4,7 @@ export default function GiftList({giftListData, listType,buttonAction=()=>''}) {
 
     const ActButton = ({item}) => {
         let theKey;
-        let trueText = '',falseText='';
+        let trueText = '',falseText='',keyStyle='bg-transparent text-foreground border-default-200';
         if (listType === "getGift") {
             theKey = item.remained !== 0;
             trueText="兑换";
@@ -13,11 +13,17 @@ export default function GiftList({giftListData, listType,buttonAction=()=>''}) {
             theKey = item.isShow === 0;
             trueText="上架";
             falseText="下架";
+        }else if(listType === "useGift"){
+            theKey = true;
+            trueText="使用";
+        }else if(listType === "overGift"){
+            theKey = false;
+            keyStyle = 'hidden'
         }
         return (
             <Button
                 onClick={()=>buttonAction(item,theKey)}
-                className={theKey ? "" : "bg-transparent text-foreground border-default-200"}
+                className={theKey ? "" : keyStyle}
                 color="primary"
                 radius="full"
                 size="sm"

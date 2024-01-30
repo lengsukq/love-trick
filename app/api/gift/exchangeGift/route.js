@@ -2,7 +2,7 @@
 import BizResult from "@/app/utils/BizResult";
 import executeQuery from "@/app/utils/db";
 import {cookieTools} from "@/app/utils/cookieTools";
-import {addScore, getGiftScore, subtractScore} from "@/app/utils/scoreByServer";
+import {addScore, getGiftScore, subtractScore} from "@/app/utils/commonSQL";
 
 export async function PUT(request) {
 }
