@@ -21,7 +21,7 @@ export default function Home() {
                     lover:res.data.lover,
                     score:res.data.score,
                 }));
-                router.push('/trick')
+                router.replace('/trick')
             }
         })
     };
