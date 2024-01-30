@@ -33,7 +33,15 @@ const RightComponent = () => {
 }
 
 
-const TabsComponent = ({pathname, toPage}) => {
+const TabsComponent = ({pathname}) => {
+    const router = useRouter()
+    const toPage = (key) => {
+        router.push(key)
+    }
+    const childToPage = (key)=>{
+        router.replace(key)
+
+    }
     // 只在路由为 "/trick" 时显示组件
     if (pathname === '/trick' || pathname === '/trick/postTask' || pathname === '/trick/myInfo') {
         return (
@@ -47,7 +55,7 @@ const TabsComponent = ({pathname, toPage}) => {
     }else if(pathname === '/trick/gift'|| pathname==='/trick/gift/addGift'|| pathname==='/trick/gift/getList'){
         return (
             <Tabs selectedKey={pathname} key="lg" size="lg" aria-label="Options"
-                  onSelectionChange={(e) => toPage(e)}>
+                  onSelectionChange={(e) => childToPage(e)}>
                 <Tab key="/trick/gift/getList" title="兑换"/>
                 <Tab key="/trick/gift/addGift" title="新增"/>
                 <Tab key="/trick/gift" title="货架"/>
@@ -57,10 +65,6 @@ const TabsComponent = ({pathname, toPage}) => {
 }
 
 export function GlobalComponent() {
-    const router = useRouter()
-    const toPage = (key) => {
-        router.push(key)
-    }
     // 获取路由信息
     const pathname = usePathname();
     console.log('pathname', pathname)
@@ -70,7 +74,7 @@ export function GlobalComponent() {
         <div
             className="GlobalComponent bg-gradient-to-b from-white to-default-200 flex flex-wrap gap-4 w-full justify-center fixed bottom-0 pb-3 pt-3 z-10 items-center">
             <LeftComponent/>
-            <TabsComponent pathname={pathname} toPage={toPage}/>
+            <TabsComponent pathname={pathname}/>
             <RightComponent/>
         </div>
     );
