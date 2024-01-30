@@ -72,3 +72,7 @@ export async function exchangeGift(params) {
 export async function showGift(params) {
     return await get(`/api/gift/showGift?giftId=${params.giftId}&isShow=${params.isShow}`);
 }
+// 使用礼物
+export async function useGift(params) {
+    return await get(`/api/gift/useGift?giftId=${params.giftId}`);
+}
