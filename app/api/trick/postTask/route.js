@@ -7,21 +7,18 @@ import {randomImages, sendMsg} from "@/app/utils/third-party-tools";
 import {getScore, subtractScore} from "@/app/utils/commonSQL";
 
 export async function POST(req) {
-    // const contentType = req.headers.get('content-type');
-    const {userEmail, userName} = cookieTools(req);
-    const creationTime = dayjs().format('YYYY-MM-DD HH:mm:ss')
-    const jsonData = await req.json();
-    console.log('jsonData', jsonData)
-    const {taskName, taskDetail, taskReward, taskScore} = jsonData;
-    const imgURL = jsonData.taskImage;
-    // 获取随机图片
-    const taskImage = imgURL ? imgURL : await randomImages()
     try {
+        const {userEmail, userName} = cookieTools(req);
+        const creationTime = dayjs().format('YYYY-MM-DD HH:mm:ss')
+        const jsonData = await req.json();
+        const {taskName, taskDetail, taskReward, taskScore} = jsonData;
+        const imgURL = jsonData.taskImage;
+        // 获取随机图片
+        const taskImage = imgURL ? imgURL : await randomImages()
         const {score} = (await getScore(userEmail))[0];
         if (score < taskScore) {
             return Response.json(BizResult.fail('', '积分不足，无法发布任务'))
         }
-
         const result = await executeQuery({
             // 插入任务数据
             query: 'INSERT INTO tasklist (taskName, taskDetail, taskImage, taskReward, taskScore,creationTime, publisherName,publisherEmail) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',

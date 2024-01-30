@@ -2,22 +2,20 @@
 import BizResult from "@/app/utils/BizResult";
 import executeQuery from "@/app/utils/db";
 import {cookieTools} from "@/app/utils/cookieTools";
-import {randomImages} from "@/app/utils/third-party-tools";
 
 export async function PUT(request) {
 }
-export async function GET(req) {
-    const {lover} = await cookieTools(req);
-    const {searchParams} = new URL(req.url)
-    // const taskStatus = searchParams.get('taskStatus');
-    const searchWords = searchParams.get('searchWords')?searchParams.get('searchWords'):'';
 
+export async function GET(req) {
     try {
+        const {lover} = await cookieTools(req);
+        const {searchParams} = new URL(req.url)
+        const searchWords = searchParams.get('searchWords') ? searchParams.get('searchWords') : '';
         let result;
         result = await executeQuery({
             // 查询任务列表
             query: `SELECT * FROM gift_list WHERE (publisherEmail = ?) AND giftName LIKE ? AND isShow = 1 ORDER BY GiftId DESC`,
-            values: [lover,`%${searchWords}%`]
+            values: [lover, `%${searchWords}%`]
         });
         // if (taskStatus){
         //     console.log('带状态')

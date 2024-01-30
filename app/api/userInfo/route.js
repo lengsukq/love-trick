@@ -8,16 +8,16 @@ export async function POST(req) {
         const {userEmail} = await cookieTools(req);
         const jsonData = await req.json();
         console.log('jsonData', jsonData)
-        const {username, avatar,describeBySelf} = jsonData;
+        const {username, avatar, describeBySelf} = jsonData;
         const result = await executeQuery({
             // 查询用户信息
             query: "UPDATE userinfo SET username = ?,avatar = ?,describeBySelf=? WHERE userEmail = ?",
-            values: [username,avatar,describeBySelf,userEmail]
+            values: [username, avatar, describeBySelf, userEmail]
         });
-        if (result.error){
+        if (result.error) {
             return Response.json(BizResult.fail(result.error))
 
-        }else{
+        } else {
             return Response.json(BizResult.success(result[0], '更新用户信息成功'))
 
         }
@@ -30,8 +30,8 @@ export async function POST(req) {
 
 // 获取用户信息
 export async function GET(req) {
-    const {userEmail} = await cookieTools(req);
     try {
+        const {userEmail} = await cookieTools(req);
         const result = await executeQuery({
             // 查询用户信息
             query: "SELECT * FROM userinfo WHERE userEmail = ?",
