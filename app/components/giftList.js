@@ -1,28 +1,28 @@
 import {Avatar, Button, Card, CardBody, CardFooter, CardHeader} from "@nextui-org/react";
 
-export default function GiftList({giftListData, listType,buttonAction=()=>''}) {
+export default function GiftList({giftListData, listType, buttonAction = () => ''}) {
 
     const ActButton = ({item}) => {
         let theKey;
-        let trueText = '',falseText='',keyStyle='bg-transparent text-foreground border-default-200';
+        let trueText = '', falseText = '', keyStyle = 'bg-transparent text-foreground border-default-200';
         if (listType === "getGift") {
             theKey = item.remained !== 0;
-            trueText="兑换";
-            falseText="售罄";
-        }else if  (listType === "checkGift") {
+            trueText = "兑换";
+            falseText = "售罄";
+        } else if (listType === "checkGift") {
             theKey = item.isShow === 0;
-            trueText="上架";
-            falseText="下架";
-        }else if(listType === "useGift"){
+            trueText = "上架";
+            falseText = "下架";
+        } else if (listType === "useGift") {
             theKey = true;
-            trueText="使用";
-        }else if(listType === "overGift"){
+            trueText = "使用";
+        } else if (listType === "overGift") {
             theKey = false;
             keyStyle = 'hidden'
         }
         return (
             <Button
-                onClick={()=>buttonAction(item,theKey)}
+                onClick={() => buttonAction(item, theKey)}
                 className={theKey ? "" : keyStyle}
                 color="primary"
                 radius="full"
@@ -30,6 +30,31 @@ export default function GiftList({giftListData, listType,buttonAction=()=>''}) {
                 variant={theKey ? "solid" : "bordered"}>
                 {theKey ? trueText : falseText}
             </Button>
+        )
+    }
+
+    const CustomFooter = ({item}) => {
+        console.log('CustomFooter',listType,listType === "useGift")
+        let textLeft = '库存', textRight = '已售', valueLeft = item.remained, valueRight = item.redeemed;
+
+        if (listType === "useGift" || listType === "overGift") {
+            textLeft = "拥有";
+            valueLeft = item.use;
+            textRight = "已用";
+            valueRight = item.used;
+        }
+
+        return (
+            <CardFooter className="gap-3">
+                <div className="flex gap-1">
+                    <p className="font-semibold text-default-400 text-small">{textLeft}：</p>
+                    <p className=" text-default-400 text-small">{valueLeft}</p>
+                </div>
+                <div className="flex gap-1">
+                    <p className="font-semibold text-default-400 text-small">{textRight}：</p>
+                    <p className="text-default-400 text-small">{valueRight}</p>
+                </div>
+            </CardFooter>
         )
     }
 
@@ -52,16 +77,7 @@ export default function GiftList({giftListData, listType,buttonAction=()=>''}) {
                             {item.giftDetail}
                         </p>
                     </CardBody>
-                    <CardFooter className="gap-3">
-                        <div className="flex gap-1">
-                            <p className="font-semibold text-default-400 text-small">库存：</p>
-                            <p className=" text-default-400 text-small">{item.remained}</p>
-                        </div>
-                        <div className="flex gap-1">
-                            <p className="font-semibold text-default-400 text-small">已售：</p>
-                            <p className="text-default-400 text-small">{item.redeemed}</p>
-                        </div>
-                    </CardFooter>
+                    <CustomFooter item={item}/>
                 </Card>
             ))}
         </div>

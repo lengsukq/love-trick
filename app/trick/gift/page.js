@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import {getMyGift, showGift} from "@/app/utils/client/apihttp";
+import {getMyGift, showGift, useGift} from "@/app/utils/client/apihttp";
 import GiftList from "@/app/components/giftList";
 import {Notify} from "react-vant";
 import {useDispatch, useSelector} from "react-redux";
@@ -22,7 +22,6 @@ export default function App() {
         "已下架": "checkGift",
         "待使用": "useGift",
         "已用完": "overGift",
-
     }
 
     useEffect(() => {
@@ -41,11 +40,18 @@ export default function App() {
         })
     }
     const buttonAction = async (item, theKey) => {
-        await showGift({giftId: item.giftId, isShow: theKey ? '1' : '0'}).then(res => {
-            Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
-            getGiftList();
+        if (myGiftType==='待使用'){
+            await useGift({giftId: item.giftId}).then(res => {
+                Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
+                getGiftList();
+            })
+        }else{
+            await showGift({giftId: item.giftId, isShow: theKey ? '1' : '0'}).then(res => {
+                Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
+                getGiftList();
+            })
+        }
 
-        })
 
     }
 
