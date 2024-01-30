@@ -18,8 +18,6 @@ export async function randomImages() {
 
         if (!response.ok) {
             return 'https://www.freeimg.cn/i/2023/12/31/659105191c747.png' // 返回默认图片链接
-
-            // throw new Error('Network response was not ok');
         }
 
         const data = await response.json();

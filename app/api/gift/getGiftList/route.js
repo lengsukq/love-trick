@@ -2,7 +2,7 @@
 import BizResult from "@/app/utils/BizResult";
 import executeQuery from "@/app/utils/db";
 import {cookieTools} from "@/app/utils/cookieTools";
-import {randomImages} from "@/app/utils/sendMSgByWXRobot";
+import {randomImages} from "@/app/utils/third-party-tools";
 
 export async function PUT(request) {
 }

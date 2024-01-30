@@ -1,7 +1,7 @@
 'use server'
 import BizResult from "@/app/utils/BizResult";
 import {cookieTools} from "@/app/utils/cookieTools";
-import {getScore} from "@/app/utils/scoreByServer";
+import {getScore} from "@/app/utils/commonSQL";
 
 export async function PUT(req) {
 }

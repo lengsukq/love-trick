@@ -1,25 +1,29 @@
 'use server'
 import BizResult from "@/app/utils/BizResult";
 import executeQuery from "@/app/utils/db";
+import {sendMsg} from "@/app/utils/third-party-tools";
 import {cookieTools} from "@/app/utils/cookieTools";
-import {addScore, getGiftScore, subtractScore} from "@/app/utils/commonSQL";
+import {getGiftScore} from "@/app/utils/commonSQL";
 
 export async function PUT(request) {
 }
 
 export async function GET(req) {
+    const {userName} = cookieTools(req);
+
+
     const {searchParams} = new URL(req.url)
     const giftId = searchParams.get('giftId')
-    const isShow = searchParams.get('isShow')==="1"?1:0;
-    console.log('isShow',searchParams.get('isShow'))
     try {
+        const scoreResult = await getGiftScore(giftId);
+        const giftName = scoreResult[0].giftName;
         const result = await executeQuery({
             // 修改是否展示
-            query: 'UPDATE gift_list SET isShow = ? WHERE giftId = ?',
-            values: [isShow, giftId]
+            query: 'UPDATE gift_list SET used = used + ? WHERE giftId = ?',
+            values: [1, giftId]
         });
-
-        return Response.json(BizResult.success('', `${isShow===1?'上架成功':'下架成功'}`))
+        sendMsg(`${userName}使用了礼物“${giftName}”`)
+        return Response.json(BizResult.success('', `礼物“${giftName}”使用成功`))
     } catch (error) {
         console.log(error);
         return Response.json(BizResult.fail(''))

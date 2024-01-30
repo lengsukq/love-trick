@@ -3,8 +3,8 @@ import BizResult from "@/app/utils/BizResult";
 import executeQuery from "@/app/utils/db";
 import {cookieTools} from "@/app/utils/cookieTools";
 import dayjs from "dayjs";
-import {sendMsg} from "@/app/utils/sendMSgByWXRobot";
-import {addScore, getTaskDetail} from "@/app/utils/scoreByServer";
+import {sendMsg} from "@/app/utils/third-party-tools";
+import {addScore, getTaskDetail} from "@/app/utils/commonSQL";
 
 
 export async function DELETE(req) {
