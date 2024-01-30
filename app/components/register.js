@@ -1,19 +1,29 @@
-
-import {Avatar, Button, ModalFooter, ModalHeader,Input, Modal, ModalBody, ModalContent, useDisclosure} from "@nextui-org/react";
+import {
+    Avatar,
+    Button,
+    Input,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    useDisclosure
+} from "@nextui-org/react";
 import {useEffect, useState} from "react";
 import {imgUpload} from "@/app/utils/client/fileTools";
 import {eMailInvalidFn, isInvalidFn, sameInvalidFn} from "@/app/utils/client/dataTools";
+import {userRegister} from "@/app/utils/client/apihttp";
+import {Notify} from "react-vant";
 
-export const Register = ({openKey, keyToFalse,onKeyDown=()=>''}) => {
+export const Register = ({openKey, keyToFalse, onKeyDown = () => ''}) => {
     const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
-    const [avatar,setAvatar] = useState('')
-    const [userEmail,setUserEmail] = useState('')
-    const [username,setUsername] = useState('')
-    const [password,setPassword] = useState('')
-    const [password2,setPassword2] = useState('')
-
-    const [describeBySelf,setDescribeBySelf] = useState('')
-    const [lover,setLover] = useState('')
+    const [avatar, setAvatar] = useState('')
+    const [userEmail, setUserEmail] = useState('')
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [password2, setPassword2] = useState('')
+    const [describeBySelf, setDescribeBySelf] = useState('')
+    const [lover, setLover] = useState('')
 
     const upAvatar = async (event) => {
         const img = await imgUpload(event);
@@ -29,6 +39,19 @@ export const Register = ({openKey, keyToFalse,onKeyDown=()=>''}) => {
         }
 
     }, [openKey])
+
+    const userRegisterAct = async () => {
+
+        if (isInvalidFn(username) || isInvalidFn(password) || isInvalidFn(describeBySelf) || eMailInvalidFn(userEmail) || eMailInvalidFn(lover) || sameInvalidFn(password, password2)){
+            return
+        }
+        await userRegister({avatar,userEmail,username,password,lover,describeBySelf}).then(res => {
+            Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
+            if (res.code === 200) {
+                onClose();
+            }
+        })
+    }
 
     return (
         <>
@@ -107,23 +130,22 @@ export const Register = ({openKey, keyToFalse,onKeyDown=()=>''}) => {
                                     type="password"
                                 />
                                 <Input
-                                    isInvalid={sameInvalidFn(password2,password)}
-                                    color={sameInvalidFn(password2,password) ? "danger" : "success"}
-                                    errorMessage={sameInvalidFn(password2,password) && "请再次输入一致的密码"}
+                                    isInvalid={sameInvalidFn(password2, password)}
+                                    color={sameInvalidFn(password2, password) ? "danger" : "success"}
+                                    errorMessage={sameInvalidFn(password2, password) && "请再次输入一致的密码"}
                                     value={password2}
                                     onChange={(e) => setPassword2(e.target.value)}
                                     label="密码"
                                     placeholder="请再次输入一致的密码"
                                     variant="bordered"
                                     type="password"
-
                                 />
                             </ModalBody>
                             <ModalFooter>
                                 <Button color="danger" variant="flat" onClick={onClose}>
                                     取消
                                 </Button>
-                                <Button color="primary" onClick={onClose}>
+                                <Button color="primary" onClick={userRegisterAct}>
                                     提交
                                 </Button>
                             </ModalFooter>

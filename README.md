@@ -3,11 +3,11 @@
 
 ## 实现功能
 
-1. 用户登录、发布任务 （由于就两个人使用，目前还没考虑注册功能，账户直接数据库添加）
-2. 发布接受完成任务都会有微信企业机器人通知 
-3. 上传图片完全不占用服务器空间，使用图床 
+1. 用户注册登录、发布任务 （注册点击登录页圆形大图）
+2. 类商品交易系统，获取积分后可以直接兑换礼物（商品），也可以上架自己的礼物给对方兑换 
+3. 上传图片完全不占用服务器空间，使用第三方图床 
 4. 积分系统，发布完成任务都能加减积分 
-5. 类商品交易系统，获取积分后可以直接兑换礼物（商品），也可以上架自己的礼物给对方兑换
+5. 发布接受完成任务以及使用礼物都会有微信企业机器人通知
 ***
 
 ![index.jpg](readmeImg%2Findex.jpg)
@@ -29,39 +29,42 @@ IMGBB_API = IMGBB图床API 地址：https://imgbb.com/
 图床只要选择一个即可，选择b站相关的图床，BILIBILI_SESSDATA和BILIBILI_CSRF必须都要填
 如果要使用b站视频封面上传，需要取消注释posttask/page文件中的某行代码
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 仍旧存在的一些缺陷（任可改进）
+* sql语句不够严谨
+* 未将cookie进行服务器端二次校验
+* 某些接口没有进行二次校验就写入数据库
+* 部分功能缺少二次确认逻辑
 
-## Getting Started
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 开发启动流程
+1. 安装依赖
+```shell
+yarn
+```
+2. 启动项目
+```shell
+yarn dve
+```
+3. 访问项目地址
+```text
+http://localhost:9999/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 发布到生产环境
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. 安装依赖 
+```shell
+yarn
+```
+2. 编译
+```shell
+yarn build
+```
+3. 启动项目
+```shell
+yarn start
+```
+4. 访问项目地址
+```text
+http://你的ip地址:9999/
+```
