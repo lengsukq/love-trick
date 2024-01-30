@@ -5,6 +5,7 @@ import {imgUpload} from "@/app/utils/client/fileTools";
 import {UpImg} from "@/app/components/icon/upImg";
 import {addGift} from "@/app/utils/client/apihttp";
 import {Notify} from "react-vant";
+import {isInvalidFn} from "@/app/utils/client/dataTools";
 
 export default function App() {
 
@@ -12,16 +13,21 @@ export default function App() {
     const [giftDetail, setGiftDetail] = useState('');
     const [needScore, setNeedScore] = useState(0);
     const [giftImg, setGiftImg] = useState('');
-    const [remained,setRemained]= useState(10);
-    const [isShow,setIsShow] = useState(true);
+    const [remained, setRemained] = useState(10);
+    const [isShow, setIsShow] = useState(true);
     const upGiftImg = async (event) => {
         const img = await imgUpload(event);
         setGiftImg(img);
     }
-    const addGiftAct = ()=>{
-        addGift({giftName, giftDetail, needScore, giftImg, remained,isShow}).then(res=>{
-            console.log(res)
-            Notify.show({ type: res.code ===200?'success':'warning', message: `${res.msg}` })
+    const addGiftAct = () => {
+        let params = {giftName, giftDetail, needScore, remained, isShow};
+        if (isInvalidFn(params)) {
+            return;
+        }
+        params['giftImg'] = giftImg;
+
+        addGift(params).then(res => {
+            Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
         })
     }
     return (
@@ -36,32 +42,48 @@ export default function App() {
                     </label>
                 </CardHeader>
                 <CardBody className="px-3 py-0 text-small text-default-400">
-                    <Input label="礼物名称"
-                           placeholder="请输入礼物名称，不超过10个字"
-                           value={giftName}
-                           onChange={(e) => setGiftName(e.target.value)}
-                           className={"mb-5"}/>
-                    <Input label="礼物描述"
-                           placeholder="请输入礼物描述，不超过20个字"
-                           value={giftDetail}
-                           onChange={(e) => setGiftDetail(e.target.value)}
-                           className={"mb-5"}/>
+                    <Input
+                        isInvalid={isInvalidFn(giftName)}
+                        color={isInvalidFn(giftName) ? "danger" : "success"}
+                        errorMessage={isInvalidFn(giftName) && "请输入礼物名称，不超过10个字"}
+                        label="礼物名称"
+                        placeholder="请输入礼物名称，不超过10个字"
+                        value={giftName}
+                        onChange={(e) => setGiftName(e.target.value)}
+                        className={"mb-5"}/>
+                    <Input
+                        isInvalid={isInvalidFn(giftDetail)}
+                        color={isInvalidFn(giftDetail) ? "danger" : "success"}
+                        errorMessage={isInvalidFn(giftDetail) && "请输入礼物描述，不超过20个字"}
+                        label="礼物描述"
+                        placeholder="请输入礼物描述，不超过20个字"
+                        value={giftDetail}
+                        onChange={(e) => setGiftDetail(e.target.value)}
+                        className={"mb-5"}/>
                     <div className="flex w-full">
-                        <Input value={needScore}
-                               onChange={(e) => setNeedScore(e.target.value)}
-                               type="number"
-                               label="所需积分"
-                               placeholder="请输入积分"
-                               className={"mr-5"}/>
-                        <Input value={remained}
-                               onChange={(e) => setRemained(e.target.value)}
-                               type="number"
-                               label="礼物库存"
-                               placeholder="请输入库存"/>
+                        <Input
+                            isInvalid={isInvalidFn(needScore)}
+                            color={isInvalidFn(needScore) ? "danger" : "success"}
+                            errorMessage={isInvalidFn(needScore) && "请输入积分"}
+                            value={needScore}
+                            onChange={(e) => setNeedScore(e.target.value)}
+                            type="number"
+                            label="所需积分"
+                            placeholder="请输入积分"
+                            className={"mr-5"}/>
+                        <Input
+                            isInvalid={isInvalidFn(needScore)}
+                            color={isInvalidFn(needScore) ? "danger" : "success"}
+                            errorMessage={isInvalidFn(needScore) && "请输入积分"}
+                            value={remained}
+                            onChange={(e) => setRemained(e.target.value)}
+                            type="number"
+                            label="礼物库存"
+                            placeholder="请输入库存"/>
                     </div>
                 </CardBody>
                 <CardFooter className="gap-3">
-                    <Switch isSelected={isShow} onValueChange={(e)=>setIsShow(e)}>
+                    <Switch isSelected={isShow} onValueChange={(e) => setIsShow(e)}>
                         是否立即上架
                     </Switch>
                 </CardFooter>
