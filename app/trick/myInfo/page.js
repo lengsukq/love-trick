@@ -50,8 +50,8 @@ export default function App() {
     const [describeBySelf, setDescribeBySelf] = useState('')
 
     const avatarUpload = async (event) => {
-        const file = event.target.files[0];
         try {
+            const file = event.target.files[0];
             await uploadImages({file: file, base64: ""}).then(res => {
                 setAvatar(res.data.url)
             });

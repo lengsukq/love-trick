@@ -12,7 +12,6 @@ export async function GET(req) {
         const {userEmail} = await cookieTools(req);
         const result = await getScore(userEmail);
         return Response.json(BizResult.success(result[0], '查询积分成功'))
-
     } catch (error) {
         console.log(error);
         return Response.json(BizResult.fail(''))

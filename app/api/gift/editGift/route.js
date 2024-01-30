@@ -6,10 +6,11 @@ export async function PUT(request) {
 }
 
 export async function GET(req) {
-    const {searchParams} = new URL(req.url)
-    const giftId = searchParams.get('giftId')
-    const remained = searchParams.get('remained');
     try {
+        const {searchParams} = new URL(req.url)
+        const giftId = searchParams.get('giftId')
+        const remained = searchParams.get('remained');
+
         const result = await executeQuery({
             // 修改是否展示
             query: 'UPDATE gift_list SET remained = ? WHERE giftId = ?',

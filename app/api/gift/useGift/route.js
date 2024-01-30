@@ -9,12 +9,10 @@ export async function PUT(request) {
 }
 
 export async function GET(req) {
-    const {userName} = cookieTools(req);
-
-
-    const {searchParams} = new URL(req.url)
-    const giftId = searchParams.get('giftId')
     try {
+        const {userName} = cookieTools(req);
+        const {searchParams} = new URL(req.url)
+        const giftId = searchParams.get('giftId')
         const scoreResult = await getGiftScore(giftId);
         const giftName = scoreResult[0].giftName;
         const result = await executeQuery({

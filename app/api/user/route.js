@@ -7,12 +7,12 @@ import dayjs from "dayjs";
 import {randomImages} from "@/app/utils/third-party-tools";
 
 export async function GET(req) {
-    const {searchParams} = new URL(req.url)
-    const username = searchParams.get('username')
-    const password = searchParams.get('password')
-    console.log('searchParams', searchParams, 'username---', username, 'password---', password)
-
     try {
+        const {searchParams} = new URL(req.url)
+        const username = searchParams.get('username')
+        const password = searchParams.get('password')
+        console.log('searchParams', searchParams, 'username---', username, 'password---', password)
+
         const result = await executeQuery({
             // 查询有无此用户
             query: 'SELECT userId, userEmail, lover,score FROM userinfo WHERE username = ? AND password = ?',
@@ -46,14 +46,20 @@ export async function GET(req) {
     }
 }
 export async function POST(req) {
-    const creationTime = dayjs().format('YYYY-MM-DD HH:mm:ss')
-    const jsonData = await req.json();
-    const {userEmail, username, password, describeBySelf, lover} = jsonData;
-    const imgURL = jsonData.avatar;
-    // 获取随机图片
-    const avatar = imgURL ? imgURL : await randomImages()
 
     try {
+        const creationTime = dayjs().format('YYYY-MM-DD HH:mm:ss')
+        const jsonData = await req.json();
+        const {userEmail, username, password, describeBySelf, lover} = jsonData;
+        if (!userEmail || !username || !password || !describeBySelf || !lover){
+            return Response.json(BizResult.fail('', '请检查注册信息是否填写正确'))
+        }
+        if (userEmail === lover){
+            return Response.json(BizResult.fail('', '用户邮箱与关联者邮箱不可相同'))
+        }
+        const imgURL = jsonData.avatar;
+        // 获取随机图片
+        const avatar = imgURL ? imgURL : await randomImages()
         const result = await executeQuery({
             // 新增用户
             query: 'INSERT INTO userinfo (userEmail,username, password, avatar, describeBySelf, registrationTime,lover) VALUES (?, ?, ?, ?, ?, ?, ?)',
