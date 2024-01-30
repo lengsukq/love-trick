@@ -2,7 +2,9 @@
 import BizResult from '@/app/utils/BizResult';
 import executeQuery from "@/app/utils/db";
 import {cookies} from 'next/headers'
-import {encryptData} from "@/app/utils/cookieTools";
+import {cookieTools, encryptData} from "@/app/utils/cookieTools";
+import dayjs from "dayjs";
+import {randomImages} from "@/app/utils/third-party-tools";
 
 export async function GET(req) {
     const {searchParams} = new URL(req.url)
@@ -38,6 +40,27 @@ export async function GET(req) {
             return Response.json(BizResult.fail(result, '请检查用户名密码'))
         }
 
+    } catch (error) {
+        console.log(error);
+        return Response.json(BizResult.fail('', '系统异常'))
+    }
+}
+export async function POST(req) {
+    const creationTime = dayjs().format('YYYY-MM-DD HH:mm:ss')
+    const jsonData = await req.json();
+    const {userEmail, username, password, describeBySelf, lover} = jsonData;
+    const imgURL = jsonData.avatar;
+    // 获取随机图片
+    const avatar = imgURL ? imgURL : await randomImages()
+
+    try {
+        const result = await executeQuery({
+            // 新增用户
+            query: 'INSERT INTO userinfo (userEmail,username, password, avatar, describeBySelf, registrationTime,lover) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            values: [userEmail, username, password, avatar, describeBySelf, creationTime, lover]
+        });
+
+        return Response.json(BizResult.success('', '创建账号成功'))
     } catch (error) {
         console.log(error);
         return Response.json(BizResult.fail('', '系统异常'))

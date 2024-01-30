@@ -1,8 +1,6 @@
 import qs from "qs";
 import {get, post, deleteAct} from "./fetchUtil";
 
-
-
 // 登录接口
 export async function loginApi(params) {
     return await get(`/api/user?username=${params.username}&password=${params.password}`);

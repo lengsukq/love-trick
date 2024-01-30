@@ -11,12 +11,20 @@ export async function POST(req) {
     const creationTime = dayjs().format('YYYY-MM-DD HH:mm:ss')
     const jsonData = await req.json();
     const {giftName, giftDetail, needScore, remained} = jsonData;
-    const isShow = jsonData.isShow?1:0;
+    if (giftName.length > 10) {
+        return Response.json(BizResult.fail('', '礼物名称不能超过10个字'))
+    } else if (giftDetail.length > 10) {
+        return Response.json(BizResult.fail('', '礼物描述不能超过20个字'))
+    } else if (needScore.length < 0) {
+        return Response.json(BizResult.fail('', '所需积分不能小于0'))
+    } else if (remained <= 0) {
+        return Response.json(BizResult.fail('', '库存必须大于0'))
+    }
+
+    const isShow = jsonData.isShow ? 1 : 0;
     const imgURL = jsonData.giftImg;
-    console.log('jsonData', jsonData,isShow)
     // 获取随机图片
     const giftImg = imgURL ? imgURL : await randomImages()
-    console.log('userEmail, giftImg, giftName, giftDetail, needScore, remained, isShow',userEmail, giftImg, giftName, giftDetail, needScore, remained, isShow)
 
     try {
         const result = await executeQuery({
