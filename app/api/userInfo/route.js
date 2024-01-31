@@ -31,12 +31,19 @@ export async function POST(req) {
 // 获取用户信息
 export async function GET(req) {
     try {
-        const {userEmail} = await cookieTools(req);
+        const {userEmail,lover} = await cookieTools(req);
+        const loverResult = await executeQuery({
+            // 查询用户信息
+            query: "SELECT * FROM userinfo WHERE userEmail = ?",
+            values: [lover]
+        });
         const result = await executeQuery({
             // 查询用户信息
             query: "SELECT * FROM userinfo WHERE userEmail = ?",
             values: [userEmail]
         });
+
+        result[0]['loverInfo'] = loverResult[0];
         console.log('result', result[0])
         delete result[0].password;
         return Response.json(BizResult.success(result[0], '获取用户信息成功'))
