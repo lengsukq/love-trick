@@ -188,9 +188,9 @@ export default function App() {
                     <div className="max-w-md mt-3 mb-3">
                         <div className="flex items-center space-x-4 text-large justify-evenly">
                             <div><Chip radius="lg" color="default" variant="dot"
-                                       onClick={() => toPage('/trick/gift/getList')}>礼物</Chip></div>
+                                       onClick={() => toPage('/trick/gift/getList')}>心意</Chip></div>
                             <Divider className="mx-4" orientation="vertical"/>
-                            <div><Chip radius="lg" color="success" variant="dot">口袋</Chip></div>
+                            <div><Chip radius="lg" color="success" variant="dot">心扉</Chip></div>
                             <Divider className="mx-4" orientation="vertical"/>
                             <div><Chip radius="lg" color="warning" variant="dot">心欢</Chip></div>
                         </div>
