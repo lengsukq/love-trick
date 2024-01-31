@@ -3,8 +3,11 @@ import React, {useEffect, useState} from "react";
 import {exchangeGift, getGiftList} from "@/app/utils/client/apihttp";
 import GiftList from "@/app/components/giftList";
 import {Notify} from "react-vant";
+import {closeSearch} from "@/app/store/myGiftStore";
+import {useDispatch} from "react-redux";
 
 export default function App() {
+    const dispatch = useDispatch();
 
     useEffect(() => {
         getTaskList().then(r => {
@@ -17,6 +20,7 @@ export default function App() {
             isShow: isShow,
             searchWords: words
         }).then(res => {
+            dispatch(closeSearch());
             setGiftListData(res.code === 200 ? res.data : []);
         })
     }

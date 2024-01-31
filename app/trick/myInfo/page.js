@@ -158,7 +158,8 @@ export default function App() {
                             <div><Chip radius="lg" color="default" variant="dot"
                                        onClick={() => toPage('/trick/gift/getList')}>心意</Chip></div>
                             <Divider className="mx-4" orientation="vertical"/>
-                            <div><Chip radius="lg" color="success" variant="dot">心扉</Chip></div>
+                            <div><Chip radius="lg" color="success" variant="dot"
+                                       onClick={() => toPage('/trick/whisper')}>心扉</Chip></div>
                             <Divider className="mx-4" orientation="vertical"/>
                             <div><Chip radius="lg" color="warning" variant="dot">心欢</Chip></div>
                         </div>
