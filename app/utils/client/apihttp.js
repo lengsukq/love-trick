@@ -87,3 +87,7 @@ export async function showGift(params) {
 export async function useGift(params) {
     return await get(`/api/gift/useGift?giftId=${params.giftId}`);
 }
+// 发布留言
+export async function addWhisper(params) {
+    return post(`/api/whisper/addWhisper`, params);
+}
