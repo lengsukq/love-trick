@@ -37,7 +37,13 @@ export default function App() {
             type: myGiftType,
             searchWords: words
         }).then(res => {
-            setGiftListData(res.code === 200 ? res.data : []);
+            if (res.code===200){
+                setGiftListData(res.data);
+                dispatch(closeSearch())
+            }else{
+                Notify.show({type:'warning', message: `${res.msg}`})
+
+            }
         })
     }
     const buttonAction = async (item, theKey) => {

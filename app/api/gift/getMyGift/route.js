@@ -32,7 +32,7 @@ export async function GET(req) {
         } else if (type === '已用完') {
             result = await executeQuery({
                 // 获取售出-已使用等于零的数据
-                query: 'SELECT * FROM gift_list WHERE ((redeemed - used) = 0) AND (publisherEmail = ?)',
+                query: 'SELECT * FROM gift_list WHERE ((redeemed - used) = 0) AND (publisherEmail = ?) AND used != 0',
                 values: [lover]
             });
             result.forEach(item => {
