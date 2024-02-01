@@ -91,3 +91,11 @@ export async function useGift(params) {
 export async function addWhisper(params) {
     return post(`/api/whisper/addWhisper`, params);
 }
+// 获取我的留言列表
+export async function getMyWhisper(params) {
+    return await get(`/api/whisper/getMyWhisper?searchWords=${params.searchWords}`);
+}
+// 获取我的留言列表
+export async function getTAWhisper(params) {
+    return await get(`/api/whisper/getTAWhisper?searchWords=${params.searchWords}`);
+}
