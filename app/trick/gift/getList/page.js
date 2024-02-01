@@ -5,6 +5,7 @@ import GiftList from "@/app/components/giftList";
 import {Notify} from "react-vant";
 import {closeSearch} from "@/app/store/myGiftStore";
 import {useDispatch} from "react-redux";
+import NoDataCom from "@/app/components/noDataCom";
 
 export default function App() {
     const dispatch = useDispatch();
@@ -25,8 +26,8 @@ export default function App() {
         })
     }
 
-    const buttonAction = async (item,theKey) => {
-        console.log('buttonAction',item,theKey)
+    const buttonAction = async (item, theKey) => {
+        console.log('buttonAction', item, theKey)
         if (theKey) {
             await exchangeGift({giftId: item.giftId}).then(res => {
                 Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
@@ -35,8 +36,10 @@ export default function App() {
             })
         }
     }
-    return (
+
+    return giftListData.length > 0 ? (
+
         <GiftList giftListData={giftListData} listType={"getGift"} buttonAction={buttonAction}></GiftList>
 
-    );
+    ) : <NoDataCom/>
 }

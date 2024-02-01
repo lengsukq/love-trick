@@ -7,7 +7,7 @@ export function TrickProviders({children}) {
     return (
         <Suspense>
             <div className="h-lvh">
-                <div className={"pb-16"}>{children}</div>
+                <div className={"pb-16 h-full"}>{children}</div>
                 <GlobalComponent/>
             </div>
         </Suspense>

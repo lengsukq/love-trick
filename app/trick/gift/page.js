@@ -6,6 +6,7 @@ import {Notify} from "react-vant";
 import {useDispatch, useSelector} from "react-redux";
 import SearchModal from "@/app/components/searchModal";
 import {closeSearch} from "@/app/store/myGiftStore";
+import NoDataCom from "@/app/components/noDataCom";
 
 export default function App() {
     const myGiftType = useSelector((state) => state.myGiftType.type);
@@ -69,7 +70,7 @@ export default function App() {
                          setSearchWords={setSearchWords}
                          onKeyDown={onKeyDown}
                          placeholder={"请输入礼物名称"}/>
-            <GiftList giftListData={giftListData} listType={listType} buttonAction={buttonAction}></GiftList>
+            {giftListData.length>0?<GiftList giftListData={giftListData} listType={listType} buttonAction={buttonAction}></GiftList>:<NoDataCom/>}
 
         </>
 

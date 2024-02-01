@@ -2,6 +2,8 @@
 import React, {useEffect, useState} from "react";
 import WhisperForm from "@/app/components/whisperForm";
 import {getTAWhisper} from "@/app/utils/client/apihttp";
+import {Notify} from "react-vant";
+import NoDataCom from "@/app/components/noDataCom";
 
 export default function App() {
     const [whisperData, setWhisperData] = useState([])
@@ -9,10 +11,18 @@ export default function App() {
         getTAWhisperAct().then(r => '');
     }, [])
     const getTAWhisperAct = async () => {
-        await getTAWhisper({searchWords: ""}).then(res => {
-            console.log('getMyWhisper', res)
-            setWhisperData(res.data)
-        })
+        try {
+            await getTAWhisper({searchWords: ""}).then(res => {
+                if (res.code===200){
+                    setWhisperData(res.data)
+                }else{
+                    Notify.show({type: 'warning', message: `${res.msg}`})
+                }
+            })
+        }catch (e){
+            console.log(e);
+        }
+
     }
     if (whisperData.length > 0) {
         return (
@@ -23,7 +33,9 @@ export default function App() {
             </div>
         );
     } else {
-
+        return (
+            <NoDataCom/>
+            )
     }
 
 }
