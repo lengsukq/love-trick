@@ -15,7 +15,7 @@ import {eMailInvalidFn, isInvalidFn, sameInvalidFn} from "@/app/utils/client/dat
 import {userRegister} from "@/app/utils/client/apihttp";
 import {Notify} from "react-vant";
 
-export const Register = ({openKey, keyToFalse, onKeyDown = () => ''}) => {
+export default function Register ({openKey, keyToFalse, onKeyDown = () => ''}) {
     const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
     const [avatar, setAvatar] = useState('')
     const [userEmail, setUserEmail] = useState('')

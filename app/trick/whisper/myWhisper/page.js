@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import {WhisperForm} from "@/app/components/whisperForm";
+import WhisperForm from "@/app/components/whisperForm";
 import {getMyWhisper} from "@/app/utils/client/apihttp";
 
 export default function App() {
