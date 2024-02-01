@@ -1,11 +1,12 @@
 // 发送文本消息
 export function sendMsg(msg) {
+    // 发送 POST 请求到企业微信机器人的 API
     fetch(process.env.WX_ROBOT_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json', // 设置头部信息
         },
-        body: JSON.stringify({msgtype: "text", text: {content: msg}}), // 将对象转换为 JSON 字符串
+        body: JSON.stringify({msgtype: "text", text: {content: msg+` 👉${process.env.WEB_URL}`}}), // 将对象转换为 JSON 字符串
     })
         .then(response => response.json())
         .then(data => console.log('POST 请求成功：', data))
