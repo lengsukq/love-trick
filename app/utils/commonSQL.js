@@ -1,4 +1,5 @@
 import executeQuery from "@/app/utils/db";
+import {error} from "next/dist/build/output/log";
 
 // 添加积分
 export async function addScore(value, userEmail) {
@@ -10,7 +11,7 @@ export async function addScore(value, userEmail) {
         });
         return await getScore(userEmail);
     } catch (e) {
-
+        throw new error(e)
     }
 }
 // 扣减积分
@@ -30,7 +31,7 @@ export async function subtractScore(value, userEmail) {
         return await getScore(userEmail);
     } catch (e) {
         console.log('subtractScore',e)
-        return e
+        throw new error(e)
     }
 }
 // 获取积分余额
@@ -43,7 +44,7 @@ export async function getScore(userEmail) {
         });
     } catch (e) {
         console.log(e)
-        return e
+        throw new error(e)
     }
 }
 
@@ -56,7 +57,7 @@ export async function getTaskDetail(taskId) {
         });
     } catch (e) {
         console.log(e)
-        return e
+        throw new error(e)
     }
 }
 // 查询礼物分数
@@ -69,18 +70,18 @@ export async function getGiftScore(giftId) {
         });
     } catch (e) {
         console.log(e)
-        return e
+        throw new error(e)
     }
 }
 // 获取留言列表
 export async function getWhisper(eMail,searchWords='') {
+    console.log('获取留言列表',eMail)
     try {
         return await executeQuery({
-            query: `SELECT * FROM whisper_list WHERE publisherEmail = ? AND giftName LIKE ? ORDER BY whisperId DESC`,
+            query: `SELECT * FROM whisper_list WHERE publisherEmail = ? AND title LIKE ? ORDER BY whisperId DESC`,
             values: [eMail,`%${searchWords}%`]
         });
     } catch (e) {
-        console.log(e)
-        return e
+        throw new error(e)
     }
 }
