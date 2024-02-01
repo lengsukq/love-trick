@@ -20,7 +20,7 @@ import {
 } from "@nextui-org/react";
 import {Notify} from "react-vant";
 import {useRouter} from "next/navigation";
-import {UserInfoCard} from "@/app/components/userInfoCard";
+import UserInfoCard from "@/app/components/userInfoCard";
 
 export default function App() {
     const [userInfo, setUserInfo] = useState({

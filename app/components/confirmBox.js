@@ -1,6 +1,6 @@
 import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
 
-export const ConfirmBox = ({isOpen,onClose,cancelAct,confirmAct,modalText=""}) => {
+export default function ConfirmBox ({isOpen,onClose,cancelAct,confirmAct,modalText=""}) {
     return (
         <>
             <Modal

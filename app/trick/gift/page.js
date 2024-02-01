@@ -4,7 +4,7 @@ import {getMyGift, showGift, useGift} from "@/app/utils/client/apihttp";
 import GiftList from "@/app/components/giftList";
 import {Notify} from "react-vant";
 import {useDispatch, useSelector} from "react-redux";
-import {SearchModal} from "@/app/components/searchModal";
+import SearchModal from "@/app/components/searchModal";
 import {closeSearch} from "@/app/store/myGiftStore";
 
 export default function App() {

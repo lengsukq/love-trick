@@ -4,7 +4,7 @@ import {isInvalidFn} from "@/app/utils/client/dataTools";
 import {addWhisper} from "@/app/utils/client/apihttp";
 import {Notify} from "react-vant";
 
-export const WhisperForm = ({item = null}) => {
+export default function WhisperForm ({item = null}) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     useEffect(() => {

@@ -1,7 +1,7 @@
 import {Avatar, Button, Card, CardBody, CardFooter, CardHeader,} from "@nextui-org/react";
 import React from "react";
 
-export const UserInfoCard = ({userInfo, onOpen,isLover=false}) => {
+export default function UserInfoCard ({userInfo, onOpen,isLover=false}) {
     if (userInfo) {
         return (
             <>

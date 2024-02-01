@@ -4,7 +4,7 @@ import {Card, CardBody, CardFooter, CardHeader, Image} from "@nextui-org/react";
 import {getTask} from "@/app/utils/client/apihttp";
 import {useRouter} from 'next/navigation'
 import {useDispatch, useSelector} from 'react-redux'
-import {SearchModal} from "@/app/components/searchModal";
+import SearchModal from "@/app/components/searchModal";
 import {closeSearch} from "@/app/store/taskListStore";
 
 export default function App() {
