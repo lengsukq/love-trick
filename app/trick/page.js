@@ -6,6 +6,7 @@ import {useRouter} from 'next/navigation'
 import {useDispatch, useSelector} from 'react-redux'
 import SearchModal from "@/app/components/searchModal";
 import {closeSearch} from "@/app/store/taskListStore";
+import NoDataCom from "@/app/components/noDataCom";
 
 export default function App() {
     const taskStatusStore = useSelector((state) => state.taskListDataStatus.status);
@@ -45,36 +46,44 @@ export default function App() {
         console.log("item pressed", item);
         router.push(`/trick/taskInfo?taskId=${item.taskId}`)
     }
-    return (
-        <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
-            <SearchModal openKey={isSearch}
-                         keyToFalse={keyToFalse}
-                         searchWords={searchWords}
-                         setSearchWords={setSearchWords}
-                         onKeyDown={onKeyDown}/>
-            {taskList.map((item, index) => (
-                <Card shadow="sm" key={index} isPressable onPress={() => onPressHandler(item)}>
-                    <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-                        <p className=" text-large uppercase font-bold truncate w-full">{item.taskName}</p>
-                        <small className="text-default-500">{item.creationTime}</small>
-                        {/*<h4 className="font-bold text-tiny ">Frontend Radio</h4>*/}
-                    </CardHeader>
-                    <CardBody className="overflow-visible p-0">
-                        <Image
-                            shadow="sm"
-                            radius="lg"
-                            width="100%"
-                            alt={item.taskName}
-                            className="w-full object-cover h-[140px]"
-                            src={item.taskImage[0]}
-                        />
-                    </CardBody>
-                    <CardFooter className="text-small justify-between">
-                        <b>{item.publisherName}</b>
-                        <p className="text-default-500">{item.taskStatus}</p>
-                    </CardFooter>
-                </Card>
-            ))}
-        </div>
-    );
+    if (taskList.length > 0) {
+        return (
+            <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
+                <SearchModal openKey={isSearch}
+                             keyToFalse={keyToFalse}
+                             searchWords={searchWords}
+                             setSearchWords={setSearchWords}
+                             onKeyDown={onKeyDown}/>
+                {taskList.map((item, index) => (
+                    <Card shadow="sm" key={index} isPressable onPress={() => onPressHandler(item)}>
+                        <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+                            <p className=" text-large uppercase font-bold truncate w-full">{item.taskName}</p>
+                            <small className="text-default-500">{item.creationTime}</small>
+                            {/*<h4 className="font-bold text-tiny ">Frontend Radio</h4>*/}
+                        </CardHeader>
+                        <CardBody className="overflow-visible p-0">
+                            <Image
+                                shadow="sm"
+                                radius="lg"
+                                width="100%"
+                                alt={item.taskName}
+                                className="w-full object-cover h-[140px]"
+                                src={item.taskImage[0]}
+                            />
+                        </CardBody>
+                        <CardFooter className="text-small justify-between">
+                            <b>{item.publisherName}</b>
+                            <p className="text-default-500">{item.taskStatus}</p>
+                        </CardFooter>
+                    </Card>
+                ))}
+            </div>
+        );
+    }else{
+        return (
+            <NoDataCom/>
+        )
+    }
+
+
 }

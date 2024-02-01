@@ -3,7 +3,7 @@ import React from "react";
 export const NoData = ({
                           fill = 'currentColor',
                           filled,
-                          size = 48,
+                          size = 100,
                           height,
                           width,
                           label,

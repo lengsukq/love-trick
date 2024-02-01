@@ -2,6 +2,7 @@
 import React, {useEffect, useState} from "react";
 import WhisperForm from "@/app/components/whisperForm";
 import {getMyWhisper} from "@/app/utils/client/apihttp";
+import NoDataCom from "@/app/components/noDataCom";
 
 export default function App() {
     const [whisperData, setWhisperData] = useState([])
@@ -23,7 +24,9 @@ export default function App() {
             </div>
         );
     } else {
-
+        return (
+            <NoDataCom/>
+        )
     }
 
 }
