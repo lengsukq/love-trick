@@ -27,6 +27,9 @@ export default function WhisperForm ({item = null}) {
         <Card className="py-4 mb-5">
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                 <Input
+                    isInvalid={isInvalidFn(title)}
+                    color={item?"":(isInvalidFn(title) ? "danger" : "success")}
+                    errorMessage={isInvalidFn(title) && "请输入留言标题"}
                     disabled={item}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
@@ -34,6 +37,9 @@ export default function WhisperForm ({item = null}) {
             </CardHeader>
             <CardBody className="overflow-visible py-2">
                 <Textarea
+                    isInvalid={isInvalidFn(content)}
+                    color={item?"":(isInvalidFn(content) ? "danger" : "success")}
+                    errorMessage={isInvalidFn(content) && "请输入留言内容"}
                     disabled={item}
                     value={content}
                     onChange={(e) => setContent(e.target.value)}

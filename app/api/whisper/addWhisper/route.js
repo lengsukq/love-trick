@@ -11,6 +11,9 @@ export async function POST(req) {
         const creationTime = dayjs().format('YYYY-MM-DD HH:mm:ss')
         const jsonData = await req.json();
         const {title, content} = jsonData;
+        if (!title || !content){
+            return Response.json(BizResult.fail('', '请填写完整内容'))
+        }
         const result = await executeQuery({
             // 插入任务数据
             query: 'INSERT INTO whisper_list (title, content, creationTime,publisherEmail) VALUES (?, ?, ?, ?)',

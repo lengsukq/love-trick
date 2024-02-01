@@ -27,10 +27,10 @@ BILIBILI_SESSDATA = 登录bilibili后获取的sessdata 参考：https://www.yuqu
 BILIBILI_CSRF = 同上
 IMGBB_API = IMGBB图床API 地址：https://imgbb.com/
 ```
-图床只要选择一个即可，选择b站相关的图床，BILIBILI_SESSDATA和BILIBILI_CSRF必须都要填
-如果要使用b站视频封面上传，需要取消注释posttask/page文件中的某行代码
+图床选择一个后填写相关的值即可其他没选的可以不填，选择b站相关的图床，BILIBILI_SESSDATA和BILIBILI_CSRF必须都要填
+如果要使用b站视频封面上传，需要取消注释postTask/page文件中的某行代码（转base64）
 
-## 仍旧存在的一些缺陷（任可改进）
+## 仍旧存在的一些缺陷（任会慢慢改进）
 * sql语句不够严谨
 * 未将cookie进行服务器端二次校验
 * 某些接口没有进行二次校验就写入数据库
