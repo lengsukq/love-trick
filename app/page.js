@@ -4,7 +4,7 @@ import {useRouter} from 'next/navigation'
 import {Input, Button, Avatar} from "@nextui-org/react";
 import {loginApi} from "@/app/utils/client/apihttp";
 import {Notify} from "react-vant";
-import {Register} from "@/app/components/register";
+import Register from "@/app/components/register";
 
 export default function Home() {
     const [username, setUsername] = useState('');
