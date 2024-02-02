@@ -69,7 +69,15 @@ const TabsComponent = ({pathname}) => {
                 <Tab key="/trick/whisper/myWhisper" title="我的"/>
             </Tabs>
         );
-    }else{
+    } else if (pathname === '/trick/favourite/taskList' || pathname === '/trick/favourite/giftList' || pathname === '/trick/favourite/whisperList'){
+        return (
+            <Tabs selectedKey={pathname} key="lg" size="lg" aria-label="Options"
+                  onSelectionChange={(e) => childToPage(e)}>
+                <Tab key="/trick/favourite/taskList" title="任务"/>
+                <Tab key="/trick/favourite/giftList" title="礼物"/>
+                <Tab key="/trick/favourite/whisperList" title="留言"/>
+            </Tabs>
+        );
     }
 }
 
