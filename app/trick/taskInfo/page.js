@@ -1,18 +1,13 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import {
-    Button,
-    Card,
-    CardBody,
-    Textarea,
-    useDisclosure
-} from "@nextui-org/react";
+import {Button, Card, CardBody, Textarea, useDisclosure} from "@nextui-org/react";
 import {addFav, deleteTask, getTaskInfo, upDateTaskState} from "@/app/utils/client/apihttp";
 import {useRouter, useSearchParams} from 'next/navigation'
 import {Notify} from "react-vant";
 import TaskInfoCom from "@/app/components/taskInfo";
 import {isInvalidFn} from "@/app/utils/client/dataTools";
 import ConfirmBox from "@/app/components/confirmBox";
+
 export default function App() {
     const router = useRouter();
     const [userEmail, setUserEmail] = useState('');
@@ -30,9 +25,9 @@ export default function App() {
         taskImage: [],
         taskName: "",
         taskReward: "",
-        taskScore:0,
+        taskScore: 0,
         taskStatus: "未开始",
-        favId:null,
+        favId: null,
     })
     const [completeRemarks, setTCompleteRemarks] = useState('')
     const {isOpen, onOpen, onClose} = useDisclosure();
@@ -56,7 +51,7 @@ export default function App() {
         })
     }
     const acceptTask = (actType) => {
-        if ((taskInfo.acceptanceTime && isInvalid) && (actType==="complete")) {
+        if ((taskInfo.acceptanceTime && isInvalid) && (actType === "complete")) {
             return;
         }
         let params = {
@@ -86,9 +81,9 @@ export default function App() {
             }
         })
     }
-    const addFavAct = async () =>{
+    const addFavAct = async () => {
         console.log('addFavAct')
-        await addFav({id:taskInfo.taskId,type:'task'}).then(res=>{
+        await addFav({id: taskInfo.taskId, type: 'task'}).then(res => {
             Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
             if (res.code === 200) {
                 getTaskInfoAct(taskInfo.taskId).then(r => {
@@ -102,24 +97,24 @@ export default function App() {
     return (
         <div className="p-5">
             <ConfirmBox
-            isOpen={isOpen}
-            onClose={onClose}
-            modalText={"确认删除吗？"}
-            confirmAct={deleteTaskAct}
-            cancelAct={onClose}
+                isOpen={isOpen}
+                onClose={onClose}
+                modalText={"确认删除吗？"}
+                confirmAct={deleteTaskAct}
+                cancelAct={onClose}
             ></ConfirmBox>
             <ConfirmBox
                 isOpen={notModal.isOpen}
                 onClose={notModal.onClose}
                 modalText={"确认驳回吗？"}
-                confirmAct={()=>acceptTask("notPassed")}
+                confirmAct={() => acceptTask("notPassed")}
                 cancelAct={notModal.onClose}
             ></ConfirmBox>
             <ConfirmBox
                 isOpen={passModal.isOpen}
                 onClose={passModal.onClose}
                 modalText={"确认通过吗？"}
-                confirmAct={()=>acceptTask("pass")}
+                confirmAct={() => acceptTask("pass")}
                 cancelAct={passModal.onClose}
             ></ConfirmBox>
             <TaskInfoCom
@@ -135,7 +130,7 @@ export default function App() {
                 deleteButton={onOpen}
                 taskScore={taskInfo.taskScore}
             ></TaskInfoCom>
-            <Card className={userEmail===taskInfo.publisherEmail?"hidden":"mb-5"}>
+            <Card className={userEmail === taskInfo.publisherEmail ? "hidden" : "mb-5"}>
                 <CardBody className="flex justify-center items-center">
                     <Textarea
                         isInvalid={isInvalidFn(taskInfo.completeRemarks)}
@@ -156,12 +151,13 @@ export default function App() {
                     </div>
                 </CardBody>
             </Card>
-            <Card className={userEmail===taskInfo.publisherEmail&&taskInfo.taskStatus==="待核验"?"mb-5":"hidden"}>
+            <Card
+                className={userEmail === taskInfo.publisherEmail && taskInfo.taskStatus === "待核验" ? "mb-5" : "hidden"}>
                 <CardBody className="flex justify-center items-center">
                     <div className={"flex justify-evenly w-full"}>
                         <Button color="danger" className={"w-1/4"}
                                 onClick={notModal.onOpen}>驳回</Button>
-                        <Button color="primary" className={ "w-1/4"}
+                        <Button color="primary" className={"w-1/4"}
                                 onClick={passModal.onOpen}>通过</Button>
                     </div>
                 </CardBody>

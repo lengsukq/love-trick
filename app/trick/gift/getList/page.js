@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import {exchangeGift, getGiftList} from "@/app/utils/client/apihttp";
+import {addFav, exchangeGift, getGiftList} from "@/app/utils/client/apihttp";
 import GiftList from "@/app/components/giftList";
 import {Notify} from "react-vant";
 import {closeSearch} from "@/app/store/myGiftStore";
@@ -36,10 +36,18 @@ export default function App() {
             })
         }
     }
-
+    const addFavAct = async (item) => {
+        console.log('addFavAct')
+        await addFav({id: item.giftId, type: 'gift'}).then(res => {
+            Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
+            if (res.code === 200) {
+                getTaskList().then(r => {})
+            }
+        })
+    }
     return giftListData.length > 0 ? (
 
-        <GiftList giftListData={giftListData} listType={"getGift"} buttonAction={buttonAction}></GiftList>
+        <GiftList giftListData={giftListData} listType={"getGift"} buttonAction={buttonAction} addFavAct={addFavAct}></GiftList>
 
     ) : <NoDataCom/>
 }

@@ -1,6 +1,7 @@
 import {Avatar, Button, Card, CardBody, CardFooter, CardHeader} from "@nextui-org/react";
+import FavButton from "@/app/components/buttonCom/FavButton";
 
-export default function GiftList({giftListData, listType, buttonAction = () => ''}) {
+export default function GiftList({giftListData, listType, buttonAction = () => '',addFavAct=()=>''}) {
 
     const ActButton = ({item}) => {
         let theKey;
@@ -21,16 +22,24 @@ export default function GiftList({giftListData, listType, buttonAction = () => '
             keyStyle = 'hidden'
         }
         return (
-            <Button
-                onClick={() => buttonAction(item, theKey)}
-                className={theKey ? "" : keyStyle}
-                color="primary"
-                radius="full"
-                size="sm"
-                variant={theKey ? "solid" : "bordered"}>
-                {theKey ? trueText : falseText}
-            </Button>
+            <div  className={"ml-1"}>
+                <Button
+                    onClick={() => buttonAction(item, theKey)}
+                    className={theKey ? "" : keyStyle}
+                    color="primary"
+                    radius="full"
+                    size="sm"
+                    variant={theKey ? "solid" : "bordered"}>
+                    {theKey ? trueText : falseText}
+                </Button>
+            </div>
+
         )
+    }
+    const FavButtonCom = ({item})=>{
+        if (listType!=='checkGift'){
+            return (<FavButton isFav={item.favId} buttonAct={() =>addFavAct(item)}/>)
+        }
     }
 
     const CustomFooter = ({item}) => {
@@ -45,14 +54,16 @@ export default function GiftList({giftListData, listType, buttonAction = () => '
         }
 
         return (
-            <CardFooter className="gap-3">
-                <div className="flex gap-1">
-                    <p className="font-semibold text-default-400 text-small">{textLeft}：</p>
-                    <p className=" text-default-400 text-small">{valueLeft}</p>
-                </div>
-                <div className="flex gap-1">
-                    <p className="font-semibold text-default-400 text-small">{textRight}：</p>
-                    <p className="text-default-400 text-small">{valueRight}</p>
+            <CardFooter className="flex justify-between">
+                <div className="gap-3 flex">
+                    <div className="flex gap-1">
+                        <p className="font-semibold text-default-400 text-small">{textLeft}：</p>
+                        <p className=" text-default-400 text-small">{valueLeft}</p>
+                    </div>
+                    <div className="flex gap-1">
+                        <p className="font-semibold text-default-400 text-small">{textRight}：</p>
+                        <p className="text-default-400 text-small">{valueRight}</p>
+                    </div>
                 </div>
             </CardFooter>
         )
@@ -70,7 +81,11 @@ export default function GiftList({giftListData, listType, buttonAction = () => '
                                 <h5 className="text-small tracking-tight text-default-400">需要积分：{item.needScore}</h5>
                             </div>
                         </div>
-                        <ActButton item={item}></ActButton>
+                        <div className={"flex items-center"}>
+                            <FavButtonCom item={item}/>
+                            <ActButton item={item}/>
+                        </div>
+
                     </CardHeader>
                     <CardBody className="px-3 py-0 text-small text-default-400">
                         <p>

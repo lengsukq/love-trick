@@ -14,23 +14,9 @@ export async function GET(req) {
         let result;
         result = await executeQuery({
             // 查询任务列表
-            query: `SELECT * FROM gift_list WHERE (publisherEmail = ?) AND giftName LIKE ? AND isShow = 1 ORDER BY GiftId DESC`,
+            query: `SELECT gift_list.*,favourite_list.* FROM gift_list LEFT JOIN favourite_list ON collectionId = giftId WHERE (publisherEmail = ?) AND giftName LIKE ? AND isShow = 1 ORDER BY GiftId DESC`,
             values: [lover, `%${searchWords}%`]
         });
-        // if (taskStatus){
-        //     console.log('带状态')
-        //     result = await executeQuery({
-        //         // 查询任务列表
-        //         query: `SELECT * FROM gift_list WHERE (publisherEmail = ? OR publisherEmail = ? ) AND taskStatus = ? AND taskName LIKE ? ORDER BY taskId DESC`,
-        //         values: [userEmail, lover, userEmail,taskStatus,`%${searchWords}%`]
-        //     });
-        // }else{
-        //     result = await executeQuery({
-        //         // 查询任务列表
-        //         query: `SELECT * FROM tasklist WHERE (publisherEmail = ? OR publisherEmail = ? OR  receiverEmail = ?) AND taskName LIKE ? ORDER BY taskId DESC`,
-        //         values: [userEmail, lover, userEmail,`%${searchWords}%`]
-        //     });
-        // }
         return Response.json(BizResult.success(result, '获取列表成功'))
     } catch (error) {
         console.log(error);
