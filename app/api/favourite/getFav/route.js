@@ -12,10 +12,8 @@ export async function POST(req) {
         if (!typeObj.hasOwnProperty(type)){
             return Response.json(BizResult.fail('', '收藏类型错误'))
         }
-        console.log('type',typeObj[type])
 
         const result = await executeQuery({
-            // 插入任务数据
             query: `SELECT favourite_list.*,${typeObj[type]}.* FROM favourite_list JOIN ${typeObj[type]} ON collectionId = ${typeObj[type]}.${type+"Id"} WHERE userEmail = ?`,
             values: [userEmail]
         });

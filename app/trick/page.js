@@ -1,12 +1,12 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import {Card, CardBody, CardFooter, CardHeader, Image} from "@nextui-org/react";
 import {getTask} from "@/app/utils/client/apihttp";
 import {useRouter} from 'next/navigation'
 import {useDispatch, useSelector} from 'react-redux'
 import SearchModal from "@/app/components/searchModal";
 import {closeSearch} from "@/app/store/taskListStore";
 import NoDataCom from "@/app/components/noDataCom";
+import TaskCard from "@/app/components/taskCard";
 
 export default function App() {
     const taskStatusStore = useSelector((state) => state.taskListDataStatus.status);
@@ -42,7 +42,7 @@ export default function App() {
         })
     }
 
-    const onPressHandler = (item) => {
+    const checkDetails = (item) => {
         console.log("item pressed", item);
         router.push(`/trick/taskInfo?taskId=${item.taskId}`)
     }
@@ -54,32 +54,12 @@ export default function App() {
                              searchWords={searchWords}
                              setSearchWords={setSearchWords}
                              onKeyDown={onKeyDown}/>
-                {taskList.map((item, index) => (
-                    <Card shadow="sm" key={index} isPressable onPress={() => onPressHandler(item)}>
-                        <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-                            <p className=" text-large uppercase font-bold truncate w-full">{item.taskName}</p>
-                            <small className="text-default-500">{item.creationTime}</small>
-                            {/*<h4 className="font-bold text-tiny ">Frontend Radio</h4>*/}
-                        </CardHeader>
-                        <CardBody className="overflow-visible p-0">
-                            <Image
-                                shadow="sm"
-                                radius="lg"
-                                width="100%"
-                                alt={item.taskName}
-                                className="w-full object-cover h-[140px]"
-                                src={item.taskImage[0]}
-                            />
-                        </CardBody>
-                        <CardFooter className="text-small justify-between">
-                            <b>{item.publisherName}</b>
-                            <p className="text-default-500">{item.taskStatus}</p>
-                        </CardFooter>
-                    </Card>
+                {taskList.map((item) => (
+                    <TaskCard item={item} checkDetails={checkDetails}/>
                 ))}
             </div>
         );
-    }else{
+    } else {
         return (
             <NoDataCom/>
         )

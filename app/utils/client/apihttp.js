@@ -99,3 +99,7 @@ export async function getMyWhisper(params) {
 export async function getTAWhisper(params) {
     return await get(`/api/whisper/getTAWhisper?searchWords=${params.searchWords}`);
 }
+// 收藏/取消收藏
+export async function addFav(params) {
+    return post(`/api/favourite/addFav`, params);
+}

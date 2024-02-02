@@ -7,7 +7,7 @@ import {
     Textarea,
     useDisclosure
 } from "@nextui-org/react";
-import {deleteTask, getTaskInfo, upDateTaskState} from "@/app/utils/client/apihttp";
+import {addFav, deleteTask, getTaskInfo, upDateTaskState} from "@/app/utils/client/apihttp";
 import {useRouter, useSearchParams} from 'next/navigation'
 import {Notify} from "react-vant";
 import TaskInfoCom from "@/app/components/taskInfo";
@@ -32,6 +32,7 @@ export default function App() {
         taskReward: "",
         taskScore:0,
         taskStatus: "未开始",
+        favId:null,
     })
     const [completeRemarks, setTCompleteRemarks] = useState('')
     const {isOpen, onOpen, onClose} = useDisclosure();
@@ -85,6 +86,16 @@ export default function App() {
             }
         })
     }
+    const addFavAct = async () =>{
+        console.log('addFavAct')
+        await addFav({id:taskInfo.taskId,type:'task'}).then(res=>{
+            Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
+            if (res.code === 200) {
+                getTaskInfoAct(taskInfo.taskId).then(r => {
+                });
+            }
+        })
+    }
     const isInvalid = React.useMemo(() => {
         return completeRemarks === ""
     }, [completeRemarks]);
@@ -112,6 +123,8 @@ export default function App() {
                 cancelAct={passModal.onClose}
             ></ConfirmBox>
             <TaskInfoCom
+                favId={taskInfo.favId}
+                addFavAct={addFavAct}
                 acceptanceTime={taskInfo.acceptanceTime}
                 completionTime={taskInfo.completionTime}
                 taskDetail={taskInfo.taskDetail}
