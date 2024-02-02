@@ -12,10 +12,14 @@ export async function POST(req) {
         if (!typeObj.hasOwnProperty(type)){
             return Response.json(BizResult.fail('', '收藏类型错误'))
         }
-
         const result = await executeQuery({
-            query: `SELECT favourite_list.*,${typeObj[type]}.* FROM favourite_list JOIN ${typeObj[type]} ON collectionId = ${typeObj[type]}.${type+"Id"} WHERE userEmail = ?`,
-            values: [userEmail]
+            query: `SELECT favourite_list.*,${typeObj[type]}.*,userinfo.username AS collectionName
+                    FROM favourite_list 
+                    LEFT JOIN ${typeObj[type]} ON favourite_list.collectionId = ${typeObj[type]}.${type+"Id"} 
+                    LEFT JOIN userinfo ON favourite_list.userEmail = userinfo.userEmail
+                    WHERE favourite_list.userEmail = ? AND favourite_list.collectionType = ?
+                    ORDER BY favId DESC`,
+            values: [userEmail,type]
         });
         return Response.json(BizResult.success(result, '查询成功'))
     } catch (error) {

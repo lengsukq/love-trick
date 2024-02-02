@@ -103,3 +103,7 @@ export async function getTAWhisper(params) {
 export async function addFav(params) {
     return post(`/api/favourite/addFav`, params);
 }
+// 获取收藏列表
+export async function getFav(params) {
+    return post(`/api/favourite/getFav`, params);
+}

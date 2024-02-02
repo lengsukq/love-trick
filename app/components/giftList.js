@@ -20,6 +20,9 @@ export default function GiftList({giftListData, listType, buttonAction = () => '
         } else if (listType === "overGift") {
             theKey = false;
             keyStyle = 'hidden'
+        }else if (listType === 'favList'){
+            theKey = false;
+            keyStyle = 'hidden'
         }
         return (
             <div  className={"ml-1"}>
@@ -44,24 +47,29 @@ export default function GiftList({giftListData, listType, buttonAction = () => '
 
     const CustomFooter = ({item}) => {
         console.log('CustomFooter',listType,listType === "useGift")
-        let textLeft = '库存', textRight = '已售', valueLeft = item.remained, valueRight = item.redeemed;
+        let textLeft = '库存：', textRight = '已售：', valueLeft = item.remained, valueRight = item.redeemed;
 
         if (listType === "useGift" || listType === "overGift") {
-            textLeft = "拥有";
+            textLeft = "拥有：";
             valueLeft = item.use;
-            textRight = "已用";
+            textRight = "已用：";
             valueRight = item.used;
+        } else if (listType === 'favList'){
+            textLeft = `${item.collectionName}发布于`;
+            valueLeft = item.creationTime;
+            textRight = "";
+            valueRight = "";
         }
 
         return (
             <CardFooter className="flex justify-between">
                 <div className="gap-3 flex">
                     <div className="flex gap-1">
-                        <p className="font-semibold text-default-400 text-small">{textLeft}：</p>
+                        <p className="font-semibold text-default-400 text-small">{textLeft}</p>
                         <p className=" text-default-400 text-small">{valueLeft}</p>
                     </div>
                     <div className="flex gap-1">
-                        <p className="font-semibold text-default-400 text-small">{textRight}：</p>
+                        <p className="font-semibold text-default-400 text-small">{textRight}</p>
                         <p className="text-default-400 text-small">{valueRight}</p>
                     </div>
                 </div>
