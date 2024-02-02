@@ -54,9 +54,7 @@ export default function App() {
                              searchWords={searchWords}
                              setSearchWords={setSearchWords}
                              onKeyDown={onKeyDown}/>
-                {taskList.map((item) => (
                     <TaskCard taskList={taskList} checkDetails={checkDetails}/>
-                ))}
             </div>
         );
     } else {
