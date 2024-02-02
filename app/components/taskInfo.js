@@ -5,8 +5,9 @@ import {isInvalidFn} from "../utils/client/dataTools";
 import {Uploader} from "react-vant";
 import {TrashCan} from "@/app/components/icon/trashCan";
 import {getScore} from "@/app/utils/client/apihttp";
+import FavButton from "@/app/components/buttonCom/FavButton";
 
-export default function TaskInfoCom({
+export default function TaskInfoCom({   favId=null,
                                         isPost = false,
                                         taskDetail = "",
                                         taskName = "",
@@ -21,6 +22,7 @@ export default function TaskInfoCom({
                                         setTaskDetail = () => "",
                                         deleteButton = () => "",
                                         onChangeEnd = () => "",
+                                        addFavAct= () => "",
                                     }) {
     const getScoreAct = async () => {
         await getScore().then(res => {
@@ -46,9 +48,12 @@ export default function TaskInfoCom({
             <Card className={isPost ? "hidden" : "mb-5"}>
                 <CardBody className="flex justify-between flex-row items-center">
                     <p>{taskStatus}</p>
-                    <Button isIconOnly variant="faded" onClick={() => deleteButton()}>
-                        <TrashCan></TrashCan>
-                    </Button>
+                    <div className={"flex"}>
+                        <FavButton buttonAct={addFavAct} isFav={favId}/>
+                        <Button isIconOnly variant="faded" onClick={() => deleteButton()} className={"ml-1"}>
+                            <TrashCan></TrashCan>
+                        </Button>
+                    </div>
                 </CardBody>
             </Card>
             <Card className="mb-5">

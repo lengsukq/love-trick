@@ -20,10 +20,15 @@ export async function POST(req) {
         });
         for (let i of isExists){
             if (i.collectionId === Number(id) && i.collectionType === type){
-                return Response.json(BizResult.fail('', '已收藏'))
+                await executeQuery({
+                    // 插入任务数据
+                    query: 'DELETE FROM favourite_list WHERE favId = ?',
+                    values: [i.favId]
+                });
+                return Response.json(BizResult.success('', '已取消收藏'))
             }
         }
-        const result = await executeQuery({
+        await executeQuery({
             // 插入任务数据
             query: 'INSERT INTO favourite_list (userEmail,collectionId, collectionType, creationTime) VALUES (?, ?, ?, ?)',
             values: [userEmail, id, type, creationTime]

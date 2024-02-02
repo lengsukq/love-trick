@@ -52,7 +52,7 @@ export async function getScore(userEmail) {
 export async function getTaskDetail(taskId) {
     try {
         return await executeQuery({
-            query: 'SELECT * FROM tasklist WHERE taskId = ?',
+            query: 'SELECT tasklist.*,favourite_list.* FROM tasklist LEFT JOIN favourite_list ON collectionId = taskId WHERE taskId = ?',
             values: [taskId]
         });
     } catch (e) {
