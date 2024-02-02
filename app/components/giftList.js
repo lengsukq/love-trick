@@ -38,7 +38,7 @@ export default function GiftList({giftListData, listType, buttonAction = () => '
     }
     const FavButtonCom = ({item})=>{
         if (listType!=='checkGift'){
-            return (<FavButton isFav={item.favId} buttonAct={() =>addFavAct(item)}/>)
+            return (<FavButton btnSize={'sm'} iconSize={18} isFav={item.favId} buttonAct={() =>addFavAct(item)}/>)
         }
     }
 

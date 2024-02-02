@@ -45,6 +45,8 @@ export default function App() {
             }
         })
     }
+
+
     return giftListData.length > 0 ? (
 
         <GiftList giftListData={giftListData} listType={"getGift"} buttonAction={buttonAction} addFavAct={addFavAct}></GiftList>

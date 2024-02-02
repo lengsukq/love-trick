@@ -78,7 +78,10 @@ export async function getWhisper(eMail,searchWords='') {
     console.log('获取留言列表',eMail)
     try {
         return await executeQuery({
-            query: `SELECT * FROM whisper_list WHERE publisherEmail = ? AND title LIKE ? ORDER BY whisperId DESC`,
+            query: `SELECT whisper_list.*,userinfo.userName,favourite_list.favId
+                    FROM whisper_list LEFT JOIN userinfo ON whisper_list.publisherEmail = userinfo.userEmail 
+                    LEFT JOIN favourite_list ON favourite_list.collectionId = whisper_list.whisperId
+                    WHERE publisherEmail = ? AND title LIKE ? ORDER BY whisperId DESC`,
             values: [eMail,`%${searchWords}%`]
         });
     } catch (e) {
