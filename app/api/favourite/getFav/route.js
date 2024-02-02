@@ -21,6 +21,13 @@ export async function POST(req) {
                     ORDER BY favId DESC`,
             values: [userEmail,type]
         });
+        if (type === 'task'){
+            result.forEach(item => {
+                item.taskImage = item.taskImage.split(',');
+                item["isApprove"] = item.isApprove !== 0;
+            })
+        }
+
         return Response.json(BizResult.success(result, '查询成功'))
     } catch (error) {
         console.log(error);
