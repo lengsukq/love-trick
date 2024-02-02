@@ -17,13 +17,13 @@ export async function GET(req) {
         if (type === '已上架' || type === '已下架') {
             console.log('带状态')
             result = await executeQuery({
-                query: `SELECT * FROM gift_list WHERE (publisherEmail = ?) AND giftName LIKE ? AND isShow = ? ORDER BY GiftId DESC`,
+                query: `SELECT gift_list.*,favourite_list.* FROM gift_list LEFT JOIN favourite_list ON collectionId = giftId WHERE (publisherEmail = ?) AND giftName LIKE ? AND isShow = ? ORDER BY GiftId DESC`,
                 values: [userEmail, `%${searchWords}%`, type === '已上架' ? 1 : 0]
             });
         } else if (type === '待使用') {
             result = await executeQuery({
                 // 获取售出-已使用大于零的数据
-                query: 'SELECT * FROM gift_list WHERE ((redeemed - used) > 0) AND (publisherEmail = ?)',
+                query: 'SELECT gift_list.*,favourite_list.* FROM gift_list LEFT JOIN favourite_list ON collectionId = giftId  WHERE ((redeemed - used) > 0) AND (publisherEmail = ?)',
                 values: [lover]
             });
             result.forEach(item => {
@@ -32,7 +32,7 @@ export async function GET(req) {
         } else if (type === '已用完') {
             result = await executeQuery({
                 // 获取售出-已使用等于零的数据
-                query: 'SELECT * FROM gift_list WHERE ((redeemed - used) = 0) AND (publisherEmail = ?) AND used != 0',
+                query: 'SELECT gift_list.*,favourite_list.* FROM gift_list LEFT JOIN favourite_list ON collectionId = giftId  WHERE ((redeemed - used) = 0) AND (publisherEmail = ?) AND used != 0',
                 values: [lover]
             });
             result.forEach(item => {
@@ -40,7 +40,7 @@ export async function GET(req) {
             })
         } else {
             result = await executeQuery({
-                query: `SELECT * FROM gift_list WHERE (publisherEmail = ?) AND giftName LIKE ? ORDER BY GiftId DESC`,
+                query: `SELECT gift_list.*,favourite_list.* FROM gift_list LEFT JOIN favourite_list ON collectionId = giftId  WHERE (publisherEmail = ?) AND giftName LIKE ? ORDER BY GiftId DESC`,
                 values: [userEmail, `%${searchWords}%`]
             });
         }
