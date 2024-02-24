@@ -12,8 +12,13 @@
 ***
 
 ![index.jpg](readmeImg%2Findex.jpg)
+
+### 数据库表结构
+
+![sql.png](readmeImg%2Fsql.png)
+
+### 本地根目录创建.env.local文件，配置必要数据
 ```text
-本地根目录创建.env.local文件，配置必要数据
 MYSQL_HOST= 数据库ip
 MYSQL_PORT= 数据库端口
 MYSQL_DATABASE= 数据库名
