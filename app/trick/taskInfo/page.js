@@ -62,8 +62,8 @@ export default function App() {
         if (completeRemarks) {
             params['completeRemarks'] = completeRemarks
         }
-        passModal.onClose;
-        notModal.onClose
+        passModal.onClose();
+        notModal.onClose();
         upDateTaskState(params).then(res => {
             Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
             if (res.code === 200) {
