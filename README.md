@@ -10,11 +10,10 @@
 5. 拥有留言功能，可以给对方留言
 6. 发布接受完成任务以及使用礼物都会有微信企业机器人通知
 ***
-
+![mainImg.png](readmeImg%2FmainImg.png)
 ## 无需服务器，0成本搭建教程 
 https://blog.lengsu.top/article/love-trick
 
-![index.jpg](readmeImg%2Findex.jpg)![trickList.png](readmeImg%2FtrickList.png)![myInfo.png](readmeImg%2FmyInfo.png)![addTask.png](readmeImg%2FaddTask.png)
 
 ### 数据库表结构
 
