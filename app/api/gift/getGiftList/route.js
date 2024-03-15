@@ -13,8 +13,8 @@ export async function GET(req) {
         const searchWords = searchParams.get('searchWords') ? searchParams.get('searchWords') : '';
         let result;
         result = await executeQuery({
-            // 查询任务列表
-            query: `SELECT gift_list.*,favourite_list.* FROM gift_list LEFT JOIN favourite_list ON collectionId = giftId WHERE (publisherEmail = ?) AND giftName LIKE ? AND isShow = 1 ORDER BY GiftId DESC`,
+            // 查询礼物列表
+            query: `SELECT gift_list.*,favourite_list.* FROM gift_list LEFT JOIN favourite_list ON (collectionId = giftId AND collectionType = 'gift') WHERE publisherEmail = ? AND giftName LIKE ? AND isShow = 1  ORDER BY GiftId DESC`,
             values: [lover, `%${searchWords}%`]
         });
         return Response.json(BizResult.success(result, '获取列表成功'))
