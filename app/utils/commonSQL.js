@@ -52,7 +52,7 @@ export async function getScore(userEmail) {
 export async function getTaskDetail(taskId) {
     try {
         return await executeQuery({
-            query: 'SELECT tasklist.*,favourite_list.* FROM tasklist LEFT JOIN favourite_list ON collectionId = taskId WHERE taskId = ?',
+            query: `SELECT tasklist.*,favourite_list.* FROM tasklist LEFT JOIN favourite_list ON collectionId = taskId AND collectionType = 'task' WHERE taskId = ?`,
             values: [taskId]
         });
     } catch (e) {
@@ -80,7 +80,7 @@ export async function getWhisper(eMail,searchWords='') {
         return await executeQuery({
             query: `SELECT whisper_list.*,userinfo.userName,favourite_list.favId
                     FROM whisper_list LEFT JOIN userinfo ON whisper_list.publisherEmail = userinfo.userEmail 
-                    LEFT JOIN favourite_list ON favourite_list.collectionId = whisper_list.whisperId
+                    LEFT JOIN favourite_list ON favourite_list.collectionId = whisper_list.whisperId AND collectionType = 'whisper'
                     WHERE publisherEmail = ? AND title LIKE ? ORDER BY whisperId DESC`,
             values: [eMail,`%${searchWords}%`]
         });

@@ -15,7 +15,7 @@ export async function POST(req) {
         const result = await executeQuery({
             query: `SELECT favourite_list.*,${typeObj[type]}.*,userinfo.username AS collectionName
                     FROM favourite_list 
-                    LEFT JOIN ${typeObj[type]} ON favourite_list.collectionId = ${typeObj[type]}.${type+"Id"} 
+                    LEFT JOIN ${typeObj[type]} ON favourite_list.collectionId = ${typeObj[type]}.${type+"Id"} AND favourite_list.collectionType = '${type}'
                     LEFT JOIN userinfo ON ${typeObj[type]}.publisherEmail = userinfo.userEmail
                     WHERE favourite_list.userEmail = ? AND favourite_list.collectionType = ?
                     ORDER BY favId DESC`,
