@@ -63,11 +63,8 @@ export default function App() {
 
     }
 
-    const onKeyDown = async (e) => {
-        console.log('onKeyDown', e.keyCode)
-        if (e.keyCode === 13) {
+    const onKeyDown = async () => {
             await getGiftList()
-        }
     }
     return (
         <>

@@ -28,6 +28,8 @@ export const statusSlice = createSlice({
             state.isSearch = true;
         },
         closeSearch:(state)=>{
+            console.log('closeSearch','false')
+
             state.isSearch = false;
         }
     },

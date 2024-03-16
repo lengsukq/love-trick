@@ -6,10 +6,8 @@ import {GlobalComponent} from "@/app/components/global/GlobalComponent";
 export function TrickProviders({children}) {
     return (
         <Suspense>
-            <div className="h-lvh">
-                <div className={"pb-16 h-full"}>{children}</div>
+                <div className={"pb-14"}>{children}</div>
                 <GlobalComponent/>
-            </div>
         </Suspense>
 
     );

@@ -4,9 +4,9 @@ import {SearchIcon} from "@/app/components/icon/SearchICon";
 
 export default function SearchModal ({openKey, keyToFalse,searchWords,setSearchWords,onKeyDown,placeholder='请输入任务名称'}) {
     const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
-
     const inputRef = useRef(null);
     useEffect(() => {
+        console.log('搜索框执行')
         if (openKey) {
             onOpen();
             // 在组件挂载时将输入框聚焦
@@ -19,6 +19,12 @@ export default function SearchModal ({openKey, keyToFalse,searchWords,setSearchW
 
     }, [openKey])
 
+    const modalKeyDown = async (e) => {
+        console.log('onKeyDown', e.keyCode)
+        if (e.keyCode === 13) {
+            onKeyDown();
+        }
+    }
     return (
         <>
             <Modal
@@ -40,7 +46,7 @@ export default function SearchModal ({openKey, keyToFalse,searchWords,setSearchW
                                         ref={inputRef}
                                         onChange={(e) => setSearchWords(e.target.value)}
                                         onClear={() => setSearchWords("")}
-                                        onKeyDown={onKeyDown}
+                                        onKeyDown={modalKeyDown}
                                         value={searchWords}
                                         label=""
                                         isClearable
