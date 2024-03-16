@@ -9,7 +9,7 @@ import NoDataCom from "@/app/components/noDataCom";
 
 export default function App() {
     const dispatch = useDispatch();
-
+    const [isLoading, setLoading] = useState(false);
     useEffect(() => {
         getTaskList().then(r => {
         })
@@ -28,28 +28,37 @@ export default function App() {
 
     const buttonAction = async (item, theKey) => {
         console.log('buttonAction', item, theKey)
+
         if (theKey) {
+            setLoading(true);
+
             await exchangeGift({giftId: item.giftId}).then(res => {
                 Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
                 getTaskList();
+                setLoading(false);
 
             })
         }
     }
     const addFavAct = async (item) => {
-        console.log('addFavAct')
+        setLoading(true)
         await addFav({id: item.giftId, type: 'gift'}).then(res => {
             Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
             if (res.code === 200) {
-                getTaskList().then(r => {})
+                getTaskList().then(r => {
+                })
             }
+            setLoading(false)
         })
     }
 
 
     return giftListData.length > 0 ? (
 
-        <GiftList giftListData={giftListData} listType={"getGift"} buttonAction={buttonAction} addFavAct={addFavAct}></GiftList>
-
+        <GiftList giftListData={giftListData}
+                  listType={"getGift"}
+                  buttonAction={buttonAction}
+                  addFavAct={addFavAct}
+                  isLoading={isLoading}/>
     ) : <NoDataCom/>
 }

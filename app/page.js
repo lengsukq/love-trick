@@ -10,7 +10,9 @@ export default function Home() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter()
+    const [isLoading, setLoading] = useState(false);
     const login = async () => {
+        setLoading(true);
         loginApi({username:username,password:password}).then(res=>{
             console.log('res',res)
             Notify.show({ type: res.code ===200?'success':'warning', message: `${res.msg}` })
@@ -23,6 +25,8 @@ export default function Home() {
                     score:res.data.score,
                 }));
                 router.replace('/trick')
+            }else{
+                setLoading(false);
             }
         })
     };
@@ -38,7 +42,7 @@ export default function Home() {
                     <Input type="password" label="密码" placeholder="请输入密码" value={password}
                            onChange={(e) => setPassword(e.target.value)}/>
                 </div>
-                <Button color="primary" className="" onClick={login}>
+                <Button color="primary" className="" onClick={login} isLoading={isLoading}>
                     登录
                 </Button>
             </div>

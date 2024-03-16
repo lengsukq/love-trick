@@ -39,17 +39,19 @@ export default function Register ({openKey, keyToFalse, onKeyDown = () => ''}) {
         }
 
     }, [openKey])
-
+    const [isLoading, setLoading] = useState(false)
     const userRegisterAct = async () => {
 
         if (isInvalidFn(username) || isInvalidFn(password) || isInvalidFn(describeBySelf) || eMailInvalidFn(userEmail) || eMailInvalidFn(lover) || sameInvalidFn(password, password2)){
             return
         }
+        setLoading(true)
         await userRegister({avatar,userEmail,username,password,lover,describeBySelf}).then(res => {
             Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
             if (res.code === 200) {
                 onClose();
             }
+            setLoading(false)
         })
     }
 
@@ -145,7 +147,7 @@ export default function Register ({openKey, keyToFalse, onKeyDown = () => ''}) {
                                 <Button color="danger" variant="flat" onClick={onClose}>
                                     取消
                                 </Button>
-                                <Button color="primary" onClick={userRegisterAct}>
+                                <Button color="primary" onClick={userRegisterAct} isLoading={isLoading}>
                                     提交
                                 </Button>
                             </ModalFooter>

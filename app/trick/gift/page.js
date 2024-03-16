@@ -13,7 +13,8 @@ export default function App() {
     const isSearch = useSelector((state) => state.myGiftType.isSearch);
     const dispatch = useDispatch();
     const [searchWords, setSearchWords] = useState([])
-    const [listType, setListType] = useState('')
+    const [listType, setListType] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const keyToFalse = () => {
         dispatch(closeSearch())
     }
@@ -76,7 +77,12 @@ export default function App() {
                          setSearchWords={setSearchWords}
                          onKeyDown={onKeyDown}
                          placeholder={"请输入礼物名称"}/>
-            {giftListData.length>0?<GiftList giftListData={giftListData} listType={listType} buttonAction={buttonAction}></GiftList>:<NoDataCom/>}
+            {giftListData.length>0?
+                <GiftList giftListData={giftListData}
+                          listType={listType}
+                          buttonAction={buttonAction}
+                          isLoading={isLoading}
+                />:<NoDataCom/>}
 
         </>
 

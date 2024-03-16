@@ -12,6 +12,9 @@ export default function postTaskPage() {
     const [taskDetail, setTaskDetail] = useState('');
     const [taskReward, setTaskReward] = useState('');
     const [vantImgData, setVantImgData] = useState([]);
+    const [isLoading, setLoading] = useState(false);
+    const [taskScore, setTaskScore] = useState(0)
+
     const readAndUploadFile = (file) => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -68,18 +71,25 @@ export default function postTaskPage() {
         if (isInvalidFn(params)) {
             return;
         }
+        setLoading(true);
         params["taskImage"] = vantImgData.toString()
 
         console.log('taskName', taskName, 'taskReward', taskReward);
         postTask(params).then(res => {
-            console.log('res', res)
             Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
+            setLoading(false)
+            if (res.code === 200) {
+                setTaskName('');
+                setTaskDetail('');
+                setTaskReward('');
+                setVantImgData([]);
+                setTaskScore(0);
+            }
         })
     }
 
-    const [taskScore ,setTaskScore ]= useState(0)
     const onChangeEnd = (value) => {
-        console.log('onChangeEnd',value);
+        console.log('onChangeEnd', value);
         setTaskScore(value)
     }
     return (
@@ -99,7 +109,7 @@ export default function postTaskPage() {
             <Card className={"w-full mb-5"}>
                 <CardBody>
                     <div className={"flex justify-center"}>
-                        <Button color="primary" className={"w-1/4"} onClick={pushTask}>
+                        <Button color="primary" className={"w-1/4"} onClick={pushTask} isLoading={isLoading}>
                             发布
                         </Button>
                     </div>

@@ -1,7 +1,7 @@
 import {Avatar, Button, Card, CardBody, CardFooter, CardHeader} from "@nextui-org/react";
 import FavButton from "@/app/components/buttonCom/FavButton";
 
-export default function GiftList({giftListData, listType, buttonAction = () => '',addFavAct=()=>''}) {
+export default function GiftList({giftListData, listType, buttonAction = () => '',addFavAct=()=>'',isLoading=false}) {
 
     const ActButton = ({item}) => {
         let theKey;
@@ -32,7 +32,8 @@ export default function GiftList({giftListData, listType, buttonAction = () => '
                     color="primary"
                     radius="full"
                     size="sm"
-                    variant={theKey ? "solid" : "bordered"}>
+                    variant={theKey ? "solid" : "bordered"}
+                    isLoading={isLoading}>
                     {theKey ? trueText : falseText}
                 </Button>
             </div>
@@ -41,7 +42,7 @@ export default function GiftList({giftListData, listType, buttonAction = () => '
     }
     const FavButtonCom = ({item})=>{
         if (listType!=='checkGift'){
-            return (<FavButton btnSize={'sm'} iconSize={18} isFav={item.favId} buttonAct={() =>addFavAct(item)}/>)
+            return (<FavButton btnSize={'sm'} iconSize={18} isFav={item.favId} buttonAct={() =>addFavAct(item)} isLoading={isLoading}/>)
         }
     }
 

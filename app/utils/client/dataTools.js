@@ -10,7 +10,12 @@ export function isInvalidFn(key, regex) {
         return Object.values(key).includes("");
     }
 }
-
+// 输入数字校验为0或正整数
+ export function numberInvalidFn(key) {
+    if (key === "") return true;
+    const validateNumber = (key) => key.toString().match(/^[0-9]*$/);
+    return !validateNumber(key);
+}
 // 邮箱校验
 export function eMailInvalidFn(key) {
     if (key === "") return true;
