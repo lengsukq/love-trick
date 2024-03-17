@@ -40,3 +40,10 @@ export function setLocalData(objName, AttName, value) {
 export function getLocalData(objName, AttName) {
     return JSON.parse(localStorage.getItem(objName))[AttName]
 }
+// 退出，清除本地所有缓存和cookie
+export function clearLocalData() {
+    localStorage.clear();
+    document.cookie.split(';').forEach(item => {
+        document.cookie = item.replace(/(^\s*)|(\s*$)/g, '');
+    });
+}

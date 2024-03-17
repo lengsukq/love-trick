@@ -107,7 +107,7 @@ export default function TaskInfoCom({   favId=null,
                         minValue={0}
                         getValue={(donuts) => `❤️${donuts}`}
                         value={sliderValue}
-                        className="max-w-md"
+                        className=""
                         onChange={setSliderValue}
                         onChangeEnd={onChangeEnd}
                     />

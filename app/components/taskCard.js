@@ -21,7 +21,7 @@ export default function TaskCard({taskList, checkDetails}) {
                     />
                 </CardBody>
                 <CardFooter className="text-small justify-between">
-                    <b>{item.publisherName}</b>
+                    <b>{item.publisherName}{item.taskScore>0 ? `  ${item.taskScore}❤️` : ''}</b>
                     <p className="text-default-500">{item.taskStatus}</p>
                 </CardFooter>
             </Card>

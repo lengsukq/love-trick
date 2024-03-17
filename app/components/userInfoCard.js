@@ -1,14 +1,14 @@
 import {Avatar, Button, Card, CardBody, CardFooter, CardHeader,} from "@nextui-org/react";
 import React from "react";
 
-export default function UserInfoCard ({userInfo, onOpen,isLover=false}) {
+export default function UserInfoCard ({userInfo, onOpen,isLover=false,avatarBtn=()=>{}}) {
     if (userInfo) {
         return (
             <>
                 <Card className="mb-5">
                     <CardHeader className="justify-between">
                         <div className="flex gap-5">
-                            <Avatar isBordered radius="full" size="md" src={userInfo.avatar}/>
+                            <Avatar isBordered radius="full" size="md" src={userInfo.avatar} onClick={avatarBtn}/>
                             <div className="flex flex-col gap-1 items-start justify-center">
                                 <h4 className="text-small font-semibold leading-none text-default-600">{userInfo.username}
                                     <span className={"text-default-400"}>❤️{userInfo.score}</span></h4>

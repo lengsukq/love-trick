@@ -34,6 +34,7 @@ export default function App() {
             taskStatus: taskStatus,
             searchWords: words
         }).then(res => {
+            dispatch(closeSearch());
             setTaskList(res.code === 200 ? res.data : []);
         })
     }
@@ -42,24 +43,6 @@ export default function App() {
         console.log("item pressed", item);
         router.push(`/trick/taskInfo?taskId=${item.taskId}`)
     }
-    // if (taskList.length > 0) {
-    //     return (
-    //         <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
-    //             <SearchModal openKey={isSearch}
-    //                          keyToFalse={keyToFalse}
-    //                          searchWords={searchWords}
-    //                          setSearchWords={setSearchWords}
-    //                          onKeyDown={onKeyDown}/>
-    //                 <TaskCard taskList={taskList} checkDetails={checkDetails}/>
-    //         </div>
-    //     );
-    // } else {
-    //     return (
-    //
-    //         <NoDataCom/>
-    //     )
-    // }
-
     return (
         <>
             <SearchModal openKey={isSearch}

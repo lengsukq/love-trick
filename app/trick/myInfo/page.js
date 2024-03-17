@@ -21,6 +21,8 @@ import {
 import {Notify} from "react-vant";
 import {useRouter} from "next/navigation";
 import UserInfoCard from "@/app/components/userInfoCard";
+import ConfirmBox from "@/app/components/confirmBox";
+import {clearLocalData} from "@/app/utils/client/dataTools";
 
 export default function App() {
     const [userInfo, setUserInfo] = useState({
@@ -94,13 +96,19 @@ export default function App() {
     const toPage = (key) => {
         router.push(key)
     }
+    const loginOutModal = useDisclosure()
+
+    // 退出登录弹框
+    const loginOut = () => {
+        clearLocalData();
+        router.push(`/`)
+    }
     return (
         <div className="p-5">
             <Modal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
-                placement="center"
-            >
+                placement="center">
                 <ModalContent>
                     {(onClose) => (
                         <>
@@ -149,11 +157,18 @@ export default function App() {
                     )}
                 </ModalContent>
             </Modal>
-            <UserInfoCard userInfo={userInfo} onOpen={onOpen}/>
+            <ConfirmBox
+                isOpen={loginOutModal.isOpen}
+                onClose={loginOutModal.onClose}
+                modalText={"要退出登录吗？"}
+                confirmAct={loginOut}
+                cancelAct={loginOutModal.onClose}
+            ></ConfirmBox>
+            <UserInfoCard userInfo={userInfo} onOpen={onOpen} avatarBtn={loginOutModal.onOpen}/>
             <UserInfoCard userInfo={userInfo.loverInfo} isLover={true}/>
             <Card className="">
                 <CardBody className="overflow-visible py-2">
-                    <div className="max-w-md mt-3 mb-3">
+                    <div className="mt-3 mb-3">
                         <div className="flex items-center space-x-4 text-large justify-evenly">
                             <div><Chip radius="lg" color="default" variant="dot"
                                        onClick={() => toPage('/trick/gift/getList')}>心意</Chip></div>
