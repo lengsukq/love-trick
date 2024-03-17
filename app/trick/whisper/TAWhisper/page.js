@@ -6,7 +6,9 @@ import {Notify} from "react-vant";
 import NoDataCom from "@/app/components/noDataCom";
 
 export default function App() {
-    const [whisperData, setWhisperData] = useState([])
+    const [whisperData, setWhisperData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
         getTAWhisperAct().then(r => '');
     }, [])
@@ -25,19 +27,22 @@ export default function App() {
 
     }
     const addFavAct = async (item) => {
+        setIsLoading(true);
         console.log('addFavAct')
         await addFav({id: item.whisperId, type: 'whisper'}).then(res => {
             Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
             if (res.code === 200) {
                 getTAWhisperAct().then(r => '');
             }
+            setIsLoading(false);
+
         })
     }
     if (whisperData.length > 0) {
         return (
             <div className={"p-5"}>
                 {whisperData.map(item => (
-                    <WhisperForm key={item.whisperId} item={item} addFavAct={addFavAct}/>
+                    <WhisperForm key={item.whisperId} item={item} addFavAct={addFavAct} addLoading={isLoading}/>
                 ))}
             </div>
         );

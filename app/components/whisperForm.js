@@ -5,23 +5,30 @@ import {addWhisper} from "@/app/utils/client/apihttp";
 import {Notify} from "react-vant";
 import FavButton from "@/app/components/buttonCom/FavButton";
 
-export default function WhisperForm({item = null,addFavAct= () => ""}) {
+export default function WhisperForm({item = null,addFavAct= () => "",addLoading=false}) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
         if (item) {
             setTitle(item.title)
             setContent(item.content)
         }
-
     }, [item])
-    const addWhisperAct = () => {
+    const addWhisperAct = async () => {
         let params = {title, content};
         if (isInvalidFn(params)) {
             return;
         }
-        addWhisper(params).then(res => {
+        setIsLoading(true);
+        await addWhisper(params).then(res => {
+            setIsLoading(false);
             Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
+            if (res.code===200){
+                setTitle('');
+                setContent('');
+            }
         })
     }
     const FooterLeftCom = () => {
@@ -32,11 +39,11 @@ export default function WhisperForm({item = null,addFavAct= () => ""}) {
                         <p className=" text-default-400 text-small">{item.userName}发布于</p>
                         <p className="font-semibold text-default-400 text-small">{item.creationTime}</p>
                     </div>
-                    <FavButton isFav={item.favId} btnSize={'sm'} iconSize={18} buttonAct={()=>addFavAct(item)}/>
+                    <FavButton isFav={item.favId} btnSize={'sm'} iconSize={18} buttonAct={()=>addFavAct(item)} isLoading={addLoading}/>
                 </>
             )
         } else {
-            return (<Button color="primary" onClick={addWhisperAct}>发布</Button>)
+            return (<Button color="primary" onClick={addWhisperAct} isLoading={isLoading}>发布</Button>)
         }
 
     }

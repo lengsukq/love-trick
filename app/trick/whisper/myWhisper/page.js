@@ -7,6 +7,8 @@ import {Notify} from "react-vant";
 
 export default function App() {
     const [whisperData, setWhisperData] = useState([])
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
         getMyWhisperAct().then(r => '');
     }, [])
@@ -18,18 +20,21 @@ export default function App() {
     }
     const addFavAct = async (item) => {
         console.log('addFavAct')
+        setIsLoading(true);
         await addFav({id: item.whisperId, type: 'whisper'}).then(res => {
             Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
             if (res.code === 200) {
                 getMyWhisperAct().then(r => '');
             }
+            setIsLoading(false);
+
         })
     }
     if (whisperData.length > 0) {
         return (
             <div className={"p-5"}>
                 {whisperData.map(item => (
-                    <WhisperForm key={item.whisperId} item={item} addFavAct={addFavAct}/>
+                    <WhisperForm key={item.whisperId} item={item} addFavAct={addFavAct} addLoading={isLoading}/>
                 ))}
             </div>
         );

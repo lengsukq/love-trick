@@ -48,6 +48,7 @@ export default function App() {
         })
     }
     const buttonAction = async (item, theKey) => {
+        setIsLoading(true);
         if (myGiftType==='待使用'){
             await useGift({giftId: item.giftId}).then(res => {
                 Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
@@ -59,6 +60,7 @@ export default function App() {
                 getGiftList();
             })
         }
+        setIsLoading(false);
 
 
     }
