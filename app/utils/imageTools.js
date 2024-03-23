@@ -1,6 +1,6 @@
 export async function upImgMain(fileData) {
     const upImgObj = {
-        "SM": (fileData) => upImgMain(fileData),// sm图床
+        "SM": (fileData) => upImgBySM(fileData),// sm图床
         "BilibiliDaily": (fileData) => upImgByBilibiliDaily(fileData), // 哔哩哔哩动态/专栏
         "BilibiliCover": (fileData) => upImgByBilibiliCover(fileData), // 哔哩哔哩视频封面
         "IMGBB": (fileData) => upImgByImgBB(fileData), // IMGBB 图床
