@@ -4,7 +4,10 @@ import {deleteAct, get, post} from "./fetchUtil";
 export async function loginApi(params) {
     return await get(`/api/user?username=${params.username}&password=${params.password}`);
 }
-
+// 退出
+export async function logoutApi() {
+    return await get(`/api/user/logout`);
+}
 // 用户注册
 export async function userRegister(params) {
     return post(`/api/user`, params);

@@ -9,8 +9,8 @@ import {randomImages} from "@/app/utils/third-party-tools";
 export async function GET(req) {
     try {
         const {searchParams} = new URL(req.url)
-        const username = searchParams.get('username')
-        const password = searchParams.get('password')
+        const username = searchParams.get('username');
+        const password = searchParams.get('password');
         console.log('searchParams', searchParams, 'username---', username, 'password---', password)
 
         const result = await executeQuery({

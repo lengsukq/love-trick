@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import {getUserInfo, updateUserInfo, uploadImages} from "@/app/utils/client/apihttp";
+import {getUserInfo, logoutApi, updateUserInfo, uploadImages} from "@/app/utils/client/apihttp";
 import {
     Avatar,
     Button,
@@ -100,8 +100,15 @@ export default function App() {
 
     // 退出登录弹框
     const loginOut = () => {
-        clearLocalData();
-        router.push(`/`)
+        logoutApi().then(res=>{
+            console.log(res);
+            Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
+            if (res.code===200){
+                clearLocalData();
+                router.push(`/`)
+            }
+        })
+
     }
     return (
         <div className="p-5">
