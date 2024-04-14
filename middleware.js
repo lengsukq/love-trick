@@ -11,12 +11,14 @@ export function middleware(request) {
         if (!reqCookie) {
             return Response.json(BizResult.fail('', '请登录后使用'))
         }
+        // console.log('reqCookie',reqCookie)
         const clientCookie = JSON.parse(reqCookie.value);
         // console.log('clientCookie', clientCookie)
-        const serverCookie = cookies().get(clientCookie);
+        const serverCookie = cookies().get(clientCookie.name);
         // console.log('serverCookie', serverCookie);
 
         if (clientCookie.value !== serverCookie.value) {
+
             return Response.json(BizResult.fail('', '身份验证失败，请重新登录'))
         }
         const cookieDate = dayjs(clientCookie.expires);
