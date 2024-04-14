@@ -3,19 +3,34 @@ import {NextResponse} from 'next/server'
 import {cookies} from 'next/headers'
 import dayjs from "dayjs";
 import BizResult from "@/app/utils/BizResult";
-export function middleware(request) {
-    // console.log('request.url',request.url)
-    if (!request.cookies.get('cookie')) {
-        return Response.json(BizResult.fail('', '登录过期'))
-    }
-    const reqCookie = JSON.parse(request.cookies.get('cookie').value);
-    const cookieDate = dayjs(reqCookie.expires);
+import {redirect} from 'next/navigation'
 
-    if (cookieDate.isAfter(dayjs())) {
-        return NextResponse.next()
-    } else {
-        return Response.json(BizResult.fail('', '登录过期'))
+export function middleware(request) {
+    try {
+        const reqCookie = request.cookies.get('cookie');
+        if (!reqCookie) {
+            return Response.json(BizResult.fail('', '请登录后使用'))
+        }
+        const clientCookie = JSON.parse(reqCookie.value);
+        // console.log('clientCookie', clientCookie)
+        const serverCookie = cookies().get(clientCookie);
+        // console.log('serverCookie', serverCookie);
+
+        if (clientCookie.value !== serverCookie.value) {
+            return Response.json(BizResult.fail('', '身份验证失败，请重新登录'))
+        }
+        const cookieDate = dayjs(clientCookie.expires);
+        if (cookieDate.isAfter(dayjs())) {
+            return NextResponse.next()
+        } else {
+            return Response.json(BizResult.fail('', '登录过期'))
+        }
+    }catch (e){
+        console.log('中间件报错:',e);
+        return Response.json(BizResult.fail(''))
+
     }
+
 }
 
 // See "Matching Paths" below to learn more
