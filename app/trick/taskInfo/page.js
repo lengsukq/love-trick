@@ -130,7 +130,7 @@ export default function App() {
                 deleteButton={onOpen}
                 taskScore={taskInfo.taskScore}
             ></TaskInfoCom>
-            <Card className={userEmail === taskInfo.publisherEmail ? "hidden" : "mb-5"}>
+            <Card className={userEmail === taskInfo.publisherEmail && !taskInfo.completeRemarks? "hidden" : "mb-5"}>
                 <CardBody className="flex justify-center items-center">
                     <Textarea
                         isInvalid={isInvalidFn(taskInfo.completeRemarks)}
