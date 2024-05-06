@@ -43,10 +43,13 @@ IMGBB_API = IMGBB图床API 地址：https://imgbb.com/
 * 某些接口没有进行二次校验就写入数据库
 * 部分功能缺少二次确认逻辑
 
-## docker打包运行
-1. 构建镜像
+## docker构建/拉取运行
+1. 构建镜像or拉取镜像
 ```shell
+#构建本地镜像（需要先进入项目目录）
 docker build -t love-trick .
+#拉取远程镜像
+docker pull queensu/love-trick
 ```
 2. 运行容器
 ```shell
