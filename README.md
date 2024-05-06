@@ -39,10 +39,33 @@ IMGBB_API = IMGBB图床API 地址：https://imgbb.com/
 
 ## 仍旧存在的一些缺陷（任会慢慢改进）
 * sql语句不够严谨
-* 未将cookie进行服务器端二次校验
+* 未将cookie进行服务器端二次校验(已优化)
 * 某些接口没有进行二次校验就写入数据库
 * 部分功能缺少二次确认逻辑
 
+## docker打包运行
+1. 构建镜像
+```shell
+docker build -t love-trick .
+```
+2. 运行容器
+```shell
+docker run -d -p 9999:9999 --name love-trick \
+  -e MYSQL_HOST=你的数据库ip地址 \
+  -e MYSQL_PORT=你的数据库端口 \
+  -e MYSQL_DATABASE=你的数据库名称 \
+  -e MYSQL_USER=你的数据库用户名 \
+  -e MYSQL_PASSWORD=你的数据库用户密码 \
+  -e WX_ROBOT_URL=你的微信机器人地址 \
+  -e JWT_SECRET_KEY=你的cookie加密密钥 \
+  -e DRAWING_BED=你选择的图床 \
+  -e SM_TOKEN=SM的TOKEN \
+  -e BILIBILI_SESSDATA=哔哩哔哩账号的SESSDATA \
+  -e BILIBILI_CSRF=哔哩哔哩账号的CSRF \
+  -e IMGBB_API=IMGBB的TOKEN \
+  -e WEB_URL=你的部署成功后的网站地址 \
+  love-trick
+```
 
 ## 开发启动流程
 1. 安装依赖
