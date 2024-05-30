@@ -35,7 +35,7 @@ export default function App() {
             searchWords: words
         }).then(res => {
             dispatch(closeSearch());
-            setTaskList(res.code === 200 ? res.data : []);
+            setTaskList(res.code === 200 ? res.data.record : []);
         })
     }
 

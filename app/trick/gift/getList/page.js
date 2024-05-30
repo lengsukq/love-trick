@@ -11,12 +11,12 @@ export default function App() {
     const dispatch = useDispatch();
     const [isLoading, setLoading] = useState(false);
     useEffect(() => {
-        getTaskList().then(r => {
+        getGiftListAct().then(r => {
         })
     }, [])
     const [giftListData, setGiftListData] = useState([]);
 
-    const getTaskList = async (isShow = '', words = '') => {
+    const getGiftListAct = async (isShow = '', words = '') => {
         await getGiftList({
             isShow: isShow,
             searchWords: words
@@ -34,7 +34,7 @@ export default function App() {
 
             await exchangeGift({giftId: item.giftId}).then(res => {
                 Notify.show({type: res.code === 200 ? 'success' : 'warning', message: `${res.msg}`})
-                getTaskList();
+                getGiftListAct();
                 setLoading(false);
 
             })
