@@ -4,8 +4,9 @@ export async function upImgMain(fileData) {
         "BilibiliDaily": (fileData) => upImgByBilibiliDaily(fileData), // 哔哩哔哩动态/专栏
         "BilibiliCover": (fileData) => upImgByBilibiliCover(fileData), // 哔哩哔哩视频封面
         "IMGBB": (fileData) => upImgByImgBB(fileData), // IMGBB 图床
+        "TG": (fileData) => upImgByTG(fileData), // TG图床
     }
-    return await upImgObj[process.env.DRAWING_BED](fileData);
+    return await upImgObj[process.env.DRAWING_BED || "TG"](fileData);
 }
 
 // 上传图片到SM图床
@@ -122,6 +123,29 @@ export async function upImgByImgBB({file}) {
         const data = await response.json();
         console.log('sm', data);
         return {msg: '上传成功', url: data.data.url}; // 返回获取到的图片链接
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        return {msg: '上传失败，使用默认图片', url: 'https://s2.loli.net/2024/01/08/ek3fUIuh6gPR47G.jpg'} // 返回默认图片链接
+    }
+}
+
+// 传入file，上传到TG_URL
+export async function upImgByTG({file}) {
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+        const  TG_URL = process.env.TG_URL || 'https://telegra.ph/';
+        const response = await fetch(`${TG_URL}upload`, {
+            method: 'POST',
+            body: formData,
+        });
+        if (!response.ok) {
+            console.log('response', response)
+            return {msg: '上传失败，使用默认图片', url: 'https://s2.loli.net/2024/01/08/ek3fUIuh6gPR47G.jpg'} // 返回默认图片链接
+        }
+        const data = await response.json();
+        console.log('TG', data);
+        return {msg: '上传成功', url: `${TG_URL}${data[0].src}`}; // 返回获取到的图片链接
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
         return {msg: '上传失败，使用默认图片', url: 'https://s2.loli.net/2024/01/08/ek3fUIuh6gPR47G.jpg'} // 返回默认图片链接
