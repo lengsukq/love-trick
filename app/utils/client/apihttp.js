@@ -24,7 +24,7 @@ export async function postTask(params) {
 
 // 获取任务列表
 export async function getTask(params) {
-    return await get(`/api/trick/getTaskList?taskStatus=${params.taskStatus}&searchWords=${params.searchWords}`);
+    return await get(`/api/trick/getTaskList`,params);
 }
 
 // 获取任务详情

@@ -12,9 +12,9 @@ export async function GET(req) {
         const {searchParams} = new URL(req.url)
         const taskStatus = searchParams.get('taskStatus') || null;
         const searchWords = searchParams.get('searchWords') ? searchParams.get('searchWords') : '';
-        const page = parseInt(searchParams.get('page') ?? '1', 10); // 获取当前页码，默认为1
+        const current = parseInt(searchParams.get('current') ?? '1', 10); // 获取当前页码，默认为1
         const pageSize = parseInt(searchParams.get('pageSize') ?? '10', 10); // 获取每页显示的条目数，默认为10
-        const offset = (page - 1) * pageSize; // 计算偏移量
+        const offset = (current - 1) * pageSize; // 计算偏移量
         let result;
         result = await executeQuery({
             // 查询任务列表
@@ -56,7 +56,7 @@ export async function GET(req) {
             item["isApprove"] = item.isApprove !== 0;
         })
 
-        return Response.json(BizResult.success({record: result, total: totalCount,pageSize: pageSize,totalPages: totalPages}, '获取列表成功'))
+        return Response.json(BizResult.success({record: result, total: totalCount,pageSize: pageSize,totalPages: totalPages,current: current}, '获取列表成功'))
     } catch (error) {
         console.log(error);
         return Response.json(BizResult.fail(''))

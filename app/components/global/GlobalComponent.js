@@ -84,7 +84,7 @@ const TabsComponent = ({pathname}) => {
 export function GlobalComponent() {
     // 获取路由信息
     const pathname = usePathname();
-    console.log('pathname', pathname)
+    // console.log('pathname', pathname)
 
 
     return (

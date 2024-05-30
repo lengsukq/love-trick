@@ -7,6 +7,7 @@ import SearchModal from "@/app/components/searchModal";
 import {closeSearch} from "@/app/store/taskListStore";
 import NoDataCom from "@/app/components/noDataCom";
 import TaskCard from "@/app/components/taskCard";
+import useInfiniteScroll from "@/app/hooks/useInfiniteScroll";
 
 export default function App() {
     const taskStatusStore = useSelector((state) => state.taskListDataStatus.status);
@@ -17,8 +18,9 @@ export default function App() {
 
     const router = useRouter()
     useEffect(() => {
+        setCurrentPage(1)
         setSearchWords('');
-        getTaskList(taskStatusStore, '').then(r => {
+        getTaskList(taskStatusStore, '',1).then(() => {
             // console.log('useEffect', r)
         });
 
@@ -29,20 +31,38 @@ export default function App() {
     const onKeyDown = async () => {
         await getTaskList()
     }
-    const getTaskList = async (taskStatus = taskStatusStore, words = searchWords) => {
+
+    let pageSize = 10;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const getTaskList = async (taskStatus = taskStatusStore, words = searchWords,current=currentPage) => {
         await getTask({
+            current: current,
+            pageSize: pageSize,
             taskStatus: taskStatus,
             searchWords: words
         }).then(res => {
             dispatch(closeSearch());
-            setTaskList(res.code === 200 ? res.data.record : []);
+            setTotalPages (res.data.totalPages || 0);
+            // 判断是否是第一次请求，如果是，则直接设置列表数据，否则添加到现有列表
+            if (current === 1) {
+                setTaskList(res.data.record);
+            } else {
+                setTaskList(prevList => [...prevList, ...res.data.record]);
+            }
         })
     }
 
     const checkDetails = (item) => {
-        console.log("item pressed", item);
         router.push(`/trick/taskInfo?taskId=${item.taskId}`)
     }
+
+    useInfiniteScroll(() => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage+1)
+            getTaskList(taskStatusStore, searchWords,currentPage+1);
+        }
+    })
     return (
         <>
             <SearchModal openKey={isSearch}
@@ -53,7 +73,7 @@ export default function App() {
             {taskList.length > 0 ?
                 <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 p-5">
                     <TaskCard taskList={taskList} checkDetails={checkDetails}/>
-                </div>: <NoDataCom/>}
+                </div> : <NoDataCom/>}
         </>
 
     )

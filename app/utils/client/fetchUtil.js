@@ -1,10 +1,6 @@
 'use client'
-import qs from 'qs';
 import { Notify } from 'react-vant';
 import {DELETE} from "@/app/api/hello/route";
-// import { useRouter } from 'next/navigation'
-const { stringify, parse } = qs;
-// const router = useRouter();
 const checkStatus = res => {
     if (200 >= res.status < 300) {
         return res;
@@ -82,6 +78,8 @@ class http {
     /**
      *post请求方式
      * @param url
+     * @param params
+     * @param option
      * @returns {Promise<unknown>}
      */
     post(url, params = {}, option = {}) {
@@ -104,6 +102,8 @@ class http {
     /**
      * put方法
      * @param url
+     * @param params
+     * @param option
      * @returns {Promise<unknown>}
      */
     put(url, params = {}, option = {}) {
@@ -115,11 +115,19 @@ class http {
     /**
      * get请求方式
      * @param url
+     * @param params
      * @param option
      */
-    async get(url, option = {}) {
+    async get(url, params, option = {}) {
+        // 将params对象转换为查询字符串
+        const queryString = new URLSearchParams(params).toString();
+        // 将查询字符串附加到URL上
+        const fullUrl = `${url}?${queryString}`;
+
+        // 合并默认选项和提供的选项
         const options = Object.assign({ method: 'GET' }, option);
-        return await http.staticFetch(url, options);
+        // 使用完整的URL和选项进行请求
+        return await http.staticFetch(fullUrl, options);
     }
 
     /**
