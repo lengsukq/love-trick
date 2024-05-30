@@ -72,14 +72,14 @@ export default function TaskInfoCom({   favId=null,
             <Card className="mb-5">
                 <CardBody>
 
-                    <Input isDisabled={!isPost}
+                    <Input isReadOnly={!isPost}
                            isInvalid={isPost ? isInvalidFn(taskName) : false}
                            color={isPost ? (isInvalidFn(taskName) ? "danger" : "success") : "default"}
                            errorMessage={isPost ? isInvalidFn(taskName) && "请输入任务名称" : ""}
                            type="text" label="任务名称" placeholder="请输入任务名称"
                            value={taskName} className="mb-5"
                            onChange={(e) => setTaskName(e.target.value)}/>
-                    <Textarea isDisabled={!isPost}
+                    <Textarea isReadOnly={!isPost}
                               isInvalid={isPost ? isInvalidFn(taskDetail) : false}
                               color={isPost ? (isInvalidFn(taskDetail) ? "danger" : "success") : "default"}
                               errorMessage={isPost ? isInvalidFn(taskDetail) && "请输入任务描述" : ""}
@@ -89,7 +89,7 @@ export default function TaskInfoCom({   favId=null,
                               placeholder="请输入任务描述"
                               className="mb-5"
                     />
-                    <Textarea isDisabled={!isPost}
+                    <Textarea isReadOnly={!isPost}
                               isInvalid={isPost ? isInvalidFn(taskReward) : false}
                               color={isPost ? (isInvalidFn(taskReward) ? "danger" : "success") : "default"}
                               errorMessage={isPost ? isInvalidFn(taskReward) && "请输入任务奖励" : ""}
