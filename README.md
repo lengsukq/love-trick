@@ -28,11 +28,12 @@ MYSQL_USER= 数据库用户名
 MYSQL_PASSWORD= 数据库密码
 WX_ROBOT_URL= 企业微信机器人的url 如：https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=11111111-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 JWT_SECRET_KEY= xxxxxxx cookie加密密钥，随便写
-DRAWING_BED = BilibiliDaily 图床选择：SM：sm图床 BilibiliDaily：哔哩哔哩动态或专栏 BilibiliCover：哔哩哔哩视频封面 IMGBB：IMGBB 图床
+DRAWING_BED = BilibiliDaily 图床选择：SM：sm图床 BilibiliDaily：哔哩哔哩动态或专栏 BilibiliCover：哔哩哔哩视频封面 IMGBB：IMGBB 图床 TG ：Telegraph
 SM_TOKEN = SM图床注册后获取的API 地址：https://smms.app/
 BILIBILI_SESSDATA = 登录bilibili后获取的sessdata 参考：https://www.yuque.com/xlzy520/blog/fydq8g?
 BILIBILI_CSRF = 同上
 IMGBB_API = IMGBB图床API 地址：https://imgbb.com/
+TG_URL = https://<你的代理地址>/https://telegra.ph     telegra的代理地址，因为国内无法访问，所以需要添加一个代理地址 参考https://github.com/ymyuuu/Cloudflare-Workers-Proxy
 ```
 图床选择一个后填写相关的值即可其他没选的可以不填，选择b站相关的图床，BILIBILI_SESSDATA和BILIBILI_CSRF必须都要填
 如果要使用b站视频封面上传，需要取消注释postTask/page文件中的某行代码（转base64）

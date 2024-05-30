@@ -134,8 +134,8 @@ export async function upImgByTG({file}) {
     const formData = new FormData();
     formData.append('file', file);
     try {
-        const  TG_URL = process.env.TG_URL || 'https://telegra.ph/';
-        const response = await fetch(`${TG_URL}upload`, {
+        const  TG_URL = process.env.TG_URL || 'https://telegra.ph';
+        const response = await fetch(`${TG_URL}/upload`, {
             method: 'POST',
             body: formData,
         });
