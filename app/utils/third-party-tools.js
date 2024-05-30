@@ -1,6 +1,5 @@
 // 发送文本消息
 export function sendMsg(msg) {
-    return
     // 发送 POST 请求到企业微信机器人的 API
     fetch(process.env.WX_ROBOT_URL, {
         method: 'POST',
