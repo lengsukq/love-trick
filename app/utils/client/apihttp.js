@@ -2,7 +2,7 @@ import {deleteAct, get, post} from "./fetchUtil";
 
 // 登录接口
 export async function loginApi(params) {
-    return await get(`/api/user?username=${params.username}&password=${params.password}`);
+    return await get(`/api/user`,params);
 }
 // 退出
 export async function logoutApi() {
