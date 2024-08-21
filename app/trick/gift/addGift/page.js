@@ -48,7 +48,7 @@ export default function App() {
                            onChange={upGiftImg}/>
                     <label htmlFor="upload">
                         <Avatar isBordered radius="full" icon={<UpImg size={40}/>}
-                                src={giftImg} className={"w-20 h-20"}/>
+                                src={giftImg} className={"w-20 h-20 bg-white"}/>
                     </label>
                 </CardHeader>
                 <CardBody className="px-3 py-0 text-small text-default-400">

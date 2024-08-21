@@ -29,7 +29,7 @@ export async function getTask(params) {
 
 // 获取任务详情
 export async function getTaskInfo(params) {
-    return await get(`/api/trick/getTaskInfo?taskId=${params.taskId}`);
+    return await get(`/api/trick/getTaskInfo`,params);
 }
 
 // 接受或取消
@@ -39,7 +39,7 @@ export async function upDateTaskState(params) {
 
 // 删除任务
 export async function deleteTask(params) {
-    return await deleteAct(`/api/trick/getTaskInfo?taskId=${params.taskId}`);
+    return await deleteAct(`/api/trick/getTaskInfo`,params);
 }
 
 // 上传图片
@@ -68,27 +68,27 @@ export async function addGift(params) {
 
 // 获取我的礼物列表
 export async function getMyGift(params) {
-    return await get(`/api/gift/getMyGift?type=${params.type}&searchWords=${params.searchWords}`);
+    return await get(`/api/gift/getMyGift`,params);
 }
 
 // 获取我的礼物兑换列表
 export async function getGiftList(params) {
-    return await get(`/api/gift/getGiftList?isShow=${params.isShow}&searchWords=${params.searchWords}`);
+    return await get(`/api/gift/getGiftList`,params);
 }
 
 // 兑换礼物
 export async function exchangeGift(params) {
-    return await get(`/api/gift/exchangeGift?giftId=${params.giftId}`);
+    return await get(`/api/gift/exchangeGift`,params);
 }
 
 // 上架，下架礼物
 export async function showGift(params) {
-    return await get(`/api/gift/showGift?giftId=${params.giftId}&isShow=${params.isShow}`);
+    return await get(`/api/gift/showGift`,params);
 }
 
 // 使用礼物
 export async function useGift(params) {
-    return await get(`/api/gift/useGift?giftId=${params.giftId}`);
+    return await get(`/api/gift/useGift`,params);
 }
 // 发布留言
 export async function addWhisper(params) {
@@ -96,11 +96,11 @@ export async function addWhisper(params) {
 }
 // 获取我的留言列表
 export async function getMyWhisper(params) {
-    return await get(`/api/whisper/getMyWhisper?searchWords=${params.searchWords}`);
+    return await get(`/api/whisper/getMyWhisper`,params);
 }
 // 获取我的留言列表
 export async function getTAWhisper(params) {
-    return await get(`/api/whisper/getTAWhisper?searchWords=${params.searchWords}`);
+    return await get(`/api/whisper/getTAWhisper`,params);
 }
 // 收藏/取消收藏
 export async function addFav(params) {
